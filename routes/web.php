@@ -13,21 +13,19 @@
 
 Route::get('/', function () {
     return view('admin.app');
-});
+})->middleware('auth');
 
 //Auth::routes();
 
 //Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('home', function(){
-    return view('admin.prueba');
-});
-
 // Authentication Routes...
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');
+Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 
-Route::post('logout', 'Auth\LoginController@logout')->name('logout');
+Route::get('registrar', 'RegistrarUsuarios\RegistroController@showRegisterForm')->name('registrar');
+Route::post('registrar', 'RegistrarUsuarios\RegistroController@registrar');
 
 /*
 // Registration Routes...

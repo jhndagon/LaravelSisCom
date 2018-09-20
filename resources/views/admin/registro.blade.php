@@ -19,7 +19,7 @@
         <h1>{{ config('app.name') }}</h1>
       </div>
       <div class="login-box">
-        <form method="POST" action="{{ route('login') }}" class="login-form">
+        <form method="POST" action="{{ route('registrar') }}" class="login-form">
             @csrf
           <h3 class="login-head"><i class="fa fa-lg fa-fw fa-user"></i>Ingreso al sistema</h3>
             <div class="form-group">
@@ -33,11 +33,6 @@
                 placeholder="email"
                 required
                 autofocus>
-                @if ($errors->has('email'))
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $errors->first('email') }}</strong>
-                    </span>
-                @endif
             </div>
 
             <div class="form-group">
@@ -49,30 +44,31 @@
                 name="password"
                 placeholder="contraseña"
                 required>
-                @if ($errors->has('password'))
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $errors->first('password') }}</strong>
-                    </span>
-                @endif
+            </div>
+            <div class="form-group">
+                <label for="usuario" class="control-label">{{ __('Usuario') }}</label>
+                <input
+                id="usuario"
+                type="text"
+                class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}"
+                name="usuario"
+                placeholder="usuario"
+                required>
+            </div>
+            <div class="form-group">
+                <label for="cedula" class="control-label">{{ __('cedula') }}</label>
+                <input
+                id="cedula"
+                type="text"
+                class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}"
+                name="cedula"
+                placeholder="cedula"
+                required>
             </div>
 
-            <div class="form-group">
-                <p class="semibold-text mb-2">
-                    <a href="" data-toggle="flip">
-                    <!-- <a class="btn btn-link" href=""> -->
-                        Recuperar contraseña
-                    </a>
-                </p>
-                <p class="semibold-text mb-2">
-                    <a href="" data-toggle="flip">
-                    <!-- <a class="btn btn-link" href=""> -->
-                        Recuperar usuario
-                    </a>
-                </p>
-            </div>
             <div class="form-group btn-container">
                 <button type="submit" class="btn btn-primary btn-block">
-                    {{ __('Ingresar') }}
+                    {{ __('Registrar') }}
                 </button>
             </div>
         </form>
