@@ -3,7 +3,7 @@
 <aside class="app-sidebar">
     <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="https://s3.amazonaws.com/uifaces/faces/twitter/jsa/48.jpg" alt="User Image">
     <div>
-        <p class="app-sidebar__user-name">{{ auth()->user()->usuario }}</p>
+        <p class="app-sidebar__user-name">{{ auth()->user()->nombre }}</p>
         <p class="app-sidebar__user-designation">Frontend Developer</p>
     </div>
     </div>

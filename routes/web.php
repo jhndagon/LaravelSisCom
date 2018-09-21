@@ -12,8 +12,8 @@
 */
 
 Route::get('/', function () {
-    return view('admin.app');
-})->middleware('auth');
+    return redirect('/login');
+});
 
 //Auth::routes();
 

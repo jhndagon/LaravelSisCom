@@ -38,12 +38,12 @@ return [
     'guards' => [
         'web' => [
             'driver' => 'session',
-            'provider' => 'usuarios',
+            'provider' => 'Profesores',
         ],
 
         'api' => [
             'driver' => 'token',
-            'provider' => 'usuarios',
+            'provider' => 'Profesores',
         ],
     ],
 
@@ -65,9 +65,9 @@ return [
     */
 
     'providers' => [
-        'usuarios' => [
+        'Profesores' => [
             'driver' => 'eloquent',
-            'model' => Comisiones\Usuario::class,
+            'model' => Comisiones\Profesor::class,
         ],
 
         // 'users' => [
@@ -92,8 +92,8 @@ return [
     */
 
     'passwords' => [
-        'usuarios' => [
-            'provider' => 'usuarios',
+        'Profesores' => [
+            'provider' => 'Profesores',
             'table' => 'password_resets',
             'expire' => 60,
         ],

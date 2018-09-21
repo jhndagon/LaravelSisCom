@@ -6,12 +6,12 @@ use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 
-class Usuario extends Model implements AuthenticatableContract
+class Profesor extends Model implements AuthenticatableContract
 {
     use Authenticatable;
-    protected $table='usuarios';
+    protected $table='Profesores';
     public $timestamps = false;
-
+    protected $primaryKey = 'Cedula';
 
 
     //Los tres métodos que siguen permiten no guardar token en la base de datos.

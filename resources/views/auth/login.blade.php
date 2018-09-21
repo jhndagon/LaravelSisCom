@@ -23,19 +23,19 @@
             @csrf
           <h3 class="login-head"><i class="fa fa-lg fa-fw fa-user"></i>Ingreso al sistema</h3>
             <div class="form-group">
-                <label for="email" class="control-label">Email</label>
+                <label for="cedula" class="control-label">Email</label>
                 <input
-                id="email"
-                type="email"
-                class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}"
-                name="email"
-                value="{{ old('email') }}"
-                placeholder="email"
+                id="cedula"
+                type="text"
+                class="form-control{{ $errors->has('cedula') ? ' is-invalid' : '' }}"
+                name="cedula"
+                value="{{ old('cedula') }}"
+                placeholder="cedula"
                 required
                 autofocus>
-                @if ($errors->has('email'))
+                @if ($errors->has('cedula'))
                     <span class="invalid-feedback" role="alert">
-                        <strong>{{ $errors->first('email') }}</strong>
+                        <strong>{{ $errors->first('cedula') }}</strong>
                     </span>
                 @endif
             </div>

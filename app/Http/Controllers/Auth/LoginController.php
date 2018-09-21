@@ -17,31 +17,36 @@ class LoginController extends Controller
 
     public function login(Request $request){
 
-    //     $validator = $this->validate(request(), [
-    //         'email' => 'required',
-    //         'password' => 'required'
-    //     ]);
-
-    //     $userData = \Comisiones\Usuario::where('email',request('email'))->first();
-    //     if ($userData && \Hash::check(request('password'), $userData->password))
-    //     {
-    //         auth()->loginUsingId($userData->id);
-    //         //log que necesites
-    //     }
-    //   //si estás aquí algo ha salido mal, 404, 401, 403??
-    //     return redirect('/');
-
-        $credenciales = $this->validate(request(), [
-            'email' => 'email|required|string',
-            'password'=> 'required|string'
+        $validator = $this->validate(request(), [
+            'cedula' => 'required',
+            'password' => 'required'
         ]);
 
-        if(Auth::attempt($credenciales)){
-            return redirect('/');
+        $userData = \Comisiones\Profesor::where('cedula',request('cedula'))->first();
+        if ($userData && (password_verify(request('password'),$userData->pass) || md5($request->password) == $userData->pass ))
+        {
+            auth()->loginUsingId($userData->cedula);
+            //log que necesites
+            return view('admin.app');
         }
+      //si estás aquí algo ha salido mal, 404, 401, 403??
+      //  return redirect('/');
 
-        return back()->withErrors(['email' => trans('auth.failed')])
-        ->withInput(request(['email']));
+        
+        return back()->withErrors(['cedula' => "El número de cedula o contraseña incorrecto"])
+        ->withInput(request(['cedula']));
+
+        // $credenciales = $this->validate(request(), [
+        //     'email' => 'email|required|string',
+        //     'password'=> 'required|string'
+        // ]);
+
+        // if(Auth::attempt($credenciales)){
+        //     return redirect('/');
+        // }
+
+        // return back()->withErrors(['email' => trans('auth.failed')])
+        // ->withInput(request(['email']));
 
         // $usuario = Usuario::all();
         // if($usuario){
