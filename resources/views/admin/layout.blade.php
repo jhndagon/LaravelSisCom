@@ -12,9 +12,10 @@
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   </head>
   <body class="app sidebar-mini rtl">
-    
-    @include('admin.header')
-    @include('admin.aside')
+    @if (Auth::guard('profesor')->check())
+			@include('admin.header')
+			@include('admin.aside')				
+		@endif
 
     @yield('contenido')
 

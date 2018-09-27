@@ -2,26 +2,51 @@
 
 namespace Comisiones;
 
-use Illuminate\Auth\Authenticatable;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Profesor extends Model implements AuthenticatableContract
+class Profesor extends Authenticatable
 {
-    use Authenticatable;
+    use Notifiable;
+
     protected $table='Profesores';
     public $timestamps = false;
-    protected $primaryKey = 'Cedula';
+    protected $primaryKey = 'cedula';
 
+    protected $guard = "profesor";
+
+    protected $attributes = ['nombre','email','pass','cedula'];
 
     //Los tres métodos que siguen permiten no guardar token en la base de datos.
     public function getRememberToken()    {
-        return $this->token;
+        return null;
     }
     public function setRememberToken($value)    {
-        $this->token = $value;
     }
     public function getRememberTokenName()    {
-        return 'token';
+        return null;
+    }
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'cedula', 'nombre', 'email', 'tipo'
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'password',
+    ];
+
+    public function getAuthPassword() {
+        return $this->pass;
     }
 }
