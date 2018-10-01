@@ -11,13 +11,17 @@
 |
 */
 
-Route::get('/', function () {
-    return redirect('/login');
-});
-
 
 Route::get('login', 'Auth\ProfesorController@showLoginForm')->name('login');
 Route::post('login', 'Auth\ProfesorController@login');
 Route::get('logout', 'Auth\ProfesorController@logout')->name('logout');
 
-Route::get('inicio','ComisionController@mostrarInformacion')->name('inicio')->middleware('auth:profesor');
+Route::group(['middleware' => 'auth:profesor'], function () {
+    
+    Route::get('/', function () {
+        return redirect('inicio');
+    });
+    
+    Route::get('inicio','ComisionController@mostrarComisiones')->name('inicio');
+    Route::get('comision/{comision}','ComisionController@actualizarComision')->name('comision');
+});

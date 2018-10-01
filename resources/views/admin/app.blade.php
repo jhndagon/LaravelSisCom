@@ -36,7 +36,7 @@
                         
                             @foreach ($comisiones as $comision)   
                             <tr>                         
-                                <td>{{$comision->comisionid}}</td>
+                            <td><a href="{{ url('comision', $comision->comisionid) }}">{{$comision->comisionid}}</a></td>
                                 <td>{{$comision->radicacion}}</td>
                                 <td>{{$comision->actualizacion}}</td>
                                 <td>{{'FECHAS'}}</td>

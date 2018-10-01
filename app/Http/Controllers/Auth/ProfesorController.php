@@ -56,7 +56,8 @@ class ProfesorController extends Controller
         if(Auth::guard('profesor')->attempt(['cedula' => $request->cedula, 'password' => $request->password])){
             return redirect('inicio');
         }
-        return redirect('login');
+        return back()->withErrors(['cedula' => "El número de cedula o contraseña incorrecto"])
+        ->withInput(request(['cedula']));
 
     }
 

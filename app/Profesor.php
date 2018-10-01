@@ -13,8 +13,10 @@ class Profesor extends Authenticatable
     protected $table='Profesores';
     public $timestamps = false;
     protected $primaryKey = 'cedula';
+    public $incrementing = false;
+    protected $keyType = 'string';
 
-    protected $guard = "profesor";
+    protected $guard = 'profesor';
 
     protected $attributes = ['nombre','email','pass','cedula'];
 

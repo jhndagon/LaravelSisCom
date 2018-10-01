@@ -9,10 +9,17 @@ use Illuminate\Support\Facades\Auth;
 class ComisionController extends Controller
 {
     
-    public function mostrarInformacion(){
+    public function mostrarComisiones(){
         $user = Auth::user();       
         $comisiones = Comision::where('cedula', $user->cedula)->get();
         return view('admin.app',compact('comisiones'));
     }
 
+    public function actualizarComision($comisionid){
+        $comision = Comision::where('comisionid', $comisionid)
+                              ->where('cedula', Auth::guard('profesor')->user()->cedula)
+                              ->get();
+        return view('admin.comision')->with('comision', $comision);
+    }
+    
 }
