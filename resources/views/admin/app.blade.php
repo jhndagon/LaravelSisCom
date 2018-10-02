@@ -4,14 +4,9 @@
 
 <main class="app-content">
     <div class="app-title">
-        <div>
-        <h1><i class="fa fa-th-list"></i> Data Table</h1>
-        <p>Table to display analytical data effectively</p>
-        </div>
         <ul class="app-breadcrumb breadcrumb side">
-        <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
-        <li class="breadcrumb-item">Tables</li>
-        <li class="breadcrumb-item active"><a href="#">Data Table</a></li>
+        <li class="breadcrumb-item">{{ 'PONER CADA COLOR DE LAS COMISIONES' }}</li>
+
         </ul>
     </div>
     <div class="row">
@@ -39,7 +34,7 @@
                             <td><a href="{{ url('comision', $comision->comisionid) }}">{{$comision->comisionid}}</a></td>
                                 <td>{{$comision->radicacion}}</td>
                                 <td>{{$comision->actualizacion}}</td>
-                                <td>{{'FECHAS'}}</td>
+                                <td>{{$comision->fechaini}}<br>{{ $comision->fechafin}}</td>
                                 <td>{{$comision->estado}}</td>
                                 <td>{{$comision->institutoid}}</td>
                                 <td>{{Auth::user()->nombre}}</td>
@@ -59,3 +54,16 @@
 
 
 @endsection
+
+
+@push('scripts')
+    <!-- Essential javascripts for application to work-->
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/main.js"></script>
+@endpush
+
+@push('styles')    
+    <link rel="stylesheet" type="text/css" href="css/main.css">    
+@endpush

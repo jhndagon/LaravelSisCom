@@ -19,7 +19,7 @@ class ComisionController extends Controller
         $comision = Comision::where('comisionid', $comisionid)
                               ->where('cedula', Auth::guard('profesor')->user()->cedula)
                               ->get();
-        return view('admin.comision')->with('comision', $comision);
+        return view('comision.comision')->with('comision', $comision);
     }
     
 }
