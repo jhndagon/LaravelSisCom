@@ -25,7 +25,8 @@
                                 <label for="inputPassword" class="col-sm-2 col-form-label">Tipo de comisión: </label>
                                 <div class="col-sm-6">
                                         <select class="custom-select" name="tipoComision">
-                                            <option selected>Open this select menu</option>                                            
+                                            <option selected>Open this select menu</option>
+                                            
                                         </select>
                                 </div>
                             </div>

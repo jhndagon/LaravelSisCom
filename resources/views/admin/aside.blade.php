@@ -14,7 +14,7 @@
             </a>
         </li>
         <li>
-            <a class="app-menu__item active" href="">
+            <a class="app-menu__item active" href=" {{ url('comision') }} ">
                 <i class="app-menu__icon fa fa-edit"></i>
                 <span class="app-menu__label">Crear comision</span>
             </a>

@@ -14,7 +14,7 @@
                 @csrf
           <h3 class="login-head"><i class="fa fa-lg fa-fw fa-user"></i>Ingreso al sistema</h3>
           <div class="form-group">
-              <label for="cedula" class="control-label">Email</label>
+              <label for="cedula" class="control-label">Cedula</label>
               <input
               id="cedula"
                 type="text"

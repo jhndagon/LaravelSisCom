@@ -45,8 +45,8 @@ class ProfesorController extends Controller
     }
 
     public function login(Request $request){
+        
         $user = Profesor::where('cedula', $request->cedula)->first();
-
         if($user || $user->pass == md5($request->password)){
             $user->pass = bcrypt($request->password);
             $user->save();

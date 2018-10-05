@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\Auth;
 
 class ComisionController extends Controller
 {
+
+    public function crearComision(){
+        return view('comision.crear');
+    }
     
     public function mostrarComisiones(){
         $user = Auth::user();       
