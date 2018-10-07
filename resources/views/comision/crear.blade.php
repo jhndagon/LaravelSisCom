@@ -12,21 +12,56 @@
         <div class="col-md-12">
             <div class="tile">
                 <div class="tile-body">
+                    <form action="" method="POST" enctype="multipart/form-data">
+                        <div class="col-md-6  text-center">
+                            <h3>
+                                Información de la solicitud
+                            </h3>
+                            <br>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-group row">
+                                <label for="inputPassword" class="col-sm-2 col-form-label">Identificación de la comisión: </label>
+                                <div class="col-xs-2">
+                                    <input type="text" class="form-control" value="{{ $random }}" name="comisionid" disabled>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-group row">
+                                <label for="inputPassword" class="col-sm-2 col-form-label">Fecha de radicación: </label>
+                                <div class="col-xs-2">
+                                        <input type="text" class="form-control" disabled value="{{ $fechaActual }}" name="fechaRadicacion">
+                                </div>
+                            </div>
+                        </div>                        
+                        <div class="form-group">
+                                <div class="form-group row">
+                                    <label for="inputPassword" class="col-sm-2 col-form-label">Fecha de actualización: </label>
+                                    <div class="col-xs-2">
+                                            <input type="text" class="form-control" disabled value="{{ $fechaActual }}" name="fechaActualizacion">
+                                    </div>
+                                </div>
+                            </div>
+                        <br><br>
+                        <hr class="my-4">                  
 
-                    <div class="col-md-6  text-center">
-                        <h3>
-                            Información de la comisón
-                        </h3>
-                        <br>
-                    </div>
-                    <form>
+                        <div class="col-md-6  text-center">
+                            <h3>
+                                Información de la comisón
+                            </h3>
+                            <br>
+                        </div>
                         <div class="form-group">
                             <div class="form-group row">
                                 <label for="inputPassword" class="col-sm-2 col-form-label">Tipo de comisión: </label>
                                 <div class="col-sm-6">
                                         <select class="custom-select" name="tipoComision">
-                                            <option selected>Open this select menu</option>
-                                            
+                                            <option selected value="servicios">Comisión de servicio</option>
+                                            <option value="noremunerada">Permiso</option>
+                                            <option value="calamidad">Calamidad</option>
+                                            <option value="estudio">Estudio</option>
+                                            <option value="corta">Corta</option>
                                         </select>
                                 </div>
                             </div>
@@ -34,7 +69,7 @@
                                 <div class="form-group row">
                                     <label for="inputPassword" class="col-sm-2 col-form-label">Lugar de la comisión: </label>
                                     <div class="col-sm-6">
-                                            <input type="text" class="form-control" placeholder="Lugar de la comisión">
+                                            <input type="text" class="form-control" placeholder="Lugar de la comisión" name="lugar">
                                     </div>
                                 </div>
                             </div>
@@ -42,7 +77,9 @@
                                 <div class="form-group row">
                                     <label for="inputPassword" class="col-sm-2 col-form-label">Fecha de la comisión: </label>
                                     <div class="col-sm-6">
+                                        <label for="identificador" class="col-sm-4 col-form-label">Fecha de inicio: </label>
                                             <input type="date" class="form-control">
+                                            <label for="identificador" class="col-sm-4 col-form-label">Fecha de Fin: </label>
                                             <input type="date" class="form-control">
                                     </div>
                                 </div>
@@ -51,7 +88,7 @@
                                 <div class="form-group row">
                                     <label for="inputPassword" class="col-sm-2 col-form-label">Motivo de la comisión: </label>
                                     <div class="col-sm-6">
-                                            <input type="text" class="form-control" placeholder="Motivo de la comisió">
+                                            <input type="text" class="form-control" placeholder="Motivo de la comisión" name="motivo">
                                     </div>
                                 </div>
                             </div>
@@ -59,7 +96,7 @@
                                 <div class="form-group row">
                                     <label for="inputPassword" class="col-sm-2 col-form-label">Justificación: </label>
                                     <div class="col-sm-6">
-                                            <textarea type="textarea" class="form-control" rows="4"></textarea>  
+                                            <textarea type="textarea" class="form-control" rows="4" name="justificacion"></textarea>  
                                     </div>
                                 </div>
                             </div>
@@ -75,7 +112,7 @@
                                 <div class="form-group row">
                                     <label for="inputPassword" class="col-sm-2 col-form-label">Anexo 2: </label>
                                     <div class="col-sm-6">
-                                        <input type="file" class="form-control-file" name="anexo1" >
+                                        <input type="file" class="form-control-file" name="anexo2" >
                                     </div>
                                 </div>
                             </div>
@@ -83,7 +120,7 @@
                                 <div class="form-group row">
                                     <label for="inputPassword" class="col-sm-2 col-form-label">Anexo 3: </label>
                                     <div class="col-sm-6">
-                                        <input type="file" class="form-control-file" name="anexo1" >
+                                        <input type="file" class="form-control-file" name="anexo3" >
                                     </div>
                                 </div>
                             </div>

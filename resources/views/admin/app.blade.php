@@ -53,7 +53,18 @@
                                 <td>{{$comision->estado}}</td>
                                 <td>{{$comision->institutoid}}</td>
                                 <td>{{Auth::user()->nombre}}</td>
-                                <td>{{'DESCARGAS'}}</td>
+                                <td>
+                                    @if ($comision->anexo1)
+                                        <a target="_black" href="{{url('/archivo/'.$comision->comisionid . '/' . $comision->anexo1)}}">Anexo 1</a><br>                      
+                                    @endif
+                                    @if ($comision->anexo2)
+                                        <a target="_black" href="{{url('/archivo/'.$comision->comisionid . '/' . $comision->anexo2)}}">Anexo 2</a><br>                      
+                                    @endif
+                                    @if ($comision->anexo3)
+                                        <a target="_black" href="{{url('/archivo/'.$comision->comisionid . '/' . $comision->anexo3)}}">Anexo 3</a><br>                      
+                                    @endif
+                                
+                                </td>
                                 <td>{{'ACCIONES'}}</td> 
                             </tr>                           
                             @endforeach

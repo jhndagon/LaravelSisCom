@@ -25,4 +25,9 @@ Route::group(['middleware' => 'auth:profesor'], function () {
     Route::get('inicio','ComisionController@mostrarComisiones')->name('inicio');
     Route::get('comision', 'ComisionController@crearComision')->name('comision');
     Route::get('comision/{comision}','ComisionController@actualizarComision')->name('comision');
+    Route::get('archivo/{comisionid}/{documento}', 'ArchivoController@obtenerArchivo');
+});
+
+Route::get('/archivo', function(){
+    dd(Storage::disk('local'));
 });
