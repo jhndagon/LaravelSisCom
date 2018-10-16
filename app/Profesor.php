@@ -51,4 +51,8 @@ class Profesor extends Authenticatable
     public function getAuthPassword() {
         return $this->pass;
     }
+
+    public function instituto(){
+        return $this.belongsTo(Instituto::class, 'institutoid');
+    }
 }

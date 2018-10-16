@@ -14,14 +14,14 @@
                 @csrf
           <h3 class="login-head"><i class="fa fa-lg fa-fw fa-user"></i>Ingreso al sistema</h3>
           <div class="form-group">
-              <label for="cedula" class="control-label">Cedula</label>
+              <label for="cedula" class="control-label">Cédula</label>
               <input
               id="cedula"
                 type="text"
                 class="form-control{{ $errors->has('cedula') ? ' is-invalid' : '' }}"
                 name="cedula"
                 value="{{ old('cedula') }}"
-                placeholder="cedula"
+                placeholder="Cédula"
                 required
                 autofocus>
                 @if ($errors->has('cedula'))
@@ -38,7 +38,7 @@
                 type="password"
                 class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}"
                 name="password"
-                placeholder="contraseña"
+                placeholder="Contraseña"
                 required>
                 @if ($errors->has('password'))
                 <span class="invalid-feedback" role="alert">

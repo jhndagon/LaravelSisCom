@@ -11,4 +11,7 @@ class Comision extends Model
     protected $primaryKey = 'comisionid';
     public $keyType = 'string';
 
+    public function profesor(){
+        return $this->belongsTo(\Comisiones\Profesor::class, 'cedula');
+    }
 }
