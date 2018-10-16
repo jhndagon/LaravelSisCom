@@ -61,7 +61,7 @@
                                 <div class="form-group row">
                                     <label for="inputPassword" class="col-md-2 col-form-label">Lugar de la comisión: </label>
                                     <div class="col-md-6">
-                                            <input type="text" class="form-control" placeholder="Lugar de la comisión" value="{{ $comision[0]->lugar }}">
+                                        <input type="text" class="form-control" placeholder="Lugar de la comisión" value="{{ $comision[0]->lugar }}">
                                     </div>
                                 </div>
                             </div>
@@ -69,10 +69,7 @@
                                 <div class="form-group row">
                                     <label for="inputPassword" class="col-md-2 col-form-label">Fecha de la comisión: </label>
                                     <div class="col-md-6">
-                                        <label for="identificador" class="col-md-4 col-form-label">Fecha de inicio: </label>
-                                            <input type="date" class="form-control">
-                                            <label for="identificador" class="col-md-4 col-form-label">Fecha de Fin: </label>
-                                            <input type="date" class="form-control">
+                                    <input id="fecharango" name="fecharango" value="{{ $comision[0]->fecha }}" class="form-control">
                                     </div>
                                 </div>
                             </div>
@@ -147,6 +144,63 @@
     <script src="../js/popper.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
     <script src="../js/main.js"></script>
+    
+
+    <script>
+            $("#fecharango").daterangepicker({
+            //     presetRanges: [{
+            //         text: 'Hoy',
+            //     dateStart: function() { return moment() },
+            //     dateEnd: function() { return moment() }
+            // }, 
+            // {
+            //         text: 'Mañana',
+            //     dateStart: function() { return moment().add('days', 1) },
+            //     dateEnd: function() { return moment().add('days', 1) }
+            // }, {
+            //         text: 'La próxima semana',
+            //         dateStart: function() { return moment().add('weeks', 1).startOf('week') },
+            //         dateEnd: function() { return moment().add('weeks', 1).endOf('week') }
+            // }],
+            datepickerOptions: {
+                    minDate: 0,
+                    maxDate: null
+                },
+            applyOnMenuSelect: false,
+            initialText : 'Seleccione el rango de fechas...',
+            applyButtonText : 'Escoger',
+            clearButtonText : 'Limpiar',
+            cancelButtonText : 'Cancelar',
+            });
+            // jQuery(function($){
+            //     $.datepicker.regional['es'] = {
+            //         closeText: 'Cerrar',
+            //         prevText: '&#x3c;Ant',
+            //         nextText: 'Sig&#x3e;',
+            //         currentText: 'Hoy',
+            //         monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
+            //                      'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
+            //         monthNamesShort: ['Ene','Feb','Mar','Abr','May','Jun',
+            //                           'Jul','Ago','Sep','Oct','Nov','Dic'],
+            //         dayNames: ['Domingo','Lunes','Martes','Mi&eacute;rcoles','Jueves','Viernes','S&aacute;bado'],
+            //         dayNamesShort: ['Dom','Lun','Mar','Mi&eacute;','Juv','Vie','S&aacute;b'],
+            //         dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','S&aacute;'],
+            //         weekHeader: 'Sm',
+            //         dateFormat: 'dd/mm/yy',
+            //         firstDay: 1,
+            //         isRTL: false,
+            //         showMonthAfterYear: false,
+            //         yearSuffix: ''};
+            //     $.datepicker.setDefaults($.datepicker.regional['es']);
+            // });
+    
+            // var today = moment().toDate();
+            // var tomorrow = moment().add('days', 1).startOf('day').toDate();
+            // $("#fecharango").daterangepicker({
+            //     onOpen: $("#fecharango").daterangepicker("setRange",{start: today,end: tomorrow})
+            // });
+    
+            </script>
 @endpush
 @push('styles')    
     <link rel="stylesheet" type="text/css" href="../css/main.css">    

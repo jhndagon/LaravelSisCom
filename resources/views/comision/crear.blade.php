@@ -77,10 +77,7 @@
                                 <div class="form-group row">
                                     <label for="inputPassword" class="col-sm-2 col-form-label">Fecha de la comisión: </label>
                                     <div class="col-sm-6">
-                                        <label for="identificador" class="col-sm-4 col-form-label">Fecha de inicio: </label>
-                                            <input type="date" class="form-control">
-                                            <label for="identificador" class="col-sm-4 col-form-label">Fecha de Fin: </label>
-                                            <input type="date" class="form-control">
+                                        <input id="fecharango" name="fecharango" class="form-control">
                                     </div>
                                 </div>
                             </div>
@@ -155,7 +152,91 @@
     <script src="../js/popper.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
     <script src="../js/main.js"></script>
+
+    {{-- <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script> --}}
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
+    <script>
+
+        $("#fecharango").daterangepicker({
+            timeZone: 'utc-5',
+            "locale": {
+                "format": "DD MMMM YYYY",
+                "separator": " a ",
+                "applyLabel": "Aceptar",
+                "cancelLabel": "Cancelar",
+                "fromLabel": "From",
+                "toLabel": "To",
+                "customRangeLabel": "Custom",
+                "daysOfWeek": [
+                    "Do",
+                    "Lu",
+                    "Ma",
+                    "Mi",
+                    "Ju",
+                    "Vi",
+                    "Sa"
+                ],
+                "monthNamesShort": ['Ene','Feb','Mar','Abr','May','Jun',
+                                  'Jul','Ago','Sep','Oct','Nov','Dic'],
+                "monthNames": [
+                    "Enero",
+                    "Febrero",
+                    "Marzo",
+                    "Abril",
+                    "Mayo",
+                    "Junio",
+                    "Julio",
+                    "Augosto",
+                    "Septiembre",
+                    "Octubre",
+                    "Noviembre",
+                    "Diciembre"
+                ],
+                },
+        // datepickerOptions: {
+        //         minDate: 0,
+        //         maxDate: null
+        //     },
+        // applyOnMenuSelect: false,
+        // initialText : 'Seleccione el rango de fechas...',
+        // applyButtonText : 'Escoger',
+        // clearButtonText : 'Limpiar',
+        // cancelButtonText : 'Cancelar',
+        });
+        // jQuery(function($){
+        //     $.datepicker.regional['es'] = {
+        //         closeText: 'Cerrar',
+        //         prevText: '&#x3c;Ant',
+        //         nextText: 'Sig&#x3e;',
+        //         currentText: 'Hoy',
+        //         monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
+        //                      'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
+        //         monthNamesShort: ['Ene','Feb','Mar','Abr','May','Jun',
+        //                           'Jul','Ago','Sep','Oct','Nov','Dic'],
+        //         dayNames: ['Domingo','Lunes','Martes','Mi&eacute;rcoles','Jueves','Viernes','S&aacute;bado'],
+        //         dayNamesShort: ['Dom','Lun','Mar','Mi&eacute;','Juv','Vie','S&aacute;b'],
+        //         dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','S&aacute;'],
+        //         weekHeader: 'Sm',
+        //         dateFormat: 'dd/mm/yy',
+        //         firstDay: 1,
+        //         isRTL: false,
+        //         showMonthAfterYear: false,
+        //         yearSuffix: ''};
+        //     $.datepicker.setDefaults($.datepicker.regional['es']);
+        // });
+
+        // var today = moment().toDate();
+        // var tomorrow = moment().add('days', 1).startOf('day').toDate();
+        // $("#fecharango").daterangepicker({
+        //     onOpen: $("#fecharango").daterangepicker("setRange",{start: today,end: tomorrow})
+        // });
+
+        </script>
+
 @endpush
 @push('styles')    
     <link rel="stylesheet" type="text/css" href="../css/main.css">    
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 @endpush
