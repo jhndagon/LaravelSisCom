@@ -52,7 +52,7 @@
                                 <td>{{$comision->fechaini}}<br>{{ $comision->fechafin}}</td>
                                 <td>{{$comision->estado}}</td>
                                 <td>{{$comision->institutoid}}</td>
-                                <td>{{Auth::user()->nombre}}</td>
+                                <td>{{$comision->profesor['nombre']}}</td>
                                 <td>
                                     @if ($comision->anexo1)
                                         <a target="_black" href="{{url('/archivo/'.$comision->comisionid . '/' . $comision->anexo1)}}">Anexo 1</a><br>                      
@@ -65,7 +65,11 @@
                                     @endif
                                 
                                 </td>
-                                <td>{{'ACCIONES'}}</td> 
+                                <td>
+                                    @if (!$comision->vistobueno == 'si' && !$comision->aprobacion == 'si' )
+                                        <a href="{{ url('eliminarComision', $comision->comisionid) }}">Borrar</a>
+                                    @endif    
+                                </td> 
                             </tr>                           
                             @endforeach
                         

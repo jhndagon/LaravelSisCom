@@ -14,7 +14,9 @@
             <div class="tile">
                 <div class="tile-body">
                         {{ $comision[0] }}
-                    <form>
+                        <form action="{{ url('comision', $comision[0]->comisionid)  }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            {{ method_field('PUT') }}
                         <div class="col-md-6  text-center">
                             <h3>
                                 Información de la solicitud
@@ -30,13 +32,21 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                    <div class="form-group row">
-                                        <label for="inputPassword" class="col-sm-2 col-form-label">Fecha de radicación: </label>
-                                        <div class="col-xs-2">
-                                        <input type="text" class="form-control" value="{{ $comision[0]->radicacion }}" disabled>
-                                        </div>
+                                <div class="form-group row">
+                                    <label for="inputPassword" class="col-sm-2 col-form-label">Fecha de radicación: </label>
+                                    <div class="col-xs-2">
+                                    <input type="text" class="form-control" value="{{ $comision[0]->radicacion }}" disabled>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-group row">
+                                    <label for="inputPassword" class="col-sm-2 col-form-label">Fecha de actualización: </label>
+                                    <div class="col-xs-2">
+                                            <input type="text" class="form-control" disabled value="{{ $fechaActual }}" name="fechaActualizacion">
+                                    </div>
+                                </div>
+                            </div>
                             <br>
                         <br>
                         <hr class="my-4">                  
@@ -83,6 +93,14 @@
                             </div>
                             <div class="form-group">
                                 <div class="form-group row">
+                                    <label for="inputPassword" class="col-md-2 col-form-label">Idioma de la comisión: </label>
+                                    <div class="col-md-6">
+                                            <input type="text" class="form-control" placeholder="Idioma de la comisión" value="{{ $comision[0]->idioma }}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-group row">
                                     <label for="inputPassword" class="col-md-2 col-form-label">Justificación: </label>
                                     <div class="col-md-6">
                                             <textarea type="textarea" class="form-control" rows="4" value="{{ $comision[0]->lugar }}"></textarea>  
@@ -113,17 +131,25 @@
                                     </div>
                                 </div>
                             </div>
+                            @if ($jefe == 1)
+                                poner opciones para el director
+                            
+                            @elseif($jefe == 2)
+                                opciones para la decana
+                            @endif
                             <div class="form-group">
                                 <div class="form-group row">
+                                    @if (!$comision[0]->vistobueno == 'si' && !$comision[0]->aprobacion == 'si' )
                                         <div class="col-md-2">
                                             <button type="submit" class="btn btn-primary btn-block">Guardar</button>
                                         </div>
                                         <div class="col-md-2">
                                             <a href="" class="btn btn-primary btn-block">Borrar</a>
                                         </div>
-                                        <div class="col-md-2">
-                                            <a href="{{ url('inicio') }}" class="btn btn-primary btn-block">Cancelar</a>
-                                        </div>
+                                    @endif
+                                    <div class="col-md-2">
+                                        <a href="{{ url('inicio') }}" class="btn btn-primary btn-block">Cancelar</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>

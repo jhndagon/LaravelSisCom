@@ -10,7 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+////  /comisiones
 
 Route::get('login', 'Auth\ProfesorController@showLoginForm')->name('login');
 Route::post('login', 'Auth\ProfesorController@login');
@@ -23,8 +23,11 @@ Route::group(['middleware' => 'auth:profesor'], function () {
     });
     
     Route::get('inicio','ComisionController@mostrarComisiones')->name('inicio');
-    Route::get('comision', 'ComisionController@crearComision')->name('comision');
-    Route::get('comision/{comision}','ComisionController@actualizarComision')->name('comision');
+    Route::get('comision', 'ComisionController@mostrarFormularioCrearComision')->name('comision');
+    Route::post('comision', 'ComisionController@crearComision');
+    Route::get('comision/{comision}','ComisionController@mostrarFormularioActualizaComision')->name('comision');
+    Route::get('/eliminarComision/{id}', 'ComisionController@eliminarComision');
+    Route::put('comision/{comision}', 'ComisionController@actualizarComision');
     Route::get('archivo/{comisionid}/{documento}', 'ArchivoController@obtenerArchivo');
 });
 

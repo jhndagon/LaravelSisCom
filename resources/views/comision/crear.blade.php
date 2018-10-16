@@ -13,6 +13,8 @@
             <div class="tile">
                 <div class="tile-body">
                     <form action="" method="POST" enctype="multipart/form-data">
+                        @csrf
+
                         <div class="col-md-6  text-center">
                             <h3>
                                 Información de la solicitud
@@ -21,28 +23,28 @@
                         </div>
                         <div class="form-group">
                             <div class="form-group row">
-                                <label for="inputPassword" class="col-sm-2 col-form-label">Identificación de la comisión: </label>
+                                <label for="comisionid" class="col-sm-2 col-form-label">Identificación de la comisión: </label>
                                 <div class="col-xs-2">
-                                    <input type="text" class="form-control" value="{{ $random }}" name="comisionid" disabled>
+                                    <input type="text" class="form-control" value="{{ $random }}" name="comisionid" readonly>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="form-group row">
-                                <label for="inputPassword" class="col-sm-2 col-form-label">Fecha de radicación: </label>
+                                <label for="fechaRadicacion" class="col-sm-2 col-form-label">Fecha de radicación: </label>
                                 <div class="col-xs-2">
-                                        <input type="text" class="form-control" disabled value="{{ $fechaActual }}" name="fechaRadicacion">
+                                        <input type="text" class="form-control"  value="{{ $fechaActual }}" name="fecharadicacion" readonly>
                                 </div>
                             </div>
                         </div>                        
                         <div class="form-group">
-                                <div class="form-group row">
-                                    <label for="inputPassword" class="col-sm-2 col-form-label">Fecha de actualización: </label>
-                                    <div class="col-xs-2">
-                                            <input type="text" class="form-control" disabled value="{{ $fechaActual }}" name="fechaActualizacion">
-                                    </div>
+                            <div class="form-group row">
+                                <label for="fechaActualizacion" class="col-sm-2 col-form-label">Fecha de actualización: </label>
+                                <div class="col-xs-2">
+                                        <input type="text" class="form-control"  value="{{ $fechaActual }}" name="fechaactualizacion" readonly>
                                 </div>
                             </div>
+                        </div>
                         <br><br>
                         <hr class="my-4">                  
 
@@ -56,7 +58,7 @@
                             <div class="form-group row">
                                 <label for="inputPassword" class="col-sm-2 col-form-label">Tipo de comisión: </label>
                                 <div class="col-sm-6">
-                                        <select class="custom-select" name="tipoComision">
+                                        <select class="custom-select" name="tipocom">
                                             <option selected value="servicios">Comisión de servicio</option>
                                             <option value="noremunerada">Permiso</option>
                                             <option value="calamidad">Calamidad</option>
@@ -85,9 +87,17 @@
                                 <div class="form-group row">
                                     <label for="inputPassword" class="col-sm-2 col-form-label">Motivo de la comisión: </label>
                                     <div class="col-sm-6">
-                                            <input type="text" class="form-control" placeholder="Motivo de la comisión" name="motivo">
+                                        <input type="text" class="form-control" placeholder="Motivo de la comisión" name="actividad">
                                     </div>
-                                </div>
+                                </div>                                
+                            </div>
+                            <div class="form-group">
+                                <div class="form-group row">
+                                    <label for="inputPassword" class="col-sm-2 col-form-label">Idioma de la comisión: </label>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" placeholder="Idioma de la comisión" name="idioma">
+                                    </div>
+                                </div>                                
                             </div>
                             <div class="form-group">
                                 <div class="form-group row">
