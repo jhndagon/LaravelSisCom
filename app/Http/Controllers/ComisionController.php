@@ -9,6 +9,7 @@ use Comisiones\Instituto;
 use Illuminate\Http\Request;
 use Comisiones\Mail\SolicitudMail;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class ComisionController extends Controller
 {
@@ -20,9 +21,8 @@ class ComisionController extends Controller
             for ($i = 0; $i < 5; $i++) {
             $randstring .= $characters[rand(0, strlen($characters) - 1)];
             }
-            $randstring;
             $comision = Comision::where('comisionid', $randstring)->get();
-        }while(!$comision);
+        }while(count($comision) > 0);
         return view('comision.crear')->with('random', $randstring)->with('fechaActual',Carbon::now());
     }
 
@@ -55,8 +55,7 @@ class ComisionController extends Controller
             do{
                 $ruta = \Storage::disk('local')->put($request->comisionid . '/' .$nombre,  \File::get($archivo));
             }while(!$ruta);
-            $comision->anexo1 = $nombre;
-            
+            $comision->anexo1 = $nombre;            
         }
         if($request->anexo2){
             $archivo = $request->file('anexo2');
@@ -79,8 +78,9 @@ class ComisionController extends Controller
         
 
         $comision->save();
-
-        \Mail::to('gustaderdu@ezehe.com')->send(new SolicitudMail($comision));
+        
+        Mail::to('cordelia66732@hideweb.xyz')->send(new SolicitudMail($comision));
+        return redirect('/inicio');
     }
     
     public function mostrarComisiones(){
@@ -138,6 +138,7 @@ class ComisionController extends Controller
     public function eliminarComision($id){
         $comision = Comision::where('comisionid', $id)->first();
         $comision->delete();
+        return redirect('/inicio');
     }
 }
 
