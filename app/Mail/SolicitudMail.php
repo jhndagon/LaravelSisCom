@@ -30,6 +30,6 @@ class SolicitudMail extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.solicitudcomision')->with($this->comision);
+        return $this->view('emails.solicitudcomision')->with('comision',$this->comision);
     }
 }
