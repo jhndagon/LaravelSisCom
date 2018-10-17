@@ -23,6 +23,7 @@ Route::group(['middleware' => 'auth:profesor'], function () {
     });
     
     Route::get('inicio','ComisionController@mostrarComisiones')->name('inicio');
+    Route::get('inicio/{ordenapor}','ComisionController@ordenarComisiones');
     Route::get('comision', 'ComisionController@mostrarFormularioCrearComision')->name('comision');
     Route::post('comision', 'ComisionController@crearComision');
     Route::get('comision/{comision}','ComisionController@mostrarFormularioActualizaComision')->name('comision');

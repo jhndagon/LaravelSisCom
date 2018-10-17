@@ -27,12 +27,12 @@
                     <table class="table table-hover table-bordered" id="sampleTable">
                         <thead>
                         <tr>
-                            <th>Comisión</th>
-                            <th>Radicación</th>
-                            <th>Actualización</th>
-                            <th>Fechas</th>
-                            <th>Estado</th>
-                            <th>Instituto</th>
+                            <th><a href="{{url('inicio', 'comisionid')}}">Comisión</a></th>
+                            <th><a href="{{url('inicio', 'radicacion')}}">Radicación</a></th>
+                            <th><a href="{{url('inicio', 'actualizacion')}}">Actualización</a></th>
+                            <th><a href="{{url('inicio')}}">Fechas</a></th>
+                            <th><a href="{{url('inicio', 'estado')}}">Estado</a></th>
+                            <th><a href="{{url('inicio', 'institutoid')}}">Instituto</a></th>
                             <th>Solicitante</th>
                             <th>Descargas</th>
                             <th>Acciones</th>
@@ -72,9 +72,10 @@
                                 </td> 
                             </tr>                           
                             @endforeach
-                        
+                            
                         </tbody>
-                    </table>
+                    </table>                    
+                    {{ $comisiones->onEachSide(2)->links() }}                    
                 </div>
             </div>
         </div>
@@ -84,16 +85,3 @@
 
 
 @endsection
-
-
-@push('scripts')
-    <!-- Essential javascripts for application to work-->
-    <script src="js/jquery-3.2.1.min.js"></script>
-    <script src="js/popper.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/main.js"></script>
-@endpush
-
-@push('styles')    
-    <link rel="stylesheet" type="text/css" href="css/main.css">    
-@endpush

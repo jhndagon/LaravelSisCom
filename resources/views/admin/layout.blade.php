@@ -11,8 +11,9 @@
     <!-- Font-icon css-->
 		<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 		<!-- CSRF Token -->
-		<meta name="csrf-token" content="{{ csrf_token() }}">
-
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    
+    <link rel="stylesheet" type="text/css" href="{{asset('css/main.css')}}"> 
 		
 	</head>
   <body class="app sidebar-mini rtl">
@@ -24,7 +25,11 @@
     @yield('contenido')
 
 
-		@stack('scripts')
-	
+    <script src="{{asset('js/jquery-3.2.1.min.js')}}"></script>
+    <script src="{{asset('js/popper.min.js')}}"></script>
+    <script src="{{asset('js/bootstrap.min.js')}}"></script>
+    <script src="{{asset('js/main.js')}}"></script>
+  
+    @stack('scripts')
   </body>
 </html>

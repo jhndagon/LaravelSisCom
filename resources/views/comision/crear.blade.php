@@ -56,20 +56,19 @@
                         </div>
                         <div class="form-group">
                             <div class="form-group row">
-                                <label for="inputPassword" class="col-sm-2 col-form-label">Tipo de comisión: </label>
+                                <label for="tipocom" class="col-sm-2 col-form-label">Tipo de comisión: </label>
                                 <div class="col-sm-6">
                                         <select class="custom-select" name="tipocom">
                                             <option selected value="servicios">Comisión de servicio</option>
+                                            <option value="estudio">Comisión de estudios</option>
                                             <option value="noremunerada">Permiso</option>
                                             <option value="calamidad">Calamidad</option>
-                                            <option value="estudio">Estudio</option>
-                                            <option value="corta">Corta</option>
                                         </select>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="form-group row">
-                                    <label for="inputPassword" class="col-sm-2 col-form-label">Lugar de la comisión: </label>
+                                    <label for="lugar" class="col-sm-2 col-form-label">Lugar de la comisión: </label>
                                     <div class="col-sm-6">
                                             <input type="text" class="form-control" placeholder="Lugar de la comisión" name="lugar">
                                     </div>
@@ -77,7 +76,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="form-group row">
-                                    <label for="inputPassword" class="col-sm-2 col-form-label">Fecha de la comisión: </label>
+                                    <label for="fecharango" class="col-sm-2 col-form-label">Fecha de la comisión: </label>
                                     <div class="col-sm-6">
                                         <input id="fecharango" name="fecharango" class="form-control">
                                     </div>
@@ -85,7 +84,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="form-group row">
-                                    <label for="inputPassword" class="col-sm-2 col-form-label">Motivo de la comisión: </label>
+                                    <label for="actividad" class="col-sm-2 col-form-label">Motivo de la comisión: </label>
                                     <div class="col-sm-6">
                                         <input type="text" class="form-control" placeholder="Motivo de la comisión" name="actividad">
                                     </div>

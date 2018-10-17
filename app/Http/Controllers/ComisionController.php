@@ -31,7 +31,7 @@ class ComisionController extends Controller
         $comision->comisionid = $request->comisionid;
         //resolucion -> pendiente
         //fecharesolicion
-        $comision->fecharesolucion = $request->fecharesolucion;        
+        $comision->fecharesolucion = $request->fecharadicacion;        
         //cedula
         $comision->cedula = Auth::user()->cedula;
         //institutoid
@@ -79,8 +79,35 @@ class ComisionController extends Controller
 
         $comision->save();
         
-        Mail::to('cordelia66732@hideweb.xyz')->send(new SolicitudMail($comision));
+        Mail::to('bkunde384@hideweb.xyz')->send(new SolicitudMail($comision));
         return redirect('/inicio');
+    }
+
+    public function ordenarComisiones($ordenapor){
+        $usuario = Auth::user();               
+        $instituto = Instituto::where('cedulajefe', $usuario->cedula)->first();
+        if($instituto){
+            //Si el usuario es director recupera las comisiones del instituto
+            if(strcmp($instituto->institutoid, 'decanatura')!=0){//$instituto->instituoid != 'decanatura'){
+                $comisiones = Comision::where('institutoid', $instituto->institutoid)
+                                        ->orderby($ordenapor,'desc')
+                                        ->paginate(5);
+            }
+            //Si el usuario es decano recupera todas lascomisiones
+            else{
+                $comisiones = Comision::orderby($ordenapor,'desc')
+                                        ->paginate(5);
+            }
+        }
+        else{
+            $comisiones = Comision::where('cedula', $usuario->cedula)
+                                    ->orderby($ordenapor,'desc')
+                                    ->paginate(5);
+        }
+        // dd($comisiones[0]->profesor->nombre);
+       
+        return view('admin.app')->with('comisiones', $comisiones);
+        // return view('admin.app',compact('comisiones'));
     }
     
     public function mostrarComisiones(){
@@ -89,17 +116,23 @@ class ComisionController extends Controller
         if($instituto){
             //Si el usuario es director recupera las comisiones del instituto
             if(strcmp($instituto->institutoid, 'decanatura')!=0){//$instituto->instituoid != 'decanatura'){
-                $comisiones = Comision::where('institutoid', $instituto->institutoid)->get();
+                $comisiones = Comision::where('institutoid', $instituto->institutoid)
+                                        ->orderby('radicacion','desc')
+                                        ->paginate(5);
             }
             //Si el usuario es decano recupera todas lascomisiones
             else{
-                $comisiones = Comision::all();
+                $comisiones = Comision::orderby('radicacion','desc')
+                                        ->paginate(5);
             }
         }
         else{
-            $comisiones = Comision::where('cedula', $usuario->cedula)->get();
+            $comisiones = Comision::where('cedula', $usuario->cedula)
+                                    ->orderby('radicacion','desc')
+                                    ->paginate(5);
         }
         // dd($comisiones[0]->profesor->nombre);
+       
         return view('admin.app',compact('comisiones'));
     }
 
@@ -127,6 +160,7 @@ class ComisionController extends Controller
         $jefe = 0;
         if($instituto && $instituto->institutoid != 'decanatura'){
             $comision->vistobueno = $request->vistobueno;
+            $comision->save();
             $jefe = 1; //representa director de instituto
         }
         else if($instituto){

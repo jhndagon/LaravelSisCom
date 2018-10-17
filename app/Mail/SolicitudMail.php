@@ -30,6 +30,9 @@ class SolicitudMail extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.solicitudcomision')->with('comision',$this->comision);
+        return $this->view('emails.solicitudcomision')
+                    ->from('noreply@gmail.com')
+                    ->subject('[Comisiones] Nueva solicitud de comisión requiere visto bueno.')
+                    ->with('comision',$this->comision);
     }
 }
