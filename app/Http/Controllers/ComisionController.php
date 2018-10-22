@@ -29,14 +29,24 @@ class ComisionController extends Controller
     public function crearComision(Request $request){
         $comision = new Comision();
         $comision->comisionid = $request->comisionid;
-        //resolucion -> pendiente
-        //fecharesolicion
-        $comision->fecharesolucion = $request->fecharadicacion;        
+        //resolucion -> //lo genera el decano      
         //cedula
         $comision->cedula = Auth::user()->cedula;
         //institutoid
         $comision->institutoid = Auth::user()->institutoid;
         //fecha -> pendiente hacer datepicker
+        $fecha = $request->fecharango;
+        $comision->fecha = $fecha;
+
+        //procesado de fecha
+        $fecha = explode ('a', $fecha);
+        $comision->fechaini = date_format( date_create($fecha[0]), date('d-m-y')); 
+        $comision->fechafin = date_format( date_create($fecha[1]), date('d-m-y')); 
+        // $comision->fecha = date_format( date_create($fecha[0]), date('M d de o'));
+        dd( Carbon::now() );
+        dd( date_format( date_create($fecha[0]), date('F d y')) );
+
+        //fin procesado fecha
 
         //actividad
         $comision->actividad = $request->actividad;
@@ -73,13 +83,11 @@ class ComisionController extends Controller
             }while(!$ruta);
             $comision->anexo3 = $nombre;
         }
-
-        //enviar correo al director del instituto y a la secretaria del instituto
-        
-
         $comision->save();
-        
-        Mail::to('bkunde384@hideweb.xyz')->send(new SolicitudMail($comision));
+ 
+        //enviar correo al director del instituto y a la secretaria del instituto
+        // Mail::to('bkunde384@hideweb.xyz')->send(new SolicitudMail($comision));
+
         return redirect('/inicio');
     }
 
@@ -113,27 +121,28 @@ class ComisionController extends Controller
     public function mostrarComisiones(){
         $usuario = Auth::user();               
         $instituto = Instituto::where('cedulajefe', $usuario->cedula)->first();
+        $esJefe = 0;
         if($instituto){
             //Si el usuario es director recupera las comisiones del instituto
-            if(strcmp($instituto->institutoid, 'decanatura')!=0){//$instituto->instituoid != 'decanatura'){
+            if(strcmp($instituto->institutoid, 'decanatura')!=0){
                 $comisiones = Comision::where('institutoid', $instituto->institutoid)
                                         ->orderby('radicacion','desc')
                                         ->paginate(5);
+                $esJefe = 1;//representa director de instituto
             }
             //Si el usuario es decano recupera todas lascomisiones
             else{
                 $comisiones = Comision::orderby('radicacion','desc')
                                         ->paginate(5);
+                $esJefe = 2;//representa decanatura
             }
         }
         else{
             $comisiones = Comision::where('cedula', $usuario->cedula)
                                     ->orderby('radicacion','desc')
                                     ->paginate(5);
-        }
-        // dd($comisiones[0]->profesor->nombre);
-       
-        return view('admin.app',compact('comisiones'));
+        }       
+        return view('admin.app',compact('comisiones'))->with('jefe', $esJefe);
     }
 
     public function mostrarFormularioActualizaComision($comisionid){
@@ -154,7 +163,7 @@ class ComisionController extends Controller
                 ->witH('jefe', $jefe);
     }
  
-    public function actualizarComision($id, Request $request){
+    public function actualizarComision(Request $request, $id ){
         $comision = Comision::where('comisionid', $id)->first();
         $instituto = Instituto::where('cedulajefe', Auth::user()->cedula)->first();
         $jefe = 0;

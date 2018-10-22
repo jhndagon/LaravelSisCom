@@ -29,30 +29,9 @@ class LoginController extends Controller
             //log que necesites
             return view('admin.app');
         }
-      //si estás aquí algo ha salido mal, 404, 401, 403??
-      //  return redirect('/');
-
-        
+      
         return back()->withErrors(['cedula' => "El número de cedula o contraseña incorrecto"])
         ->withInput(request(['cedula']));
-
-        // $credenciales = $this->validate(request(), [
-        //     'email' => 'email|required|string',
-        //     'password'=> 'required|string'
-        // ]);
-
-        // if(Auth::attempt($credenciales)){
-        //     return redirect('/');
-        // }
-
-        // return back()->withErrors(['email' => trans('auth.failed')])
-        // ->withInput(request(['email']));
-
-        // $usuario = Usuario::all();
-        // if($usuario){
-        //     return view('admin.prueba', ['usuario'=>$usuario]);
-        // }
-        // return view('auth.login');
     }
 
     public function logout(Request $request){

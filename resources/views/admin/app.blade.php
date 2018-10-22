@@ -66,7 +66,7 @@
                                 
                                 </td>
                                 <td>
-                                    @if (!$comision->vistobueno == 'si' && !$comision->aprobacion == 'si' )
+                                    @if (!$comision->vistobueno == 'si' && !$comision->aprobacion == 'si' && $jefe == 0)
                                         <a href="{{ url('eliminarComision', $comision->comisionid) }}">Borrar</a>
                                     @endif    
                                 </td> 

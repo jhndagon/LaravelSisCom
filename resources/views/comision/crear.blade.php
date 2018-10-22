@@ -70,7 +70,7 @@
                                 <div class="form-group row">
                                     <label for="lugar" class="col-sm-2 col-form-label">Lugar de la comisión: </label>
                                     <div class="col-sm-6">
-                                            <input type="text" class="form-control" placeholder="Lugar de la comisión" name="lugar">
+                                            <input type="text" class="form-control" placeholder="Lugar de la comisión" name="lugar" required>
                                     </div>
                                 </div>
                             </div>
@@ -78,7 +78,7 @@
                                 <div class="form-group row">
                                     <label for="fecharango" class="col-sm-2 col-form-label">Fecha de la comisión: </label>
                                     <div class="col-sm-6">
-                                        <input id="fecharango" name="fecharango" class="form-control">
+                                        <input type="text" id="fecharango" name="fecharango" class="form-control">
                                     </div>
                                 </div>
                             </div>
@@ -86,21 +86,21 @@
                                 <div class="form-group row">
                                     <label for="actividad" class="col-sm-2 col-form-label">Motivo de la comisión: </label>
                                     <div class="col-sm-6">
-                                        <input type="text" class="form-control" placeholder="Motivo de la comisión" name="actividad">
+                                        <input type="text" class="form-control" placeholder="Motivo de la comisión" name="actividad" required>
                                     </div>
                                 </div>                                
                             </div>
                             <div class="form-group">
                                 <div class="form-group row">
-                                    <label for="inputPassword" class="col-sm-2 col-form-label">Idioma de la comisión: </label>
+                                    <label for="idioma" class="col-sm-2 col-form-label">Idioma de la comisión: </label>
                                     <div class="col-sm-6">
-                                        <input type="text" class="form-control" placeholder="Idioma de la comisión" name="idioma">
+                                        <input type="text" class="form-control" placeholder="Idioma de la comisión" name="idioma" required>
                                     </div>
                                 </div>                                
                             </div>
                             <div class="form-group">
                                 <div class="form-group row">
-                                    <label for="inputPassword" class="col-sm-2 col-form-label">Justificación: </label>
+                                    <label for="justificacion" class="col-sm-2 col-form-label">Justificación: </label>
                                     <div class="col-sm-6">
                                             <textarea type="textarea" class="form-control" rows="4" name="justificacion"></textarea>  
                                     </div>
@@ -108,7 +108,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="form-group row">
-                                    <label for="inputPassword" class="col-sm-2 col-form-label">Anexo 1: </label>
+                                    <label for="anexo1" class="col-sm-2 col-form-label">Anexo 1: </label>
                                     <div class="col-sm-6">
                                         <input type="file" class="form-control-file" name="anexo1" > 
                                     </div>
@@ -116,7 +116,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="form-group row">
-                                    <label for="inputPassword" class="col-sm-2 col-form-label">Anexo 2: </label>
+                                    <label for="anexo2" class="col-sm-2 col-form-label">Anexo 2: </label>
                                     <div class="col-sm-6">
                                         <input type="file" class="form-control-file" name="anexo2" >
                                     </div>
@@ -124,7 +124,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="form-group row">
-                                    <label for="inputPassword" class="col-sm-2 col-form-label">Anexo 3: </label>
+                                    <label for="anexo3" class="col-sm-2 col-form-label">Anexo 3: </label>
                                     <div class="col-sm-6">
                                         <input type="file" class="form-control-file" name="anexo3" >
                                     </div>
@@ -136,7 +136,7 @@
                                             <button type="submit" class="btn btn-primary btn-block">Guardar</button>
                                         </div>
                                         <div class="col-md-2">
-                                            <a href="" class="btn btn-primary btn-block">Borrar</a>
+                                            <a href="{{ url('comision') }}" class="btn btn-primary btn-block">Borrar</a>
                                         </div>
                                         <div class="col-md-2">
                                             <a href="{{ url('inicio') }}" class="btn btn-primary btn-block">Cancelar</a>
@@ -156,21 +156,18 @@
 
 
 @push('scripts')
-    <!-- Essential javascripts for application to work-->
-    <script src="../js/jquery-3.2.1.min.js"></script>
-    <script src="../js/popper.min.js"></script>
-    <script src="../js/bootstrap.min.js"></script>
-    <script src="../js/main.js"></script>
 
-    {{-- <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script> --}}
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<script src="{{asset('js/bootstrap-datepicker.js')}}"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
 
     <script>
 
-        $("#fecharango").daterangepicker({
-            timeZone: 'utc-5',
+        $("#fecharango").daterangepicker({            
             "locale": {
+                "language": "es",
                 "format": "DD MMMM YYYY",
                 "separator": " a ",
                 "applyLabel": "Aceptar",
@@ -204,18 +201,26 @@
                     "Diciembre"
                 ],
                 },
-        // datepickerOptions: {
-        //         minDate: 0,
-        //         maxDate: null
-        //     },
-        // applyOnMenuSelect: false,
-        // initialText : 'Seleccione el rango de fechas...',
-        // applyButtonText : 'Escoger',
-        // clearButtonText : 'Limpiar',
-        // cancelButtonText : 'Cancelar',
+        datepickerOptions: {
+                minDate: 0,
+                maxDate: null,
+                lenguage: "es"
+            },
+        applyOnMenuSelect: false,
+        initialText : 'Seleccione el rango de fechas...',
+        applyButtonText : 'Escoger',
+        clearButtonText : 'Limpiar',
+        cancelButtonText : 'Cancelar',
         });
+        $("#fecharango").datepicker({
+        format: "DD MMMM YYYY",
+        todayBtn: true,
+        clearBtn: true,
+        language: "es"
+    });
         // jQuery(function($){
-        //     $.datepicker.regional['es'] = {
+        //     $.datepicker = {
+        //         language: 'es',
         //         closeText: 'Cerrar',
         //         prevText: '&#x3c;Ant',
         //         nextText: 'Sig&#x3e;',
@@ -233,19 +238,18 @@
         //         isRTL: false,
         //         showMonthAfterYear: false,
         //         yearSuffix: ''};
-        //     $.datepicker.setDefaults($.datepicker.regional['es']);
+        //     // $.datepicker.setDefaults($.datepicker.regional['es']);
         // });
 
-        // var today = moment().toDate();
-        // var tomorrow = moment().add('days', 1).startOf('day').toDate();
-        // $("#fecharango").daterangepicker({
-        //     onOpen: $("#fecharango").daterangepicker("setRange",{start: today,end: tomorrow})
-        // });
+        var today = moment().toDate();
+        var tomorrow = moment().add('days', 1).startOf('day').toDate();
+        $("#fecharango").daterangepicker({
+            onOpen: $("#fecharango").daterangepicker("setRange",{start: today,end: tomorrow})
+        });
 
         </script>
 
 @endpush
-@push('styles')    
-    <link rel="stylesheet" type="text/css" href="../css/main.css">    
+@push('styles')    s
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 @endpush
