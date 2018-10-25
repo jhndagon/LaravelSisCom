@@ -38,14 +38,34 @@ class ComisionController extends Controller
         $fecha = $request->fecharango;
         $comision->fecha = $fecha;
 
+        $comision->radicacion = $request->fecharadicacion;
+        $comision->actualizacion = $request->fechaactualizacion;
+        $comision->estado = 'solicitada';
+
         //procesado de fecha
+        $calendario_meses = array(
+            'January'=>'Enero',
+            'Febuary'=>'Febrero',
+            'March'=>'Marzo',
+            'April'=>'Abril',
+            'May'=>'Mayo',
+            'June'=>'Junio',
+            'July'=>'Julio',
+            'August'=>'Agosto',
+            'September'=>'Septiembre',
+            'October'=>'Octubre',
+            'November'=>'Noviembre',
+            'December'=>'Diciembre'
+        ); 
+        
         $fecha = explode ('a', $fecha);
         $comision->fechaini = date_format( date_create($fecha[0]), date('d-m-y')); 
         $comision->fechafin = date_format( date_create($fecha[1]), date('d-m-y')); 
-        // $comision->fecha = date_format( date_create($fecha[0]), date('M d de o'));
-        dd( Carbon::now() );
-        dd( date_format( date_create($fecha[0]), date('F d y')) );
-
+        
+        $comision->fecha = $calendario_meses[date_format(date_create($fecha[0]), 'F')]
+                            . ' ' .date_format( date_create($fecha[0]), 'd \d\e o') 
+                            . ' a ' . $calendario_meses[date_format(date_create($fecha[0]), 'F')]. ' ' . 
+                            date_format( date_create($fecha[1]), 'd \d\e o'); 
         //fin procesado fecha
 
         //actividad
@@ -83,11 +103,17 @@ class ComisionController extends Controller
             }while(!$ruta);
             $comision->anexo3 = $nombre;
         }
+
+        //otros atributos
+        //vistobueno
+        $comision->vistobueno = 'No';
+        $comision->aprobacion = 'No'; 
+        //aprobacion
+        
         $comision->save();
  
         //enviar correo al director del instituto y a la secretaria del instituto
         // Mail::to('bkunde384@hideweb.xyz')->send(new SolicitudMail($comision));
-
         return redirect('/inicio');
     }
 
@@ -127,7 +153,7 @@ class ComisionController extends Controller
             if(strcmp($instituto->institutoid, 'decanatura')!=0){
                 $comisiones = Comision::where('institutoid', $instituto->institutoid)
                                         ->orderby('radicacion','desc')
-                                        ->paginate(5);
+                                        ->paginate(15);
                 $esJefe = 1;//representa director de instituto
             }
             //Si el usuario es decano recupera todas lascomisiones
@@ -157,7 +183,7 @@ class ComisionController extends Controller
         $comision = Comision::where('comisionid', $comisionid)
                             //   ->where('cedula', Auth::guard('profesor')->user()->cedula)
                               ->get();
-        return view('comision.comision')
+        return view('comision.actualizar')
                 ->with('comision', $comision)
                 ->with('fechaActual',Carbon::now())
                 ->witH('jefe', $jefe);
@@ -167,15 +193,24 @@ class ComisionController extends Controller
         $comision = Comision::where('comisionid', $id)->first();
         $instituto = Instituto::where('cedulajefe', Auth::user()->cedula)->first();
         $jefe = 0;
+        $comision->actualiza = Auth::user()->cedula;
+        $comision->actualizacion = $request->fechaactualizacion;
         if($instituto && $instituto->institutoid != 'decanatura'){
             $comision->vistobueno = $request->vistobueno;
-            $comision->save();
+            if($comision->vistobueno == 'Si'){
+                $comision->estado = 'vistobueno';
+            }
             $jefe = 1; //representa director de instituto
         }
         else if($instituto){
-            $jefe = 2; //representa decanatura
+            $comision->aprobacion = $request->aprobacion;
+            if($comision->aprobacion == 'Si'){
+                $comsion->estado = 'aprobada';
+            }
+            $jefe = 2; //representa decanatura            
         }
-        dd($request);
+        $comision->save();
+        dd($comision);
     }
 
     public function eliminarComision($id){

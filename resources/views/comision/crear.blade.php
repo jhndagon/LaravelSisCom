@@ -39,7 +39,7 @@
                         </div>                        
                         <div class="form-group">
                             <div class="form-group row">
-                                <label for="fechaActualizacion" class="col-sm-2 col-form-label">Fecha de actualización: </label>
+                                <label for="fechaactualizacion" class="col-sm-2 col-form-label">Fecha de actualización: </label>
                                 <div class="col-xs-2">
                                         <input type="text" class="form-control"  value="{{ $fechaActual }}" name="fechaactualizacion" readonly>
                                 </div>

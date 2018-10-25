@@ -35,7 +35,7 @@
                                 <div class="form-group row">
                                     <label for="inputPassword" class="col-sm-2 col-form-label">Fecha de radicación: </label>
                                     <div class="col-xs-2">
-                                    <input type="text" class="form-control" value="{{ $comision[0]->radicacion }}" disabled>
+                                    <input type="text" class="form-control" value="{{ $comision[0]->radicacion }}" readonly>
                                     </div>
                                 </div>
                             </div>
@@ -43,7 +43,7 @@
                                 <div class="form-group row">
                                     <label for="inputPassword" class="col-sm-2 col-form-label">Fecha de actualización: </label>
                                     <div class="col-xs-2">
-                                            <input type="text" class="form-control" disabled value="{{ $fechaActual }}" name="fechaActualizacion">
+                                            <input type="text" class="form-control" readonly value="{{ $fechaActual }}" name="fechaactualizacion">
                                     </div>
                                 </div>
                             </div>
@@ -109,7 +109,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="form-group row">
-                                    <label for="inputPassword" class="col-md-2 col-form-label">Anexo 1: </label>
+                                    <label for="anexo1" class="col-md-2 col-form-label">Anexo 1: </label>
                                     <div class="col-md-6">
                                         <input type="file" class="form-control-file" name="anexo1" > 
                                     </div>
@@ -117,7 +117,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="form-group row">
-                                    <label for="inputPassword" class="col-md-2 col-form-label">Anexo 2: </label>
+                                    <label for="anexo2" class="col-md-2 col-form-label">Anexo 2: </label>
                                     <div class="col-md-6">
                                         <input type="file" class="form-control-file" name="anexo1" >
                                     </div>
@@ -125,25 +125,45 @@
                             </div>
                             <div class="form-group">
                                 <div class="form-group row">
-                                    <label for="inputPassword" class="col-md-2 col-form-label">Anexo 3: </label>
+                                    <label for="anexo3" class="col-md-2 col-form-label">Anexo 3: </label>
                                     <div class="col-md-6">
                                         <input type="file" class="form-control-file" name="anexo1" >
                                     </div>
                                 </div>
                             </div>
-                            @if ($jefe == 1)
-                                <div class="form-group"> 
-                                    <h2>Reservado para la administración</h2>   
+                            @if ($jefe == 1 || $jefe == 2)
+                             
+                            <div class="form-group"> 
+                                <h2>Reservado para la administración</h2>   
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                        <label class="form-check-label" for="defaultCheck1">
+                                          Devolución
+                                        </label>
+                                    </div>
                                     <div class="form-group row">
-                                        <label for="vistobueno" class="col-md-4 col-form-label">Visto bueno del director: </label>
-                                        <div class="col-md-2">
-                                            <select class="custom-select" name="vistobueno">
-                                                <option selected>No</option>
-                                                <option>Si</option>
+                                        <label for="vistobueno" class="col-md-2 col-form-label">Visto bueno del director: </label>
+                                        <div class="col-md-3">
+                                        <select class="custom-select" name="vistobueno">
+                                                <option value="No" selected>No</option>
+                                                <option value="Si">Si</option>
                                             </select>
                                         </div>
                                     </div>
                                 </div>
+
+                                @if($jefe == 2)                            
+                                    <div class="form-group row">
+                                        <label for="aprobacion" class="col-md-2 col-form-label">Aprobacion decan@: </label>
+                                        <div class="col-md-3">
+                                        <select class="custom-select" name="aprobacion">
+                                                <option value="No"selected>No</option>
+                                                <option Value="Si">Si</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                @endif
+
                                 <div class="form-group">
                                     <div class="form-group row">
                                         <label for="respuesta" class="col-md-2 col-form-label">Respuesta: </label>
@@ -152,12 +172,11 @@
                                         </div>
                                     </div>
                                 </div>
-                            @elseif($jefe == 2)
-                                opciones para la decana
                             @endif
+                            
                             <div class="form-group">
                                 <div class="form-group row">
-                                    @if (!$comision[0]->vistobueno == 'si' && !$comision[0]->aprobacion == 'si' )
+                                    @if ($comision[0]->vistobueno == 'No' || $comision[0]->aprobacion == 'No' )
                                         <div class="col-md-2">
                                             <button type="submit" class="btn btn-primary btn-block">Guardar</button>
                                         </div>
