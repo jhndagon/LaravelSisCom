@@ -78,7 +78,7 @@
                                 <div class="form-group row">
                                     <label for="fecharango" class="col-sm-2 col-form-label">Fecha de la comisión: </label>
                                     <div class="col-sm-6">
-                                        <input type="text" id="fecharango" name="fecharango" class="form-control">
+                                        <input type="text" id="fecharango" name="fecharango" class="form-control" value="11/05/2018">
                                     </div>
                                 </div>
                             </div>

@@ -13,7 +13,7 @@
         <div class="col-md-12">
             <div class="tile">
                 <div class="tile-body">
-                        {{ $comision[0] }}
+                        {{-- {{ $comision[0] }} --}}
                         <form action="{{ url('comision', $comision[0]->comisionid)  }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             {{ method_field('PUT') }}
@@ -76,13 +76,13 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="form-group row">
-                                    <label for="inputPassword" class="col-md-2 col-form-label">Fecha de la comisión: </label>
-                                    <div class="col-md-6">
-                                    <input id="fecharango" name="fecharango" value="{{ $comision[0]->fecha }}" class="form-control">
+                                    <div class="form-group row">
+                                        <label for="fecharango" class="col-sm-2 col-form-label">Fecha de la comisión: </label>
+                                        <div class="col-sm-6">
+                                        <input type="text" id="fecharango" name="fecharango" class="form-control" value="{{$comision[0]->fecha}}">
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
                             <div class="form-group">
                                 <div class="form-group row">
                                     <label for="inputPassword" class="col-md-2 col-form-label">Motivo de la comisión: </label>
@@ -102,8 +102,8 @@
                             <div class="form-group">
                                 <div class="form-group row">
                                     <label for="inputPassword" class="col-md-2 col-form-label">Justificación: </label>
-                                    <div class="col-md-6">
-                                            <textarea type="textarea" class="form-control" rows="4" value="{{ $comision[0]->lugar }}"></textarea>  
+                                    <div class="col-md-6">                                           
+                                            <textarea type="textarea" class="form-control" rows="4" name="justificacion">{{ $comision[0]->justificacion }}</textarea>  
                                     </div>
                                 </div>
                             </div>
@@ -136,7 +136,7 @@
                             <div class="form-group"> 
                                 <h2>Reservado para la administración</h2>   
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                        <input class="form-check-input" type="checkbox" name="devolucion" id="devolucion">
                                         <label class="form-check-label" for="defaultCheck1">
                                           Devolución
                                         </label>
@@ -145,8 +145,8 @@
                                         <label for="vistobueno" class="col-md-2 col-form-label">Visto bueno del director: </label>
                                         <div class="col-md-3">
                                         <select class="custom-select" name="vistobueno">
-                                                <option value="No" selected>No</option>
-                                                <option value="Si">Si</option>
+                                                <option value="No" {{ $comision[0]->vistobueno=='No'  ? 'selected':''}}>No</option>
+                                                <option value="Si" {{ $comision[0]->vistobueno=='Si'  ? 'selected':''}}>Si</option>
                                             </select>
                                         </div>
                                     </div>
@@ -157,8 +157,8 @@
                                         <label for="aprobacion" class="col-md-2 col-form-label">Aprobacion decan@: </label>
                                         <div class="col-md-3">
                                         <select class="custom-select" name="aprobacion">
-                                                <option value="No"selected>No</option>
-                                                <option Value="Si">Si</option>
+                                                <option value="No" {{ $comision[0]->aprobacion=='No'  ? 'selected':''}}>No</option>
+                                                <option Value="Si" {{ $comision[0]->aprobacion=='Si'  ? 'selected':''}} >Si</option>
                                             </select>
                                         </div>
                                     </div>
@@ -203,58 +203,77 @@
 
 @push('scripts')
 <script>
-    $("#fecharango").daterangepicker({
-    //     presetRanges: [{
-    //         text: 'Hoy',
-    //     dateStart: function() { return moment() },
-    //     dateEnd: function() { return moment() }
-    // }, 
-    // {
-    //         text: 'Mañana',
-    //     dateStart: function() { return moment().add('days', 1) },
-    //     dateEnd: function() { return moment().add('days', 1) }
-    // }, {
-    //         text: 'La próxima semana',
-    //         dateStart: function() { return moment().add('weeks', 1).startOf('week') },
-    //         dateEnd: function() { return moment().add('weeks', 1).endOf('week') }
-    // }],
-    datepickerOptions: {
-            minDate: 0,
-            maxDate: null
-        },
-    applyOnMenuSelect: false,
-    initialText : 'Seleccione el rango de fechas...',
-    applyButtonText : 'Escoger',
-    clearButtonText : 'Limpiar',
-    cancelButtonText : 'Cancelar',
-    });
-    // jQuery(function($){
-    //     $.datepicker.regional['es'] = {
-    //         closeText: 'Cerrar',
-    //         prevText: '&#x3c;Ant',
-    //         nextText: 'Sig&#x3e;',
-    //         currentText: 'Hoy',
-    //         monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
-    //                      'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
-    //         monthNamesShort: ['Ene','Feb','Mar','Abr','May','Jun',
-    //                           'Jul','Ago','Sep','Oct','Nov','Dic'],
-    //         dayNames: ['Domingo','Lunes','Martes','Mi&eacute;rcoles','Jueves','Viernes','S&aacute;bado'],
-    //         dayNamesShort: ['Dom','Lun','Mar','Mi&eacute;','Juv','Vie','S&aacute;b'],
-    //         dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','S&aacute;'],
-    //         weekHeader: 'Sm',
-    //         dateFormat: 'dd/mm/yy',
-    //         firstDay: 1,
-    //         isRTL: false,
-    //         showMonthAfterYear: false,
-    //         yearSuffix: ''};
-    //     $.datepicker.setDefaults($.datepicker.regional['es']);
-    // });
-
-    // var today = moment().toDate();
-    // var tomorrow = moment().add('days', 1).startOf('day').toDate();
-    // $("#fecharango").daterangepicker({
-    //     onOpen: $("#fecharango").daterangepicker("setRange",{start: today,end: tomorrow})
-    // });
-
+$(document).ready(function(){
+    $('#devolucion').click()
+});
 </script>
+<script src="{{asset('js/bootstrap-datepicker.js')}}"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
+
+    <script>
+
+        $("#fecharango").daterangepicker({            
+            "locale": {
+                "language": "es",
+                "format": "DD MMMM YYYY",
+                "separator": " a ",
+                "applyLabel": "Aceptar",
+                "cancelLabel": "Cancelar",
+                "fromLabel": "From",
+                "toLabel": "To",
+                "customRangeLabel": "Custom",
+                "daysOfWeek": [
+                    "Do",
+                    "Lu",
+                    "Ma",
+                    "Mi",
+                    "Ju",
+                    "Vi",
+                    "Sa"
+                ],
+                "monthNamesShort": ['Ene','Feb','Mar','Abr','May','Jun',
+                                  'Jul','Ago','Sep','Oct','Nov','Dic'],
+                "monthNames": [
+                    "Enero",
+                    "Febrero",
+                    "Marzo",
+                    "Abril",
+                    "Mayo",
+                    "Junio",
+                    "Julio",
+                    "Augosto",
+                    "Septiembre",
+                    "Octubre",
+                    "Noviembre",
+                    "Diciembre"
+                ],
+                },
+        datepickerOptions: {
+                minDate: 0,
+                maxDate: null,
+                lenguage: "es"
+            },
+        applyOnMenuSelect: false,
+        initialText : 'Seleccione el rango de fechas...',
+        applyButtonText : 'Escoger',
+        clearButtonText : 'Limpiar',
+        cancelButtonText : 'Cancelar',
+        });
+        $("#fecharango").datepicker({
+        format: "DD MMMM YYYY",
+        todayBtn: true,
+        clearBtn: true,
+        language: "es"
+    });
+        var today = moment().toDate();
+        var tomorrow = moment().add('days', 1).startOf('day').toDate();
+        $("#fecharango").daterangepicker({
+            onOpen: $("#fecharango").daterangepicker("setRange",{start: today,end: tomorrow})
+        });
+
+        </script>
+
 @endpush

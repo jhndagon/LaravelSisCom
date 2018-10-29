@@ -28,6 +28,7 @@ class ComisionController extends Controller
 
     public function crearComision(Request $request){
         $comision = new Comision();
+        
         $comision->comisionid = $request->comisionid;
         //resolucion -> //lo genera el decano      
         //cedula
@@ -35,8 +36,11 @@ class ComisionController extends Controller
         //institutoid
         $comision->institutoid = Auth::user()->institutoid;
         //fecha -> pendiente hacer datepicker
-        $fecha = $request->fecharango;
-        $comision->fecha = $fecha;
+        $fecha = $request->fecharango;        
+
+        if($request->actividad){
+            \Storage::disk('local')->put($request->comisionid . '/actividad.txt', $request->justificacion);
+        }
 
         $comision->radicacion = $request->fecharadicacion;
         $comision->actualizacion = $request->fechaactualizacion;
@@ -180,13 +184,24 @@ class ComisionController extends Controller
         else if($instituto){
             $jefe = 2; //representa decanatura
         }
+        
         $comision = Comision::where('comisionid', $comisionid)
                             //   ->where('cedula', Auth::guard('profesor')->user()->cedula)
                               ->get();
+        if(\Storage::disk('local')->exists($comisionid . '/actividad.txt')){
+            $comision[0]->justificacion = \Storage::disk('local')->get($comisionid . '/actividad.txt');
+        }
+        
+        $comision[0]->fecha = date_format( date_create($comision[0]->fechaini), date('d F Y')). ' a '.
+                                date_format( date_create($comision[0]->fechafin), 'd F Y'); 
+        
+        $objeto = date_create_from_format('Y-F-d', $comision[0]->fechaini);
+        
+        dd($objeto);
         return view('comision.actualizar')
                 ->with('comision', $comision)
                 ->with('fechaActual',Carbon::now())
-                ->witH('jefe', $jefe);
+                ->with('jefe', $jefe);
     }
  
     public function actualizarComision(Request $request, $id ){
@@ -198,24 +213,26 @@ class ComisionController extends Controller
         if($instituto && $instituto->institutoid != 'decanatura'){
             $comision->vistobueno = $request->vistobueno;
             if($comision->vistobueno == 'Si'){
-                $comision->estado = 'vistobueno';
+                $comision->estado = 'vistobueno';   
             }
             $jefe = 1; //representa director de instituto
         }
         else if($instituto){
             $comision->aprobacion = $request->aprobacion;
-            if($comision->aprobacion == 'Si'){
-                $comsion->estado = 'aprobada';
+            if($comision->aprobacion == 'Si'){                
+                $comision->estado = 'aprobada';
             }
             $jefe = 2; //representa decanatura            
         }
         $comision->save();
-        dd($comision);
+        return redirect('inicio')->with('jefe', $jefe);
     }
 
     public function eliminarComision($id){
         $comision = Comision::where('comisionid', $id)->first();
         $comision->delete();
+        //eliminar carpeta de la comision
+        \Storage::disk('local')->deleteDirectory($id);
         return redirect('/inicio');
     }
 }
