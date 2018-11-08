@@ -6,13 +6,16 @@ use Carbon\Carbon;
 use Comisiones\Comision;
 use Comisiones\Profesor;
 use Comisiones\Instituto;
+use Comisiones\Resolucion;
 use Illuminate\Http\Request;
 use Comisiones\Mail\SolicitudMail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Session;
 
 class ComisionController extends Controller
 {
+   
 
     public function mostrarFormularioCrearComision(){
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -38,7 +41,7 @@ class ComisionController extends Controller
         //fecha -> pendiente hacer datepicker
         $fecha = $request->fecharango;        
 
-        if($request->actividad){
+        if($request->justificacion){
             \Storage::disk('local')->put($request->comisionid . '/actividad.txt', $request->justificacion);
         }
 
@@ -78,7 +81,6 @@ class ComisionController extends Controller
         $comision->lugar = $request->lugar;
         //tipocom
         $comision->tipocom = $request->tipocom;
-        //objeto
         //idioma
         $comision->idioma = $request->idioma;
 
@@ -108,12 +110,8 @@ class ComisionController extends Controller
             $comision->anexo3 = $nombre;
         }
 
-        //otros atributos
-        //vistobueno
         $comision->vistobueno = 'No';
-        $comision->aprobacion = 'No'; 
-        //aprobacion
-        
+        $comision->aprobacion = 'No';         
         $comision->save();
  
         //enviar correo al director del instituto y a la secretaria del instituto
@@ -121,26 +119,42 @@ class ComisionController extends Controller
         return redirect('/inicio');
     }
 
-    public function ordenarComisiones($ordenapor){
+    public function ordenarComisiones(Request $request, $ordenapor){
+        $url = explode('?', $request->fullUrl());
+        $orden = Session::get('orden');
+        $jefe = Session::get('jefe');
+        if(!$orden){
+            Session::put('orden', 'desc');
+        }
+        else if(empty($url[1])){
+            if(strcmp($orden, 'desc') == 0){
+                $orden = 'asc';
+                Session::put('orden', 'asc');
+            }
+            else{
+                $orden = 'desc';
+                Session::put('orden', 'desc');
+            }            
+        }
+        
         $usuario = Auth::user();               
         $instituto = Instituto::where('cedulajefe', $usuario->cedula)->first();
-        if($instituto){
-            //Si el usuario es director recupera las comisiones del instituto
-            if(strcmp($instituto->institutoid, 'decanatura')!=0){//$instituto->instituoid != 'decanatura'){
-                $comisiones = Comision::where('institutoid', $instituto->institutoid)
-                                        ->orderby($ordenapor,'desc')
-                                        ->paginate(5);
-            }
-            //Si el usuario es decano recupera todas lascomisiones
-            else{
-                $comisiones = Comision::orderby($ordenapor,'desc')
-                                        ->paginate(5);
-            }
+        $esJefe = 0;
+        if($jefe == 1){            
+            //Si el usuario es director recupera las comisiones del instituto            
+            $comisiones = Comision::where('institutoid', $instituto->institutoid)
+                                    ->orderby($ordenapor, $orden)
+                                    ->paginate(15);
+        }
+        else if( $jefe == 2){
+        //Si el usuario es decano recupera todas lascomisiones
+        $comisiones = Comision::orderby($ordenapor,$orden)
+                                ->paginate(15);
         }
         else{
             $comisiones = Comision::where('cedula', $usuario->cedula)
-                                    ->orderby($ordenapor,'desc')
-                                    ->paginate(5);
+                                    ->orderby($ordenapor,$orden)
+                                    ->paginate(15);
         }
         // dd($comisiones[0]->profesor->nombre);
        
@@ -151,39 +165,31 @@ class ComisionController extends Controller
     public function mostrarComisiones(){
         $usuario = Auth::user();               
         $instituto = Instituto::where('cedulajefe', $usuario->cedula)->first();
-        $esJefe = 0;
-        if($instituto){
+        $jefe = \Session::get('jefe');
+        if($jefe == 1){
             //Si el usuario es director recupera las comisiones del instituto
-            if(strcmp($instituto->institutoid, 'decanatura')!=0){
-                $comisiones = Comision::where('institutoid', $instituto->institutoid)
-                                        ->orderby('radicacion','desc')
-                                        ->paginate(15);
-                $esJefe = 1;//representa director de instituto
-            }
+            
+            $comisiones = Comision::where('institutoid', $usuario->institutoid)
+                                    ->orderby('radicacion','desc')
+                                    ->paginate(15);                                                   
+        }
+        else if($jefe == 2){
             //Si el usuario es decano recupera todas lascomisiones
-            else{
-                $comisiones = Comision::orderby('radicacion','desc')
-                                        ->paginate(5);
-                $esJefe = 2;//representa decanatura
-            }
+        
+            $comisiones = Comision::orderby('radicacion','desc')
+                                    ->paginate(15);                
+
         }
         else{
             $comisiones = Comision::where('cedula', $usuario->cedula)
                                     ->orderby('radicacion','desc')
-                                    ->paginate(5);
+                                    ->paginate(15);
         }       
-        return view('admin.app',compact('comisiones'))->with('jefe', $esJefe);
+        return view('admin.app',compact('comisiones'));
     }
 
     public function mostrarFormularioActualizaComision($comisionid){
         $instituto = Instituto::where('cedulajefe', Auth::user()->cedula)->first();
-        $jefe = 0;
-        if($instituto && $instituto->institutoid != 'decanatura'){
-            $jefe = 1; //representa director de instituto
-        }
-        else if($instituto){
-            $jefe = 2; //representa decanatura
-        }
         
         $comision = Comision::where('comisionid', $comisionid)
                             //   ->where('cedula', Auth::guard('profesor')->user()->cedula)
@@ -191,41 +197,85 @@ class ComisionController extends Controller
         if(\Storage::disk('local')->exists($comisionid . '/actividad.txt')){
             $comision[0]->justificacion = \Storage::disk('local')->get($comisionid . '/actividad.txt');
         }
+        if(\Storage::disk('local')->exists($comisionid . '/respuesta.txt')){
+            $comision[0]->respuesta = \Storage::disk('local')->get($comisionid . '/respuesta.txt');
+        }
         
         $comision[0]->fecha = date_format( date_create($comision[0]->fechaini), date('d F Y')). ' a '.
                                 date_format( date_create($comision[0]->fechafin), 'd F Y'); 
         
         $objeto = date_create_from_format('Y-F-d', $comision[0]->fechaini);
         
-        dd($objeto);
+        
         return view('comision.actualizar')
                 ->with('comision', $comision)
-                ->with('fechaActual',Carbon::now())
-                ->with('jefe', $jefe);
+                ->with('fechaActual',Carbon::now());
     }
  
     public function actualizarComision(Request $request, $id ){
+       
         $comision = Comision::where('comisionid', $id)->first();
         $instituto = Instituto::where('cedulajefe', Auth::user()->cedula)->first();
         $jefe = 0;
         $comision->actualiza = Auth::user()->cedula;
         $comision->actualizacion = $request->fechaactualizacion;
-        if($instituto && $instituto->institutoid != 'decanatura'){
-            $comision->vistobueno = $request->vistobueno;
-            if($comision->vistobueno == 'Si'){
-                $comision->estado = 'vistobueno';   
+        if($instituto){
+            if($instituto->institutoid != 'decanatura'){
+                $comision->vistobueno = $request->vistobueno;    
+                if($comision->vistobueno == 'Si'){
+                    $comision->estado = 'vistobueno'; 
+                    //envio de correo a decana y secretaria de decana  
+                }
             }
-            $jefe = 1; //representa director de instituto
-        }
-        else if($instituto){
-            $comision->aprobacion = $request->aprobacion;
-            if($comision->aprobacion == 'Si'){                
-                $comision->estado = 'aprobada';
+            else{
+                $comision->aprobacion = $request->aprobacion;
+                if($comision->aprobacion == 'Si'){                
+                    $comision->estado = 'aprobada';
+                    //generar resolucion y envio de correo a secretaria de decana y a profesor
+                    $resolucion = new Resolucion();
+                    $resolucion->comisionid = $comision->comisionid;
+                    $resolucion->save();
+                    $comision->resolucion = $resolucion->resolucionid;
+                    $comision->fecharesolucion = Carbon::now(); 
+                    $calendario_meses = array(
+                        'January'=>'Enero',
+                        'Febuary'=>'Febrero',
+                        'March'=>'Marzo',
+                        'April'=>'Abril',
+                        'May'=>'Mayo',
+                        'June'=>'Junio',
+                        'July'=>'Julio',
+                        'August'=>'Agosto',
+                        'September'=>'Septiembre',
+                        'October'=>'Octubre',
+                        'November'=>'Noviembre',
+                        'December'=>'Diciembre'
+                    ); 
+                    $fecha = Carbon::now();
+                    $fecha1 = $fecha->format('d \d\e ') . $calendario_meses[$fecha->format('F')] . $fecha->format(' \d\e Y');
+                    
+                }                         
             }
-            $jefe = 2; //representa decanatura            
+            
+            //respuesta
+            if(strcmp($request->devolucion, 'Si')==0){
+                $comision->estado = 'devuelta';
+                \Storage::disk('local')->put($comision->comisionid . '/respuesta.txt', $request->respuesta);
+
+            }
         }
+        else{
+            $comision->tipocom = $request->tipoComision;
+            $comision->lugar = $request->lugar;
+            $comision->actividad = $request->actividad;
+            $comision->idioma = $request->idioma;
+            if($request->justificacion){
+                \Storage::disk('local')->put($request->comisionid . '/actividad.txt', $request->justificacion);
+            }
+        }
+        
         $comision->save();
-        return redirect('inicio')->with('jefe', $jefe);
+        return redirect('inicio');
     }
 
     public function eliminarComision($id){

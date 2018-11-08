@@ -78,7 +78,7 @@
                                 <div class="form-group row">
                                     <label for="fecharango" class="col-sm-2 col-form-label">Fecha de la comisión: </label>
                                     <div class="col-sm-6">
-                                        <input type="text" id="fecharango" name="fecharango" class="form-control" value="11/05/2018">
+                                        <input type="text" id="fecharango" name="fecharango" class="form-control">
                                     </div>
                                 </div>
                             </div>
@@ -167,7 +167,6 @@
 
         $("#fecharango").daterangepicker({            
             "locale": {
-                "language": "es",
                 "format": "DD MMMM YYYY",
                 "separator": " a ",
                 "applyLabel": "Aceptar",
