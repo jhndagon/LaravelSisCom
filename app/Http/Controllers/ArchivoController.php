@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class ArchivoController extends Controller
 {
-    function obtenerArchivo($comisionid, $documento){
+    function obtenerArchivosAnexo($comisionid, $documento){
         $ruta = '/' . $comisionid . '/'. $documento;
 
         if(\Storage::disk('local')->exists($ruta)){

@@ -59,7 +59,7 @@ class ProfesorController extends Controller
             $user->save();
             $user = Profesor::where('cedula', $request->cedula)->first();
         }
-        if($user && Hash::check($request->password, $user->pass)){            
+        if($user && Hash::check($request->password, $user->pass)){      
             Auth::guard('profesor')->login($user);
             $instituto = Instituto::where('cedulajefe', $user->cedula)->first();
             $jefe = 0;
@@ -72,7 +72,7 @@ class ProfesorController extends Controller
             else{
                 $instituto = Instituto::where('emailinst', $user->email)->first();
                 if($instituto && strcmp($instituto->emailinst, 'luz.castro@udea.edu.co') == 0) {
-                    $jefe = 2; //identifica secretaría decana
+                    $jefe = 2; //identifica secretaría decanato, tiene los mismos permisos que la decana
                 }
             }
             $request->session()->put('jefe', $jefe);
@@ -83,14 +83,57 @@ class ProfesorController extends Controller
 
     }
 
-    public function profesores(){
-        if(\Session::get('jefe') > 0){
+    public function listar(){
+        if(\Session::get('jefe') > 1){
             $profesores = Profesor::all();
-            return view('profesores.profesores')->with('profesores', $profesores);
+            return view('profesores.profesores', compact('profesores'));
         }
         else{
             return redirect('inicio');
         }
+    }
+
+    public function buscar(Request $request){
+        if(\Session::get('jefe') > 1 && $request->buscar != null && $request->opcion != null){
+            $profesores = Profesor::where($request->opcion, 'like' ,'%'. $request->buscar.'%')->get();
+            return view('profesores.profesores', compact('profesores'));
+        }
+        else{
+            return redirect('inicio');
+        }
+    }
+
+    public function editarInformacionFormulario($id){
+        $profesor = Profesor::where('cedula',$id)->first();
+        $tipos = Profesor::distinct()->select('tipo')->get(); //tipos de contrato
+        $institutos = Instituto::distinct()->select('institutoid')->get();
+        return view('profesores.editarinformacion', compact('profesor'))
+                ->with('tipos',$tipos)
+                ->with('institutos', $institutos);
+    }
+
+    public function editarInformacion(Request $request){            
+        $profesor = Profesor::where('cedula', $request->cedula)->first();                
+        $profesor->tipoid = $request->tipoid;
+        $profesor->cedula = $request->cedula;
+        $profesor->nombre = strtoupper($request->nombre);
+        $correo = explode('@', $request->email);
+        if(strcmp($correo[1], 'udea.edu.co') != 0){
+            return back()->withErrors(['email' => 'Recuerde que el correo debe ser institucional']);
+        }
+        $profesor->email = $request->email;
+        $profesor->tipo = $request->tipo;
+        $profesor->institutoid = $request->instituto;
+        $profesor->tipoid = $request->tipoid;
+        $profesor->tipoid = $request->tipoid;
+        $profesor->save();
+        return redirect('/profesores');
+    }
+
+    public function eliminarProfesor($id){
+        $profesor = Profesor::where('cedula', $id)->first();
+        $profesor->delete();
+        return redirect('/profesores');
     }
 
     public function logout()

@@ -27,15 +27,15 @@
             </a>
         </li>
         <li>
-            <a class="app-menu__item active" href="">
+            <a class="app-menu__item active" href="{{ url('profesor', ['id'=> Auth::user()->cedula]) }}">
                 <i class="app-menu__icon fas fa-user-edit"></i>
                 <span class="app-menu__label">Editar Información</span>
             </a>
         </li>
         @if (Session::get('jefe') == 2)
             <li>
-                <a class="app-menu__item active" href="">
-                    <i class="app-menu__icon fas fa-user-edit"></i>
+                <a class="app-menu__item active" href="{{ url('profesores') }}">
+                    <i class="fas fa-chalkboard-teacher"></i>
                     <span class="app-menu__label">Profesores</span>
                 </a>
             </li>            

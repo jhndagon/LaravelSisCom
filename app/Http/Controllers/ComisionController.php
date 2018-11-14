@@ -3,6 +3,7 @@
 namespace Comisiones\Http\Controllers;
 
 use Carbon\Carbon;
+use Barryvdh\DomPDF\Facade as PDF;
 use Comisiones\Comision;
 use Comisiones\Profesor;
 use Comisiones\Instituto;
@@ -12,6 +13,8 @@ use Comisiones\Mail\SolicitudMail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
+use Comisiones\Jobs\GeneracionResolucion;
+use Comisiones\Http\Controllers\ResolucionHilo;
 
 class ComisionController extends Controller
 {
@@ -228,10 +231,10 @@ class ComisionController extends Controller
                 }
             }
             else{
-                $comision->aprobacion = $request->aprobacion;
-                if($comision->aprobacion == 'Si'){                
+                if($comision->aprobacion == 'No' && $request->aprobacion == 'Si'){                 
+                    $comision->aprobacion = $request->aprobacion;   
                     $comision->estado = 'aprobada';
-                    //generar resolucion y envio de correo a secretaria de decana y a profesor
+                    
                     $resolucion = new Resolucion();
                     $resolucion->comisionid = $comision->comisionid;
                     $resolucion->save();
@@ -253,7 +256,25 @@ class ComisionController extends Controller
                     ); 
                     $fecha = Carbon::now();
                     $fecha1 = $fecha->format('d \d\e ') . $calendario_meses[$fecha->format('F')] . $fecha->format(' \d\e Y');
-                    
+                    //generar resolucion y envio de correo a secretaria de decana y a profesor
+                    if(!\Storage::disk('local')->exists($comision->comisionid)){
+                        \Storage::makeDirectory($comision->comisionid);
+                    }
+                    if(strcmp($comision->tipocom, 'calamidad')==0 || strcmp($comision->tipocom, 'noremunerada')==0){
+
+                        $pdfResolucion = PDF::loadView('emails.comisiones.resolucionPermiso', ['comision' => $comision, 'blank' => 1])
+                                                ->save(storage_path('app/comisiones') . '/' . $comision->comisionid . '/resolucion-blank-'.$comision->comisionid.'.pdf');
+                        
+                        $pdfResolucion = PDF::loadView('emails.comisiones.resolucionPermiso', ['comision' => $comision, 'blank' => 0])
+                                                ->save(storage_path('app/comisiones') . '/' . $comision->comisionid . '/resolucion-'.$comision->comisionid.'.pdf');
+                    }else{ 
+                        $pdfResolucion = PDF::loadView('emails.comisiones.resolucionPermiso', ['comision' => $comision, 'blank' => 1])
+                                                ->save(storage_path('app/comisiones') . '/' . $comision->comisionid . '/resolucion-blank-'.$comision->comisionid.'.pdf');
+                        
+                        $pdfResolucion = PDF::loadView('emails.comisiones.resolucionPermiso', ['comision' => $comision, 'blank' => 0])
+                                                ->save(storage_path('app/comisiones') . '/' . $comision->comisionid . '/resolucion-'.$comision->comisionid.'.pdf');
+                    }
+
                 }                         
             }
             

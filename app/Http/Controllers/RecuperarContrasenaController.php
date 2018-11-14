@@ -15,15 +15,14 @@ class RecuperarContrasenaController extends Controller
 
     public function recuperarContrasena(Request $request){
         $correo = explode('@', $request->correo);
-        if($correo[1] == 'udea.edu.co'){
+        if(strcmp($correo[1], 'udea.edu.co') == 0){
             $usuario = Profesor::where('cedula', $request->cedula)->first();
-            if($usuario && $request->correo == $usuario->email){
+            if($usuario && strcpm($request->correo, $usuario->email) == 0){
                 
                 $usuario->pass = bcrypt($usuario->cedula);
                 $usuario->save();
                 //envio de correo
-                //\Mail::to($request->correo)->send(new RecuperarContrasenaMail($usuario->cedula));   
-                dd('Cambiar contraseña');
+                //\Mail::to($request->correo)->send(new RecuperarContrasenaMail($usuario->cedula));
                 return redirect('inicio');
             }
             

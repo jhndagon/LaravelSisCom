@@ -5,8 +5,8 @@
     <div class="cover"></div>
 </section>
 <section class="login-content">
-    <div class="logo badge-light">
-        <h1><a href="{{url('inicio')}}">{{ config('app.name') }}</a></h1>
+    <div class="logo">
+            <h1 ><a href="{{url('inicio')}}"class='text-dark'>{{ config('app.name') }}</a></h1>
     </div>
     <div class="login-box">
         <form method="POST" action="{{ route('login') }}" class="login-form">
@@ -50,6 +50,3 @@
         </form>
     </div>
 @endsection
- @push('styles')
-    <link rel="stylesheet" type="text/css" href="css/main.css"> 
-@endpush

@@ -7,7 +7,8 @@
 </section>
 <section class="login-content">
       <div class="logo">
-          <h1>{{ config('app.name') }}</h1>
+          
+            <h1 ><a href="{{url('inicio')}}"class='text-dark'>{{ config('app.name') }}</a></h1>
       </div>
       <div class="login-box pb-3">
         <form method="POST" action="{{ route('recuperacontrasena') }}" class="login-form">
