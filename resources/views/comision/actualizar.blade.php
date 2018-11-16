@@ -70,9 +70,11 @@
                             <div class="form-group row">
                                 <label for="inputPassword" class="col-md-2 col-form-label">Tipo de comisión: </label>
                                 <div class="col-md-6">
-                                    <select class="custom-select" name="tipoComision">
-                                            <option selected>Comisión de servicio</option>
-                                            <option>Comisión de calamidad</option>
+                                        <select class="custom-select" name="tipocom" id='tipocom'>
+                                            <option value="servicios">Comisión de servicio</option>
+                                            <option value="estudio">Comisión de estudios</option>
+                                            <option value="noremunerada">Permiso</option>
+                                            <option value="calamidad">Calamidad</option>
                                         </select>
                                 </div>
                             </div>
@@ -140,17 +142,17 @@
                                     </div>
                                 </div>
                             </div>
-                            @if (Session::get('jefe') == 1 || Session::get('jefe') == 2)
+                            @if (Session::get('jefe') > 0 && $comision[0]->estado != 'aprobada')
 
                             <div class="form-group">
                                 <h2>Reservado para la administración</h2>
                                 <div class="form-group row">
                                     <label for="vistobueno" class="col-md-2 col-form-label">Devolución: </label>
                                     <div class="col-md-3">
-                                        <select class="custom-select" name="devolucion">
-                                                    <option value="No" {{ $comision[0]->estado!='devuelta'  ? 'selected':''}}>No</option>
-                                                    <option value="Si" {{ $comision[0]->estado=='devuelta'  ? 'selected':''}}>Si</option>
-                                                </select>
+                                        <select class="custom-select" name="devolucion" id='devolucion'>
+                                            <option value="No" {{ $comision[0]->estado!='devuelta'  ? 'selected':''}}>No</option>
+                                            <option value="Si" {{ $comision[0]->estado=='devuelta'  ? 'selected':''}}>Si</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -182,7 +184,12 @@
                                 <div class="form-group row">
                                     <label for="respuesta" class="col-md-2 col-form-label">Respuesta: </label>
                                     <div class="col-md-6">
-                                    <textarea type="textarea" class="form-control" name="respuesta" rows="4">{{ $comision[0]->respuesta ? $comision[0]->respuesta : '' }}</textarea>
+                                    <textarea 
+                                        type="textarea" 
+                                        class="form-control" 
+                                        name="respuesta" 
+                                        id='respuesta'
+                                        rows="4">{{ $comision[0]->respuesta ? $comision[0]->respuesta : '' }}</textarea>
                                     </div>
                                 </div>
                             </div>
@@ -214,17 +221,15 @@
 </main>
 @endsection
  @push('scripts')
-<script>
-    $(document).ready(function(){
-    $('#devolucion').click()
-});
 
-</script>
-<script src="{{asset('js/bootstrap-datepicker.js')}}"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
+ <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+ <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <script>
+
+    var tipocom = '{{$comision[0]->tipocom}}'
+    $(`#tipocom option`).filter( (i,e) => {return e.value === tipocom} ).prop('selected',true);
+
     var vistobueno = '{{$comision[0]->vistobueno}}';
     var aprobacion = '{{$comision[0]->aprobacion}}';
     var jefe = '{{Session::get("jefe")}}';
@@ -232,9 +237,16 @@
         var inputs = document.getElementsByTagName("input");
         for (let index = 0; index < inputs.length; index++) {
             inputs[index].readOnly = true;
-            
-        console.log(inputs[index].value);
         }
+    }
+    if(jefe > 0){
+        $('#devolucion').click(function(){
+            if($(this).val() === 'Si'){
+                $('#respuesta').prop('required', true)
+            }else{
+                $('#respuesta').prop('required', false)
+            }
+        })
     }
 </script>
 
@@ -286,7 +298,7 @@
         clearButtonText : 'Limpiar',
         cancelButtonText : 'Cancelar',
         });
-        $("#fecharango").datepicker({
+        $("#fecharango").daterangepicker({
         format: "DD MMMM YYYY",
         todayBtn: true,
         clearBtn: true,

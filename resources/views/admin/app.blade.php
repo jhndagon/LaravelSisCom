@@ -1,10 +1,24 @@
+<?php
+$COLORS=array(
+    "solicitada"=>"#FFFF99",
+    "solicitada_noremunerada"=>"#FFCC99",
+    "vistobueno"=>"#99CCFF",
+    "vistobueno_noremunerada"=>"#99CCFF",
+    "devuelta"=>"#FF99FF",
+    "devuelta_noremunerada"=>"#FF99FF",
+    "aprobada"=>"#00CC99",
+    "aprobada_noremunerada"=>"#33CCCC",
+    "cumplida"=>"lightgray"
+);
+?>
+
 @extends('admin.layout') 
 @section('contenido')
 
 <main class="app-content">
     <div class="app-title">
         <ul class="app-breadcrumb breadcrumb side">
-            <li class="breadcrumb-item">{{ 'PONER CADA COLOR DE LAS COMISIONES' }}</li>
+            <li class="breadcrumb-item"></li>
             <table>
                 <tr>
                     <td>Convenciones:</td>
@@ -42,17 +56,24 @@
                         <tbody>
 
                             @foreach ($comisiones as $comision)
-                            <tr>
+                            <?php
+                                $estadocolor = $COLORS[$comision->estado];
+                                if ($comision->tipocom == "noremunerada" or $comision->tipocom== "calamidad") {
+                                    $estadocolor = $COLORS[$comision->estado . "_noremunerada"];
+                                }
+                            ?>
+
+                            <tr bgcolor={{$estadocolor}}>
                                 <td>
                                     <a href="{{ url('comision', $comision->comisionid) }}">
                                         {{$comision->comisionid}}
                                     </a>
                                 </td>
                                 <td>{{$comision->radicacion}}</td>
-                                <td>{{$comision->actualizacion}}</td>
+                                <td>{{$comision->actualizacion}} <br> {{$comision->actualiza}}</td>
                                 <td>{{$comision->fechaini}}<br>{{ $comision->fechafin}}</td>
                                 <td>{{$comision->estado}}</td>
-                                <td>{{$comision->institutoid}}</td>
+                                <td>{{ucfirst($comision->institutoid)}}</td>
                                 <td>{{$comision->profesor['nombre']}}</td>
                                 <td>
                                     @if ($comision->anexo1)
@@ -62,7 +83,7 @@
 
                                 </td>
                                 <td>
-                                    @if ($comision->vistobueno != 'Si' && $comision->aprobacion != 'Si' && Session::get('jefe') == 0)
+                                    @if ($comision->estado == 'solicitada')
                                     <a href="{{ url('eliminarComision', $comision->comisionid) }}">Borrar</a> @endif
                                 </td>
                             </tr>

@@ -30,6 +30,7 @@ Route::group(['middleware' => 'auth:profesor'], function () {
     Route::get('/comision/{comision}','ComisionController@mostrarFormularioActualizaComision')->name('comision');
     Route::get('/eliminarComision/{id}', 'ComisionController@eliminarComision');
     Route::put('/comision/{comision}', 'ComisionController@actualizarComision');
+    
     Route::get('/archivo/{comisionid}/{documento}', 'ArchivoController@obtenerArchivoAnexo');
 
 
@@ -41,8 +42,4 @@ Route::group(['middleware' => 'auth:profesor'], function () {
     Route::get('/profesor/{id}', 'Auth\ProfesorController@editarInformacionFormulario');
     Route::post('/profesor/{id}', 'Auth\ProfesorController@editarInformacion');
     Route::get('/eliminaprofesor/{id}', 'Auth\ProfesorController@eliminarProfesor');
-});
-
-Route::get('/archivo', function(){
-    dd(Storage::disk('local'));
 });

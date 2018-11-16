@@ -13,10 +13,10 @@
     <p>Se&ntilde;or(a) Decano(a),</p>
     <p>
         La solicitud radicada en el <a href='bit.ly/fcen-comisiones'>Sistema
-        de Solicitudes</a> identificada con número '$comisionid' ha recibido visto bueno del Director de Instituto.
+        de Solicitudes</a> identificada con número {{$comision->comisionid}} ha recibido visto bueno del Director de Instituto.
     </p>
     <p>
-        Por favor evalue la solicitud y en caso de ser necesario otorgue su aprobación continuar con el trámite.
+        Por favor evalue la solicitud y en caso de ser necesario otorgue su aprobación para continuar con el trámite.
     </p>
     <b>Sistema de Solicitud de Comisiones<br/>
         Decanato, FCEN

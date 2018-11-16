@@ -13,11 +13,11 @@
     <p>Se&ntilde;or(a) Empleado(a),</p>
     <p>
         La solicitud radicada en el <a href='bit.ly/fcen-comisiones'>Sistema
-            de Solicitudes</a> identificada con número '$comisionid' ha sido devuelta. La razón de la devolución se reproduce
+            de Solicitudes</a> identificada con número {{ $comision->comisionid }} ha sido devuelta. La razón de la devolución se reproduce
         abajo:
     </p>
     <blockquote>
-        {{-- Mostrar respuesta de devolcuión --}}
+        {{ $respuesta }}
     </blockquote>
     <p>
         Vaya al sistema y modifique la solicitud de acuerdo a las sugerencias indicadas.

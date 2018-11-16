@@ -13,7 +13,7 @@
     <p>Se&ntilde;or(a) Empleado(a),</p>
     <p>
         Su solicitud de comisión/permiso radicada en el <a href='bit.ly/fcen-comisiones'>Sistema de Solicitudes</a> en fecha
-        $radicacion e identificada con número '$comisionid' ha sido aprobada. $restxt
+        {{$comision->radicacion}} e identificada con número {{$comision->comisionid}} ha sido aprobada.
     </p>
 
 
@@ -23,3 +23,4 @@
 </body>
 
 </html>
+

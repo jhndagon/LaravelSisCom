@@ -157,8 +157,7 @@
 
 @push('scripts')
 
-<script src="{{asset('js/bootstrap-datepicker.js')}}"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 
@@ -203,7 +202,6 @@
         datepickerOptions: {
                 minDate: 0,
                 maxDate: null,
-                lenguage: "es"
             },
         applyOnMenuSelect: false,
         initialText : 'Seleccione el rango de fechas...',
@@ -211,11 +209,10 @@
         clearButtonText : 'Limpiar',
         cancelButtonText : 'Cancelar',
         });
-        $("#fecharango").datepicker({
+        $("#fecharango").daterangepicker({
         format: "DD MMMM YYYY",
         todayBtn: true,
         clearBtn: true,
-        language: "es"
     });
         // jQuery(function($){
         //     $.datepicker = {

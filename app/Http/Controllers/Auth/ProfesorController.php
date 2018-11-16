@@ -53,15 +53,15 @@ class ProfesorController extends Controller
 
     public function login(Request $request)
     {        
-        $user = Profesor::where('cedula', $request->cedula)->first();
-        if ($user && strcmp($user->pass, md5($request->password)) == 0 ) {
-            $user->pass = bcrypt($request->password);
-            $user->save();
-            $user = Profesor::where('cedula', $request->cedula)->first();
+        $usuario = Profesor::where('cedula', $request->cedula)->first();
+        if ($usuario && strcmp($usuario->pass, md5($request->password)) == 0 ) {
+            $usuario->pass = bcrypt($request->password);
+            $usuario->save();
+            $usuario = Profesor::where('cedula', $request->cedula)->first();
         }
-        if($user && Hash::check($request->password, $user->pass)){      
-            Auth::guard('profesor')->login($user);
-            $instituto = Instituto::where('cedulajefe', $user->cedula)->first();
+        if($usuario && Hash::check($request->password, $usuario->pass)){      
+            Auth::guard('profesor')->login($usuario);
+            $instituto = Instituto::where('cedulajefe', $usuario->cedula)->orwhere('emailinst', $usuario->email)->first();
             $jefe = 0;
             if($instituto && $instituto->institutoid != 'decanatura'){
                 $jefe = 1; // identifica a director de instituto
@@ -69,12 +69,12 @@ class ProfesorController extends Controller
             else if ($instituto){
                 $jefe = 2; //identifica la decana
             }
-            else{
-                $instituto = Instituto::where('emailinst', $user->email)->first();
-                if($instituto && strcmp($instituto->emailinst, 'luz.castro@udea.edu.co') == 0) {
-                    $jefe = 2; //identifica secretaría decanato, tiene los mismos permisos que la decana
-                }
-            }
+            // else{
+            //     // $instituto = Instituto::where('emailinst', $usuario->email)->first();
+            //     if($instituto && strcmp($instituto->emailinst, 'luz.castro@udea.edu.co') == 0) {
+            //         $jefe = 2; //identifica secretaría decanato, tiene los mismos permisos que la decana
+            //     }
+            // }
             $request->session()->put('jefe', $jefe);
             return redirect('inicio');
         }

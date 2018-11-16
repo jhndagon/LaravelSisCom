@@ -4,7 +4,7 @@
     <div class="app-sidebar__user">
         <div>
             <p class="app-sidebar__user-name">{{ Auth::guard('profesor')->user()->nombre }}</p>
-            <p class="app-sidebar__user-designation">{{ Auth::guard('profesor')->user()->tipo }}</p>
+            <p class="app-sidebar__user-designation">{{ ucfirst(Auth::guard('profesor')->user()->tipo )}}</p>
         </div>
     </div>
     <ul class="app-menu">
