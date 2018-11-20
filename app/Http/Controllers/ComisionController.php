@@ -11,13 +11,13 @@ use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade as PDF;
 use Comisiones\Mail\SolicitudMail;
 use Comisiones\Mail\AprobacionMail;
-use Comisiones\Mail\AprobacionPermisoMail;
 use Comisiones\Mail\DevolucionMail;
 use Comisiones\Mail\VistoBuenoMail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Comisiones\Jobs\GeneracionResolucion;
+use Comisiones\Mail\AprobacionPermisoMail;
 use Comisiones\Http\Controllers\ResolucionHilo;
 
 class ComisionController extends Controller
@@ -176,6 +176,7 @@ class ComisionController extends Controller
         $usuario = Auth::user();               
         $instituto = Instituto::where('cedulajefe', $usuario->cedula)->first();
         $jefe = \Session::get('jefe');
+        $faltacumplido =null;
         if($jefe == 1){
             //Si el usuario es director recupera las comisiones del instituto            
             $comisiones = Comision::where('institutoid', $usuario->institutoid)
@@ -188,11 +189,18 @@ class ComisionController extends Controller
                                     ->paginate(15);
         }
         else{
+            $faltacumplido = Comision::whereRaw('(tipocom<>"noremunerada" and tipocom<>"calamidad") and cedula='.$usuario->cedula.' and fechafin<now() and qcumplido+0=0')
+                                        ->get(array('comisionid'));                                        
+                                        
+//select comisionid from Comisiones where (tipocom<>'noremunerada' and tipocom<>'calamidad') and cedula='$cedula' and fechafin<now() and qcumplido+0=0;
+
+
+
             $comisiones = Comision::where('cedula', $usuario->cedula)
                                     ->orderby('radicacion','desc')
                                     ->paginate(15);
         }       
-        return view('admin.app',compact('comisiones'));
+        return view('admin.app',compact(['comisiones', 'faltacumplido']));
     }
 
     public function mostrarFormularioActualizaComision($comisionid){
@@ -229,6 +237,8 @@ class ComisionController extends Controller
         //devolucion
         if($jefe > 0 && strcmp($request->devolucion, 'Si') == 0 && !\Storage::disk('local')->exists($comision->comisionid . '/respuesta.txt')){
             $comision->estado = 'devuelta';
+            $comision->vistobueno = 'No';
+            $comision->aprobacion = "No";
             \Storage::disk('local')->put($comision->comisionid . '/respuesta.txt', $request->respuesta);
             if(env('APP_DEBUG', false)){
                 //enviar correo de prueba

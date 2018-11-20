@@ -37,6 +37,9 @@ $COLORS=array(
     </div>
     <div class="row">
         <div class="col-md-12">
+            @if ($faltacumplido)
+                {{ $faltacumplido }}
+            @endif
             <div class="tile">
                 <div class="tile-body">
                     <table class="table table-hover table-bordered" id="sampleTable">
@@ -54,13 +57,23 @@ $COLORS=array(
                             </tr>
                         </thead>
                         <tbody>
-
-                            @foreach ($comisiones as $comision)
+                                {{-- $testadox == "aprobada" and
+                                $ttipocomx != "noremunerada") { --}}
+                        @foreach ($comisiones as $comision)
                             <?php
                                 $estadocolor = $COLORS[$comision->estado];
-                                if ($comision->tipocom == "noremunerada" or $comision->tipocom== "calamidad") {
+                                if ($comision->tipocom == "noremunerada" || $comision->tipocom== "calamidad") {
                                     $estadocolor = $COLORS[$comision->estado . "_noremunerada"];
+                                } 
+                                $d1 = new DateTime($comision->fechafin);
+                                $d2 = new DateTime(date('Y-m-d'));
+                                                         
+                               
+                                if($d2>$d1 && ($comision->estado=='aprobada') && $comision->tipocom !='noremunerada'){
+                                    $estadocolor= 'pink';
                                 }
+                                
+                                
                             ?>
 
                             <tr bgcolor={{$estadocolor}}>
@@ -83,7 +96,7 @@ $COLORS=array(
 
                                 </td>
                                 <td>
-                                    @if ($comision->estado == 'solicitada')
+                                    @if ($comision->estado == 'solicitada' && Session::get('jefe')==0)
                                     <a href="{{ url('eliminarComision', $comision->comisionid) }}">Borrar</a> @endif
                                 </td>
                             </tr>

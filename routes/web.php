@@ -1,5 +1,7 @@
 <?php
 
+use Comisiones\Comision;
+
 ////  /comisiones
 
 //inicio de sesion
