@@ -275,7 +275,7 @@ class ComisionController extends Controller
                     $resolucion->save();
                     $comision->resolucion = $resolucion->resolucionid;
 
-                    $comision->fecharesolucion = Carbon::now(); 
+                    
                     $calendario_meses = array(
                         'January'=>'Enero',
                         'Febuary'=>'Febrero',
@@ -292,6 +292,7 @@ class ComisionController extends Controller
                     ); 
                     $fecha = Carbon::now();
                     $fecha1 = $fecha->format('d \d\e ') . $calendario_meses[$fecha->format('F')] . $fecha->format(' \d\e Y');
+                    $comision->fecharesolucion = $fecha1; 
                     
                     //generar resolucion y envio de correo a secretaria de decana y a profesor
                     if(!\Storage::disk('local')->exists($comision->comisionid)){

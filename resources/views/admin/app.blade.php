@@ -10,6 +10,7 @@ $COLORS=array(
     "aprobada_noremunerada"=>"#33CCCC",
     "cumplida"=>"lightgray"
 );
+$estadocolor='';
 ?>
 
 @extends('admin.layout') 
@@ -98,6 +99,9 @@ $COLORS=array(
                                 <td>
                                     @if ($comision->estado == 'solicitada' && Session::get('jefe')==0)
                                     <a href="{{ url('eliminarComision', $comision->comisionid) }}">Borrar</a> @endif
+                                    @if ($d2>$d1 && ($comision->estado=='aprobada') && $comision->tipocom !='noremunerada' && Auth::user()->cedula == $comision->cedula)
+                                    <a href="{{ url('subircumplido', $comision->comisionid) }}">Subir cumplido</a>
+                                    @endif
                                 </td>
                             </tr>
                             @endforeach
