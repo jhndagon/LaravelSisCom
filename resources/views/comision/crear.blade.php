@@ -3,10 +3,7 @@
 @section('contenido')
 <main class="app-content">
     <div class="app-title">
-        <ul class="app-breadcrumb breadcrumb side">
-        <li class="breadcrumb-item">{{ 'PONER CADA COLOR DE LAS COMISIONES' }}</li>
-
-        </ul>
+        
     </div>
     <div class="row">
         <div class="col-md-12">
@@ -158,94 +155,64 @@
 @push('scripts')
 
 
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 
+<script>
+    $(function() {
 
-    <script>
-
-        $("#fecharango").daterangepicker({            
-            "locale": {
-                "format": "DD MMMM YYYY",
-                "separator": " a ",
-                "applyLabel": "Aceptar",
-                "cancelLabel": "Cancelar",
-                "fromLabel": "From",
-                "toLabel": "To",
-                "customRangeLabel": "Custom",
-                "daysOfWeek": [
-                    "Do",
-                    "Lu",
-                    "Ma",
-                    "Mi",
-                    "Ju",
-                    "Vi",
-                    "Sa"
-                ],
-                "monthNamesShort": ['Ene','Feb','Mar','Abr','May','Jun',
-                                  'Jul','Ago','Sep','Oct','Nov','Dic'],
-                "monthNames": [
-                    "Enero",
-                    "Febrero",
-                    "Marzo",
-                    "Abril",
-                    "Mayo",
-                    "Junio",
-                    "Julio",
-                    "Augosto",
-                    "Septiembre",
-                    "Octubre",
-                    "Noviembre",
-                    "Diciembre"
-                ],
+        $('input[name="fecharango"]').daterangepicker({
+                opens: 'left',
+                startDate: '' || moment(), //para cuando se necesite actualizar una comision
+                endDate: '' || moment(), //para cuando se necesite actualizar una comision
+                initialText: 'Seleccione el rango de fechas...',
+                alwaysShowCalendars: true,
+                showCustomRangeLabel: false,
+                "locale": {
+                    "format": "MMM DD, YYYY",
+                    "separator": " a ",
+                    "applyLabel": "Aceptar",
+                    "cancelLabel": "Cancelar",
+                    "customRangeLabel": "Custom",
+                    "weekLabel": "W",
+                    "daysOfWeek": [
+                        "Do",
+                        "Lu",
+                        "Ma",
+                        "Mi",
+                        "Ju",
+                        "Vi",
+                        "Sa"
+                    ],
+                    "monthNames": [
+                        "Enero",
+                        "Febrero",
+                        "Marzo",
+                        "Abril",
+                        "Mayo",
+                        "Junio",
+                        "Julio",
+                        "Augosto",
+                        "Septiembre",
+                        "Octubre",
+                        "Noviembre",
+                        "Diciembre"
+                    ],
                 },
-        datepickerOptions: {
-                minDate: 0,
-                maxDate: null,
+                ranges: {
+                    'Hoy': [moment(), moment()],
+                    'Mañana': [moment().add(1, 'days'), moment().add(1, 'days')],
+                    'Proxima semana': [moment().add('weeks', 1).startOf('week'), moment().add('weeks', 1).endOf('week')],
+                }
             },
-        applyOnMenuSelect: false,
-        initialText : 'Seleccione el rango de fechas...',
-        applyButtonText : 'Escoger',
-        clearButtonText : 'Limpiar',
-        cancelButtonText : 'Cancelar',
-        });
-        $("#fecharango").daterangepicker({
-        format: "DD MMMM YYYY",
-        todayBtn: true,
-        clearBtn: true,
+
+        );
     });
-        // jQuery(function($){
-        //     $.datepicker = {
-        //         language: 'es',
-        //         closeText: 'Cerrar',
-        //         prevText: '&#x3c;Ant',
-        //         nextText: 'Sig&#x3e;',
-        //         currentText: 'Hoy',
-        //         monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
-        //                      'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
-        //         monthNamesShort: ['Ene','Feb','Mar','Abr','May','Jun',
-        //                           'Jul','Ago','Sep','Oct','Nov','Dic'],
-        //         dayNames: ['Domingo','Lunes','Martes','Mi&eacute;rcoles','Jueves','Viernes','S&aacute;bado'],
-        //         dayNamesShort: ['Dom','Lun','Mar','Mi&eacute;','Juv','Vie','S&aacute;b'],
-        //         dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','S&aacute;'],
-        //         weekHeader: 'Sm',
-        //         dateFormat: 'dd/mm/yy',
-        //         firstDay: 1,
-        //         isRTL: false,
-        //         showMonthAfterYear: false,
-        //         yearSuffix: ''};
-        //     // $.datepicker.setDefaults($.datepicker.regional['es']);
-        // });
+</script>
 
-        var today = moment().toDate();
-        var tomorrow = moment().add('days', 1).startOf('day').toDate();
-        $("#fecharango").daterangepicker({
-            onOpen: $("#fecharango").daterangepicker("setRange",{start: today,end: tomorrow})
-        });
-
-        </script>
 
 @endpush
-@push('styles')    s
+@push('styles')   
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 @endpush

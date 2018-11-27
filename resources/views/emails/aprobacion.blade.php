@@ -12,14 +12,14 @@
 <body>
     <p>Se&ntilde;or(a) Empleado(a),</p>
     <p>
-        Su solicitud de comisión/permiso radicada en el <a href='bit.ly/fcen-comisiones'>Sistema de Solicitudes</a> en fecha
+        Su solicitud de comisión/permiso radicada en el <a href='{{ url('') }}'>Sistema de Solicitudes</a> en fecha
         {{$comision->radicacion}} e identificada con número {{$comision->comisionid}} ha sido aprobada.
     </p>
     <p>
         El número de resolución de decanato es el <b>{{$comision->resolucion}} de {{$comision->fecharesolucion}}</b>.
     </p>
     <p>
-        Para obtener una copia de la resolución de click en <a href="$URL/comisiones/$comisionid/resolucion-$comisionid.pdf">este enlace</a>.
+        Para obtener una copia de la resolución de click en <a href="{{ url('/archivo', ['comisionid' => $comision->comisionid, 'documento' => 'resolucion-'.$comision->comsionid.'.pdf' ]) }}">este enlace</a> o en <a href="{{ url('/archivo', ['comisionid' => $comision->comisionid, 'documento' => 'resolucion-blank-'.$comision->comsionid.'.pdf' ]) }}""> este enlace</a>.
         En caso de que el enlace este roto (no se haya expedido la resolución) pregunte en la vicedecanatura por la misma
         o espere a que el link aparezca en el Sistema de Solicitudes.
     </p>

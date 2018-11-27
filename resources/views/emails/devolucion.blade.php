@@ -12,7 +12,7 @@
 <body>
     <p>Se&ntilde;or(a) Empleado(a),</p>
     <p>
-        La solicitud radicada en el <a href='bit.ly/fcen-comisiones'>Sistema
+        La solicitud radicada en el <a href='{{ url('') }}'>Sistema
             de Solicitudes</a> identificada con número {{ $comision->comisionid }} ha sido devuelta. La razón de la devolución se reproduce
         abajo:
     </p>

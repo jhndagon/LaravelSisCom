@@ -20,7 +20,7 @@ class Profesor extends Authenticatable
 
     protected $attributes = ['nombre','email','pass','cedula'];
 
-    //Los tres métodos que siguen permiten no guardar token en la base de datos.
+    //Los tres métodos que siguen no guardar token en la base de datos.
     public function getRememberToken()    {
         return null;
     }

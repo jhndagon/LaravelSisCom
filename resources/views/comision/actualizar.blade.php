@@ -12,9 +12,9 @@
         <div class="col-md-12">
             <div class="tile">
                 <div class="tile-body">
-                    {{-- {{ $comision[0] }} --}}
+                    {{-- {{ $comision }} --}}
                     
-                    <form action="{{ url('comision', $comision[0]->comisionid)  }}" id="form1" method="POST" enctype="multipart/form-data">
+                    <form action="{{ url('comision', $comision->comisionid)  }}" id="form1" method="POST" enctype="multipart/form-data">
                         @csrf {{ method_field('PUT') }}
                         <div class="col-md-6  text-center">
                             <h3>
@@ -26,7 +26,7 @@
                             <div class="form-group row">
                                 <label for="inputPassword" class="col-sm-2 col-form-label">Identificación de la comisión: </label>
                                 <div class="col-xs-2">
-                                    <input type="text" class="form-control" value="{{ $comision[0]->comisionid }}" disabled>
+                                    <input type="text" class="form-control" value="{{ $comision->comisionid }}" disabled>
                                 </div>
                             </div>
                         </div>
@@ -34,7 +34,7 @@
                             <div class="form-group row">
                                 <label for="inputPassword" class="col-sm-2 col-form-label">Fecha de radicación: </label>
                                 <div class="col-xs-2">
-                                    <input type="text" class="form-control" value="{{ $comision[0]->radicacion }}" readonly>
+                                    <input type="text" class="form-control" value="{{ $comision->radicacion }}" readonly>
                                 </div>
                             </div>
                         </div>
@@ -46,12 +46,12 @@
                                 </div>
                             </div>
                         </div>
-                        @if ($comision[0]->respuesta)
+                        @if ($comision->respuesta)
                             <div class="form-group">
                                 <div class="form-group row">
                                     <label for="respuesta" class="col-md-2 col-form-label">Respuesta: </label>
                                     <div class="col-md-6">
-                                        {{ $comision[0]->respuesta }}
+                                        {{ $comision->respuesta }}
                                     </div>
                                 </div>
                             </div>
@@ -71,10 +71,10 @@
                                 <label for="inputPassword" class="col-md-2 col-form-label">Tipo de comisión: </label>
                                 <div class="col-md-6">
                                         <select class="custom-select" name="tipocom" id='tipocom'>
-                                            <option value="servicios">Comisión de servicio</option>
-                                            <option value="estudio">Comisión de estudios</option>
-                                            <option value="noremunerada">Permiso</option>
-                                            <option value="calamidad">Calamidad</option>
+                                            <option value="servicios" {{ $comision->tipocom == 'servicios'?'selected':'' }}>Comisión de servicio</option>
+                                            <option value="estudio" {{ $comision->tipocom == 'estudio'?'selected':'' }}>Comisión de estudios</option>
+                                            <option value="noremunerada" {{ $comision->tipocom == 'noremunerada'?'selected':'' }}>Permiso</option>
+                                            <option value="calamidad" {{ $comision->tipocom == 'calamidad   '?'selected':'' }}>Calamidad</option>
                                         </select>
                                 </div>
                             </div>
@@ -82,7 +82,7 @@
                                 <div class="form-group row">
                                     <label for="inputPassword" class="col-md-2 col-form-label">Lugar de la comisión: </label>
                                     <div class="col-md-6">
-                                        <input type="text" class="form-control" name='lugar' placeholder="Lugar de la comisión" value="{{ $comision[0]->lugar }}">
+                                        <input type="text" class="form-control" name='lugar' placeholder="Lugar de la comisión" value="{{ $comision->lugar }}">
                                     </div>
                                 </div>
                             </div>
@@ -90,7 +90,7 @@
                                 <div class="form-group row">
                                     <label for="fecharango" class="col-sm-2 col-form-label">Fecha de la comisión: </label>
                                     <div class="col-sm-6">
-                                        <input type="text" id="fecharango" name="fecharango" class="form-control" value="{{$comision[0]->fecha}}">
+                                        <input type="text" id="fecharango" name="fecharango" class="form-control">
                                     </div>
                                 </div>
                             </div>
@@ -98,7 +98,7 @@
                                 <div class="form-group row">
                                     <label for="inputPassword" class="col-md-2 col-form-label">Motivo de la comisión: </label>
                                     <div class="col-md-6">
-                                        <input type="text" class="form-control" name="actividad" placeholder="Motivo de la comisión" value="{{ $comision[0]->actividad }}">
+                                        <input type="text" class="form-control" name="actividad" placeholder="Motivo de la comisión" value="{{ $comision->actividad }}">
                                     </div>
                                 </div>
                             </div>
@@ -106,7 +106,7 @@
                                 <div class="form-group row">
                                     <label for="inputPassword" class="col-md-2 col-form-label">Idioma de la comisión: </label>
                                     <div class="col-md-6">
-                                        <input type="text" class="form-control" name="idioma" placeholder="Idioma de la comisión" value="{{ $comision[0]->idioma }}">
+                                        <input type="text" class="form-control" name="idioma" placeholder="Idioma de la comisión" value="{{ $comision->idioma }}">
                                     </div>
                                 </div>
                             </div>
@@ -114,7 +114,7 @@
                                 <div class="form-group row">
                                     <label for="inputPassword" class="col-md-2 col-form-label">Justificación: </label>
                                     <div class="col-md-6">
-                                        <textarea type="textarea" class="form-control" rows="4" name="justificacion">{{ $comision[0]->justificacion }}</textarea>
+                                        <textarea type="textarea" class="form-control" rows="4" name="justificacion">{{ $comision->justificacion }}</textarea>
                                     </div>
                                 </div>
                             </div>
@@ -142,7 +142,7 @@
                                     </div>
                                 </div>
                             </div>
-                            @if (Session::get('jefe') > 0 && $comision[0]->estado != 'aprobada')
+                            @if (Session::get('jefe') > 0 && $comision->estado != 'aprobada')
 
                             <div class="form-group">
                                 <h2>Reservado para la administración</h2>
@@ -150,8 +150,8 @@
                                     <label for="vistobueno" class="col-md-2 col-form-label">Devolución: </label>
                                     <div class="col-md-3">
                                         <select class="custom-select" name="devolucion" id='devolucion'>
-                                            <option value="No" {{ $comision[0]->estado!='devuelta'  ? 'selected':''}}>No</option>
-                                            <option value="Si" {{ $comision[0]->estado=='devuelta'  ? 'selected':''}}>Si</option>
+                                            <option value="No" {{ $comision->estado!='devuelta'  ? 'selected':''}}>No</option>
+                                            <option value="Si" {{ $comision->estado=='devuelta'  ? 'selected':''}}>Si</option>
                                         </select>
                                     </div>
                                 </div>
@@ -159,8 +159,8 @@
                                     <label for="vistobueno" class="col-md-2 col-form-label">Visto bueno del director: </label>
                                     <div class="col-md-3">
                                         <select class="custom-select" name="vistobueno">
-                                                <option value="No" {{ $comision[0]->vistobueno=='No'  ? 'selected':''}}>No</option>
-                                                <option value="Si" {{ $comision[0]->vistobueno=='Si'  ? 'selected':''}}>Si</option>
+                                                <option value="No" {{ $comision->vistobueno=='No'  ? 'selected':''}}>No</option>
+                                                <option value="Si" {{ $comision->vistobueno=='Si'  ? 'selected':''}}>Si</option>
                                             </select>
                                     </div>
                                 </div>
@@ -171,8 +171,8 @@
                                 <label for="aprobacion" class="col-md-2 col-form-label">Aprobacion decan@: </label>
                                 <div class="col-md-3">
                                     <select class="custom-select" name="aprobacion">
-                                                <option value="No" {{ $comision[0]->aprobacion=='No'  ? 'selected':''}}>No</option>
-                                                <option Value="Si" {{ $comision[0]->aprobacion=='Si'  ? 'selected':''}} >Si</option>
+                                                <option value="No" {{ $comision->aprobacion=='No'  ? 'selected':''}}>No</option>
+                                                <option Value="Si" {{ $comision->aprobacion=='Si'  ? 'selected':''}} >Si</option>
                                             </select>
                                 </div>
                             </div>
@@ -189,7 +189,7 @@
                                         class="form-control" 
                                         name="respuesta" 
                                         id='respuesta'
-                                        rows="4">{{ $comision[0]->respuesta ? $comision[0]->respuesta : '' }}</textarea>
+                                        rows="4">{{ $comision->respuesta ? $comision->respuesta : '' }}</textarea>
                                     </div>
                                 </div>
                             </div>
@@ -197,7 +197,7 @@
 
                             <div class="form-group">
                                 <div class="form-group row">
-                                    @if ($comision[0]->vistobueno == 'No' || $comision[0]->aprobacion == 'No' )
+                                    @if ($comision->vistobueno == 'No' || $comision->aprobacion == 'No' )
                                     <div class="col-md-2">
                                         <button type="submit" class="btn btn-primary btn-block">Guardar</button>
                                     </div>
@@ -220,98 +220,68 @@
 
 </main>
 @endsection
- @push('scripts')
+
+@push('scripts')
 
 
- <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
- <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-<script>
-
-    var tipocom = '{{$comision[0]->tipocom}}'
-    $(`#tipocom option`).filter( (i,e) => {return e.value === tipocom} ).prop('selected',true);
-
-    var vistobueno = '{{$comision[0]->vistobueno}}';
-    var aprobacion = '{{$comision[0]->aprobacion}}';
-    var jefe = '{{Session::get("jefe")}}';
-    if(jefe > 0 || vistobueno == 'Si' || aprobacion == 'Si'){
-        var inputs = document.getElementsByTagName("input");
-        for (let index = 0; index < inputs.length; index++) {
-            inputs[index].readOnly = true;
-        }
-    }
-    if(jefe > 0){
-        $('#devolucion').click(function(){
-            if($(this).val() === 'Si'){
-                $('#respuesta').prop('required', true)
-            }else{
-                $('#respuesta').prop('required', false)
-            }
-        })
-    }
-</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 
 <script>
-    $("#fecharango").daterangepicker({            
-            "locale": {
-                "language": "es",
-                "format": "DD MMMM YYYY",
-                "separator": " a ",
-                "applyLabel": "Aceptar",
-                "cancelLabel": "Cancelar",
-                "fromLabel": "From",
-                "toLabel": "To",
-                "customRangeLabel": "Custom",
-                "daysOfWeek": [
-                    "Do",
-                    "Lu",
-                    "Ma",
-                    "Mi",
-                    "Ju",
-                    "Vi",
-                    "Sa"
-                ],
-                "monthNamesShort": ['Ene','Feb','Mar','Abr','May','Jun',
-                                  'Jul','Ago','Sep','Oct','Nov','Dic'],
-                "monthNames": [
-                    "Enero",
-                    "Febrero",
-                    "Marzo",
-                    "Abril",
-                    "Mayo",
-                    "Junio",
-                    "Julio",
-                    "Augosto",
-                    "Septiembre",
-                    "Octubre",
-                    "Noviembre",
-                    "Diciembre"
-                ],
+    $(function() {
+
+        $('input[name="fecharango"]').daterangepicker({
+                opens: 'left',
+                startDate: '{{$comision->fechaini}}' || moment(), //para cuando se necesite actualizar una comision
+                endDate: '{{$comision->fechafin}}' || moment(), //para cuando se necesite actualizar una comision
+                initialText: 'Seleccione el rango de fechas...',
+                alwaysShowCalendars: true,
+                showCustomRangeLabel: false,
+                "locale": {
+                    "format": "MMM DD, YYYY",
+                    "separator": " a ",
+                    "applyLabel": "Aceptar",
+                    "cancelLabel": "Cancelar",
+                    "customRangeLabel": "Custom",
+                    "weekLabel": "W",
+                    "daysOfWeek": [
+                        "Do",
+                        "Lu",
+                        "Ma",
+                        "Mi",
+                        "Ju",
+                        "Vi",
+                        "Sa"
+                    ],
+                    "monthNames": [
+                        "Enero",
+                        "Febrero",
+                        "Marzo",
+                        "Abril",
+                        "Mayo",
+                        "Junio",
+                        "Julio",
+                        "Augosto",
+                        "Septiembre",
+                        "Octubre",
+                        "Noviembre",
+                        "Diciembre"
+                    ],
                 },
-        datepickerOptions: {
-                minDate: 0,
-                maxDate: null,
-                lenguage: "es"
+                ranges: {
+                    'Hoy': [moment(), moment()],
+                    'Mañana': [moment().add(1, 'days'), moment().add(1, 'days')],
+                    'Proxima semana': [moment().add('weeks', 1).startOf('week'), moment().add('weeks', 1).endOf('week')],
+                }
             },
-        applyOnMenuSelect: false,
-        initialText : 'Seleccione el rango de fechas...',
-        applyButtonText : 'Escoger',
-        clearButtonText : 'Limpiar',
-        cancelButtonText : 'Cancelar',
-        });
-        $("#fecharango").daterangepicker({
-        format: "DD MMMM YYYY",
-        todayBtn: true,
-        clearBtn: true,
-        language: "es"
-    });
-        // var today = moment().toDate();
-        // var tomorrow = moment().add('days', 1).startOf('day').toDate();
-        // $("#fecharango").daterangepicker({
-        //     onOpen: $("#fecharango").daterangepicker("setRange",{start: today,end: tomorrow})
-        // });
 
+        );
+    });
 </script>
 
 
-
+@endpush
+@push('styles')   
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 @endpush

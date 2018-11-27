@@ -6,10 +6,10 @@
 </section>
 <section class="login-content">
     <div class="logo">
-            <h1 ><a href="{{url('inicio')}}"class='text-dark'>{{ config('app.name') }}</a></h1>
+        <h1><a href="{{url('inicio')}}" class='text-dark'>{{ config('app.name') }}</a></h1>
     </div>
     <div class="login-box">
-        <form method="POST" action="{{ route('login') }}" class="login-form">
+        <form method="POST" action="{{ url('login') }}" class="login-form">
             @csrf
             <h3 class="login-head"><i class="fa fa-lg fa-fw fa-user"></i>Ingreso al sistema</h3>
             <div class="form-group">

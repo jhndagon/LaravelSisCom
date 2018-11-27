@@ -12,21 +12,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class ProfesorController extends Controller
 {
-    //
-
     use AuthenticatesUsers;
-
-    protected $redirectTo = '/inicio';
-
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //$this->middleware('auth:profesor');
-    }
 
     protected function guard()
     {
@@ -43,7 +29,7 @@ class ProfesorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function showLoginForm()
+    public function mostrarFormularioLogin()
     {
         if ($this->guard()->check()) {
             return redirect('inicio');
@@ -64,10 +50,10 @@ class ProfesorController extends Controller
             $instituto = Instituto::where('cedulajefe', $usuario->cedula)->orwhere('emailinst', $usuario->email)->first();
             $jefe = 0;
             if($instituto && $instituto->institutoid != 'decanatura'){
-                $jefe = 1; // identifica a director de instituto
+                $jefe = 1; // identifica a director o secretaria de instituto
             }
             else if ($instituto){
-                $jefe = 2; //identifica la decana
+                $jefe = 2; //identifica la decana o secretretaria de dacanato
             }
             // else{
             //     // $instituto = Instituto::where('emailinst', $usuario->email)->first();
@@ -78,7 +64,7 @@ class ProfesorController extends Controller
             $request->session()->put('jefe', $jefe);
             return redirect('inicio');
         }
-        return back()->withErrors(['cedula' => "El número de cedula o contraseña incorrecto"])
+        return back()->withErrors(['cedula' => "El número de la cédula o contraseña incorrecto."])
             ->withInput(request(['cedula']));
 
     }

@@ -38,9 +38,6 @@ $estadocolor='';
     </div>
     <div class="row">
         <div class="col-md-12">
-            @if ($faltacumplido)
-                {{ $faltacumplido }}
-            @endif
             <div class="tile">
                 <div class="tile-body">
                     <table class="table table-hover table-bordered" id="sampleTable">
@@ -58,8 +55,6 @@ $estadocolor='';
                             </tr>
                         </thead>
                         <tbody>
-                                {{-- $testadox == "aprobada" and
-                                $ttipocomx != "noremunerada") { --}}
                         @foreach ($comisiones as $comision)
                             <?php
                                 $estadocolor = $COLORS[$comision->estado];
@@ -97,7 +92,7 @@ $estadocolor='';
 
                                 </td>
                                 <td>
-                                    @if ($comision->estado == 'solicitada' && Session::get('jefe')==0)
+                                    @if ($comision->estado == 'solicitada' && Auth::user()->cedula == $comision->cedula)
                                     <a href="{{ url('eliminarComision', $comision->comisionid) }}">Borrar</a> @endif
                                     @if ($d2>$d1 && ($comision->estado=='aprobada') && $comision->tipocom !='noremunerada' && Auth::user()->cedula == $comision->cedula)
                                     <a href="{{ url('subircumplido', $comision->comisionid) }}">Subir cumplido</a>

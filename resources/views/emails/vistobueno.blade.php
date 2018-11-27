@@ -12,7 +12,7 @@
 <body>
     <p>Se&ntilde;or(a) Decano(a),</p>
     <p>
-        La solicitud radicada en el <a href='bit.ly/fcen-comisiones'>Sistema
+        La solicitud radicada en el <a href='{{ url('') }}'>Sistema
         de Solicitudes</a> identificada con número {{$comision->comisionid}} ha recibido visto bueno del Director de Instituto.
     </p>
     <p>

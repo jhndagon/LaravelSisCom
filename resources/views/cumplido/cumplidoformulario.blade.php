@@ -21,7 +21,17 @@ $DESTINATARIOS_CUMPLIDOS = array(
 
                 <div class="tile">
                     <div class="tile-body">
-                        <form class="form-horizontal" method="POST" action="{{url('subircumplido')}}">
+
+                        @if ($errors->any())
+                            @foreach ($errors->all() as $error)
+                        
+                                <div class="alert alert-danger" role="alert">
+                                        {{ $error }}
+                                </div>
+                            @endforeach
+                        @endif
+
+                        <form class="form-horizontal" method="POST" action="{{url('subircumplido')}}" enctype="multipart/form-data">
                             @csrf
                             <fieldset>
 
@@ -31,7 +41,7 @@ $DESTINATARIOS_CUMPLIDOS = array(
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label text-right" for="comisionid"> <strong> Id. comisión:</strong></label>
                                     <div class="col-sm-3">
-                                        <input type="text" readonly class="form-control-plaintext" id="comisionid" value="{{$comision->comisionid}}">
+                                        <input type="text" readonly class="form-control-plaintext" name="comisionid" id="comisionid" value="{{$comision->comisionid}}">
                                     </div>
                                 </div>
 
@@ -53,14 +63,14 @@ $DESTINATARIOS_CUMPLIDOS = array(
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label text-right" for="cumplido1"> <strong>Cumplido 1:</strong></label>
                                     <div class="col-sm-5">
-                                        <input type="file" class="input-file" id="cumplido1" name="cumplido1">
+                                        <input type="file" class="form-control-file" name="cumplido1">
                                     </div>
                                 </div>
 
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label text-right" for="cumplido2"> <strong>Cumplido 2:</strong></label>
                                     <div class="col-sm-5">
-                                        <input type="file" class="input-file" id="cumplido2" name="cumplido2">
+                                        <input type="file" class="form-control-file" name="cumplido2">
                                     </div>
                                 </div>
 
@@ -72,12 +82,12 @@ $DESTINATARIOS_CUMPLIDOS = array(
                                         @foreach ($DESTINATARIOS_CUMPLIDOS as $destinatario )
 
 
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" name="correos[]" value="{{ $destinatario[2] }}">
-                                            <label class="form-check-label" for="envio1">
-                                                {{ $destinatario[0] }}
-                                        </label>
-                                        </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="correos[]" value="{{ $destinatario[2] }}">
+                                                <label class="form-check-label" for="envio1" title="{{ $destinatario[2] }}">
+                                                    {{ $destinatario[0] }}
+                                            </label>
+                                            </div>
 
                                         @endforeach
 
@@ -88,16 +98,16 @@ $DESTINATARIOS_CUMPLIDOS = array(
 
 
                                 <div class="form-group row">
-                                    <label class="col-sm-2 col-form-label text-right" for="otrosdestinatario"> <strong>Otros destinatarios:</strong><br>
+                                    <label class="col-sm-2 col-form-label text-right" for="otrosdestinatarios"> <strong>Otros destinatarios:</strong><br>
                                 (Correos separados por "  ,  ")</label>
                                     <div class="col-sm-5">
-                                        <input id="otrosdestinatario" name="otrosdestinatario" type="text" placeholder="Otros destinatarios" class="form-control input-md">
+                                        <input id="otrosdestinatarios" name="otrosdestinatarios" type="text" placeholder="Otros destinatarios" class="form-control input-md" value="{{ old('otrosdestinatarios') }}">
                                     </div>
                                 </div>
 
                                 <!-- Textarea -->
                                 <div class="form-group row">
-                                    <label class="col-md-4 control-label text-right" for="textarea"><strong>Información complementaria:</strong><br>
+                                    <label class="col-md-4 control-label text-right" for="infocumplido"><strong>Información complementaria:</strong><br>
                                     <i style="font-size:12px" class="text-justify">
                                     Incluya aquí otra información complementaria que pueda ser de
                                     importancia para los destinatarios del cumplido. Así por
@@ -106,7 +116,7 @@ $DESTINATARIOS_CUMPLIDOS = array(
                                     recursos relacionados, indique el nombre del Proyecto.
                                         </i></label>
                                     <div class="col-md-4">
-                                        <textarea class="form-control" id="textarea" rows="5" name="textarea"></textarea>
+                                    <textarea class="form-control" id="infocumplido" rows="5" name="infocumplido">{{ old('infocumplido') }}</textarea>
                                     </div>
                                 </div>
 
@@ -115,10 +125,10 @@ $DESTINATARIOS_CUMPLIDOS = array(
                                     <legend class="col-form-label col-sm-2 pt-0 text-right"><strong>¿Confirma que desea enviar correo de notificación?</strong></legend>
                                     <div class="col-sm-10">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" name="envio1" id="envio1" value="envio1">
-                                            <label class="form-check-label" for="envio1">
-                                    Si
-                                </label>
+                                            <input class="form-check-input" type="checkbox" name="envio" id="envio">
+                                            <label class="form-check-label" for="envio">
+                                                Si
+                                            </label>
                                         </div>
 
                                     </div>
