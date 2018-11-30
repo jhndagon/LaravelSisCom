@@ -6,7 +6,8 @@
     <li class="app-search">
       <div class="row">
         <div class="col text-center text-light">
-          {{ config('app.name') }}
+          {{ Auth::user()->nombre }} - 
+          {{ strtoupper(Auth::user()->tipo) }}
         </div>
       </div>
     </li>

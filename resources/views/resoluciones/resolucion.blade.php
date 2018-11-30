@@ -17,7 +17,7 @@
 
 <body>
 
-    <table border=0 width=$tablewidth style=$tablestyle>
+    <table border=0 width="650px" style="border-collapse:collapse;margin-left:25px">
         <tr>
             <td width=10%>
                 @if ($blank)
@@ -33,18 +33,18 @@
         </tr>
     </table>
 
-    <table border=0 width=$tablewidth style=$tablestyle>
+    <table border=0 width="650px" style="border-collapse:collapse;margin-left:25px">
         <tr>
             <td>
 
-                <div style="height:$vspace"></div>
+                <div style="height:40px"></div>
 
-                <p style=$titlestyle>
-                    RESOLUCION DE DECANATO $resolucion
+                <p style='text-align:center;font-weight:bold'>
+                    RESOLUCION DE DECANATO {{$comision->resolucion}}
                 </p>
 
-                <p style=$titlestyle>
-                    PARA LA CUAL SE CONCEDE UNA $rtipocom
+                <p style='text-align:center;font-weight:bold'>
+                    PARA LA CUAL SE CONCEDE UNA COMISIÓN DE TIPO {{strtoupper($comision->tipocom)}}
                 </p>
 
                 <p align="justify">
@@ -52,13 +52,13 @@
                     ñ del Acuerdo Superior Nro. 1 de 1994.
                 </p>
 
-                <p style=$titlestyle>
+                <p style='text-align:center;font-weight:bold'>
                     RESUELVE:
                 </p>
 
                 <p align="justify">
-                    <b>ARTÍCULO ÚNICO</b>: Conceder al profesor <b>$rnombre</b> $rtipoid $cedula, $rtipo del $rinstituto,
-                    comisión de $fecha para $actividad a realizarse en $lugar.
+                    <b>ARTÍCULO ÚNICO</b>: Conceder al profesor <b>{{$profesor->nombre}}</b> {{$profesor->tipoid}} {{$profesor->cedula}}, {{$profesor->tipo}} de {{ucfirst($profesor->institutoid)}},
+                    comisión de {{$comision->fecha}} para {{$comision->actividad}} a realizarse en {{$comision->lugar}}.
                 </p>
 
                 <p align="justify">
@@ -68,12 +68,12 @@ la Decanato de la Facultad, constancias que acrediten su cumplimiento.
 </i>
                 </p>
 
-                <p style=$titlestyle>
+                <p style='text-align:center;font-weight:bold'>
                     COMUNÍQUESE Y CÚMPLASE
                 </p>
 
                 <p>
-                    Dada en Medellín el $fecharesolucion.
+                    Dada en Medellín el {{$comision->fecharesolucion}}.
                 </p>
                 <p>
                     @if ($blank)
@@ -83,7 +83,7 @@ la Decanato de la Facultad, constancias que acrediten su cumplimiento.
                   @endif
                     
                     <!--<b>NORA EUGENIA RESTREPO SÁNCHEZ</b><br/>-->
-                    <b>ADRIANA ECHAVARRIA ISAZA</b><br/> $DECANOTXT, Facultad de Ciencias Exactas y Naturales
+                    <b>ADRIANA ECHAVARRIA ISAZA</b><br/>Facultad de Ciencias Exactas y Naturales
                 </p>
 
                 <!--

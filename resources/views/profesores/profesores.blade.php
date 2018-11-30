@@ -6,23 +6,24 @@
     <nav class="app-title navbar navbar-light bg-light">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="btn btn-outline-secundary" href="{{ url('/profesor', ['id'=>0]) }}}">Agregar empleado </a>
+                <a class="btn btn-primary" href="{{ url('/profesor', ['id'=>0]) }}}">Agregar empleado </a>
             </li>
         </ul>
         <form class="form-inline my-2 my-lg-0" method="GET" action="{{ url('/profesor') }}">
             @csrf
-            <input class="form-control mr-sm-2" placeholder="Buscar empleado" name="buscar">
+            <div class="input-group mb-8">
+                <label for="opcion">Seleccione una opción de búsqueda:  </label>
+                <select class="custom-select" name="opcion">
+                    {{-- <option selected value='nombre'>Nombre</option> no funciona porque los nombres en la base de datos estan en mayúscula--}}
+                    <option value="institutoid" {{ isset($opcion) &&  $opcion == 'institutoid' ? 'selected': ''}}>Instituto</option>
+                    <option value="cedula" {{ isset($opcion) && $opcion == 'cedula'? 'selected': ''}}>Cedula</option>
+                    <option value="email" {{ isset($opcion) && $opcion == 'email'? 'selected': ''}}>Correo</option>
+                </select>
+            </div>
             <div class="input-group mb-6">
-                    <div class="input-group-prepend">
-                      <label class="input-group-text" for="">Opciones</label>
-                    </div>
-                    <select class="custom-select" name="opcion">
-                      {{-- <option selected value='nombre'>Nombre</option> no funciona porque los nombres en la base de datos estan en mayúscula--}}
-                      <option value="institutoid">Instituto</option>
-                      <option value="cedula">Cedula</option>
-                      <option value="email">Correo</option>
-                    </select>
-                  </div>
+
+                <input class="form-control mr-sm-2" placeholder="Ingrese el valor de la búsqueda" name="buscar">
+            </div>
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
         </form>
     </nav>

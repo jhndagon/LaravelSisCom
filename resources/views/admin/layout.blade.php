@@ -40,6 +40,13 @@
   <script src="{{asset('js/main.js')}}"></script>
 
   @stack('scripts')
+  
+  <script>
+    $( () => {
+      $('label').css({'font-weight': 'bold', 'font-size': '18px'})
+      console.log();
+    });
+  </script>
 </body>
 
 </html>

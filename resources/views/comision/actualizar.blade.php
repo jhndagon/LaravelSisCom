@@ -146,6 +146,8 @@
 
                             <div class="form-group">
                                 <h2>Reservado para la administración</h2>
+
+                                
                                 <div class="form-group row">
                                     <label for="vistobueno" class="col-md-2 col-form-label">Devolución: </label>
                                     <div class="col-md-3">
@@ -155,6 +157,8 @@
                                         </select>
                                     </div>
                                 </div>
+                                @if (Session::get('jefe') == 1)
+                                    
                                 <div class="form-group row">
                                     <label for="vistobueno" class="col-md-2 col-form-label">Visto bueno del director: </label>
                                     <div class="col-md-3">
@@ -164,6 +168,7 @@
                                             </select>
                                     </div>
                                 </div>
+                                @endif
                             </div>
 
                             @if(Session::get('jefe') == 2)

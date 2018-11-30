@@ -80,9 +80,10 @@ class ProfesorController extends Controller
     }
 
     public function buscar(Request $request){
+        $opcion = $request->opcion;
         if(\Session::get('jefe') > 1 && $request->buscar != null && $request->opcion != null){
             $profesores = Profesor::where($request->opcion, 'like' ,'%'. $request->buscar.'%')->get();
-            return view('profesores.profesores', compact('profesores'));
+            return view('profesores.profesores', compact('profesores', 'opcion'));
         }
         else{
             return redirect('inicio');

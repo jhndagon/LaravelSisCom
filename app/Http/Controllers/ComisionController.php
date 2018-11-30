@@ -110,7 +110,6 @@ class ComisionController extends Controller
 
         //procesado de fecha
         //fecha
-
         $fecha = $request->fecharango;
         $calendario_meses = array(
             'Jan' => 'Enero',
@@ -238,7 +237,7 @@ class ComisionController extends Controller
         $comision->actualizacion = $request->fechaactualizacion;
 
         //devolucion
-        if ($jefe > 0 && strcmp($request->devolucion, 'Si') == 0 && !\Storage::disk('local')->exists($comision->comisionid . '/respuesta.txt')) {
+        if ($jefe > 0 && strcmp($request->devolucion, 'Si') == 0) {
             $comision->estado = 'devuelta';
             $comision->vistobueno = 'No';
             $comision->aprobacion = "No";
@@ -261,6 +260,7 @@ class ComisionController extends Controller
                         //enviar correo de prueba
                         Mail::to(env('EMAIL_PRUEBA'))->send(new VistoBuenoMail($comision));
                     } else {
+                        // TODO: agregar envio de correo a instituto
                         //enviar correo a director y a la secretaria de director
                         // Mail::to('bkunde384@hideweb.xyz')->send(new SolicitudMail($comision));
                         dd($comision);
@@ -275,7 +275,6 @@ class ComisionController extends Controller
                     $resolucion->comisionid = $comision->comisionid;
                     $resolucion->save();
                     $comision->resolucion = $resolucion->resolucionid;
-
                     
                     $fecha = Carbon::now();
                     $fecha1 = $fecha->format('d \d\e ') . $calendario_meses[$fecha->format('F')] . $fecha->format(' \d\e Y');
@@ -286,11 +285,10 @@ class ComisionController extends Controller
                         \Storage::makeDirectory($comision->comisionid);
                     }
                     if (strcmp($comision->tipocom, 'calamidad') == 0 || strcmp($comision->tipocom, 'noremunerada') == 0) {
-
-                        $pdfResolucion = PDF::loadView('emails.comisiones.resolucionPermiso', ['comision' => $comision, 'blank' => 1])
+                        $pdfResolucion = PDF::loadView('resoluciones.resolucionPermiso', ['comision' => $comision, 'blank' => 1])
                             ->save(storage_path('app/comisiones') . '/' . $comision->comisionid . '/resolucion-blank-' . $comision->comisionid . '.pdf');
 
-                        $pdfResolucion = PDF::loadView('emails.comisiones.resolucionPermiso', ['comision' => $comision, 'blank' => 0])
+                        $pdfResolucion = PDF::loadView('resoluciones.resolucionPermiso', ['comision' => $comision, 'blank' => 0])
                             ->save(storage_path('app/comisiones') . '/' . $comision->comisionid . '/resolucion-' . $comision->comisionid . '.pdf');
 
                         //envio de correo a decana y secretaria de decana
@@ -298,16 +296,16 @@ class ComisionController extends Controller
                             //enviar correo de prueba
                             Mail::to(env('EMAIL_PRUEBA'))->send(new AprobacionPermisoMail($comision));
                         } else {
+                            // TODO: configurar envío de correo a decana
                             //enviar correo a decana y a la secretaria de decana
                             // Mail::to('bkunde384@hideweb.xyz')->send(new SolicitudMail($comision));
-                            dd($comision);
+                            
                         }
                     } else {
-
-                        $pdfResolucion = PDF::loadView('emails.comisiones.resolucionPermiso', ['comision' => $comision, 'blank' => 1])
+                        $pdfResolucion = PDF::loadView('resoluciones.resolucion', ['comision' => $comision, 'blank' => 1, 'profesor'=>$comision->profesor])
                             ->save(storage_path('app/comisiones') . '/' . $comision->comisionid . '/resolucion-blank-' . $comision->comisionid . '.pdf');
 
-                        $pdfResolucion = PDF::loadView('emails.comisiones.resolucionPermiso', ['comision' => $comision, 'blank' => 0])
+                        $pdfResolucion = PDF::loadView('resoluciones.resolucion', ['comision' => $comision, 'blank' => 0, 'profesor'=>$comision->profesor])
                             ->save(storage_path('app/comisiones') . '/' . $comision->comisionid . '/resolucion-' . $comision->comisionid . '.pdf');
 
                         //envio de correo a decana y secretaria de decana
@@ -315,15 +313,19 @@ class ComisionController extends Controller
                             //enviar correo de prueba
                             Mail::to(env('EMAIL_PRUEBA'))->send(new AprobacionMail($comision));
                         } else {
+                            // TODO: configurar envío de correo a decana
                             //enviar correo a decana y a la secretaria de decana
                             // Mail::to('bkunde384@hideweb.xyz')->send(new SolicitudMail($comision));
-                            dd($comision);
+                            
                         }
                     }
 
                 }
 
             } else {
+                if($comision->estado == 'devuelta' ){
+                    $comision->estado = 'solicitada';
+                }
                 //procesado de fecha
                 //fecha        
                 $fecha = $request->fecharango;

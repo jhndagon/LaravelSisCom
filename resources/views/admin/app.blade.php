@@ -86,9 +86,19 @@ $estadocolor='';
                                 <td>{{$comision->profesor['nombre']}}</td>
                                 <td>
                                     @if ($comision->anexo1)
-                                    <a target="_black" href="{{url('/archivo/'.$comision->comisionid . '/' . $comision->anexo1)}}">Anexo 1</a><br>                                    @endif @if ($comision->anexo2)
-                                    <a target="_black" href="{{url('/archivo/'.$comision->comisionid . '/' . $comision->anexo2)}}">Anexo 2</a><br>                                    @endif @if ($comision->anexo3)
-                                    <a target="_black" href="{{url('/archivo/'.$comision->comisionid . '/' . $comision->anexo3)}}">Anexo 3</a><br>                                    @endif
+                                    <a target="_black" href="{{url('/archivo/'.$comision->comisionid . '/' . $comision->anexo1)}}">Anexo 1</a><br>                                    
+                                    @endif 
+                                    @if ($comision->anexo2)
+                                    <a target="_black" href="{{url('/archivo/'.$comision->comisionid . '/' . $comision->anexo2)}}">Anexo 2</a><br>                                    
+                                    @endif 
+                                    @if ($comision->anexo3)
+                                    <a target="_black" href="{{url('/archivo/'.$comision->comisionid . '/' . $comision->anexo3)}}">Anexo 3</a><br>                                    
+                                    @endif
+                                    @if ($comision->fecharesolucion)
+                                    <a target="_black" href="{{url('/archivo/'.$comision->comisionid . '/resolucion-blank-'.$comision->comisionid .'.pdf' )}}">Imprimible</a><br>                                    
+                                    <a target="_black" href="{{url('/archivo/'.$comision->comisionid . '/resolucion-'.$comision->comisionid .'.pdf' )}}">Resolucion</a><br>                                    
+                                    @endif
+                                    
 
                                 </td>
                                 <td>
