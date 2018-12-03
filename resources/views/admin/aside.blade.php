@@ -3,7 +3,7 @@
 <aside class="app-sidebar">
 
     <ul class="app-menu">
-        <li>
+        <li class="nav-item">
             <a class="app-menu__item active" href="{{url('inicio')}}">
                 <i class="app-menu__icon fa fa-home"></i>
                 <span class="app-menu__label">Inicio</span>
@@ -36,7 +36,7 @@
             </li>
             <li>
                 <a class="app-menu__item active" href="{{ url('informes') }}">
-                    <i class="fas fa-chalkboard-teacher"></i>
+                    <i class="far fa-chart-bar"></i>
                     <span class="app-menu__label">Informes</span>
                 </a>
             </li>

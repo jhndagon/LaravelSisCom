@@ -95,6 +95,7 @@ class ComisionController extends Controller
     public function crearComision(Request $request)
     {
         $comision = new Comision();
+        
         $comision->comisionid = $request->comisionid;
         //cedula
         $comision->cedula = Auth::user()->cedula;
@@ -271,10 +272,14 @@ class ComisionController extends Controller
                     $comision->aprobacion = $request->aprobacion;
                     $comision->estado = 'aprobada';
 
-                    $resolucion = new Resolucion();
-                    $resolucion->comisionid = $comision->comisionid;
-                    $resolucion->save();
-                    $comision->resolucion = $resolucion->resolucionid;
+                    if ($tipocom != "noremunerada" and $tipocom != "calamidad") {                        
+                        $resolucion = new Resolucion();
+                        $resolucion->comisionid = $comision->comisionid;
+                        $resolucion->save();
+                        $comision->resolucion = $resolucion->resolucionid;
+                    }else{
+                        $comision->resolucion = '99999';
+                    }
                     
                     $fecha = Carbon::now();
                     $fecha1 = $fecha->format('d \d\e ') . $calendario_meses[$fecha->format('F')] . $fecha->format(' \d\e Y');

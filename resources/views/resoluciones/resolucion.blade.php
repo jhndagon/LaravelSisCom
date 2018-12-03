@@ -83,7 +83,7 @@ la Decanato de la Facultad, constancias que acrediten su cumplimiento.
                   @endif
                     
                     <!--<b>NORA EUGENIA RESTREPO SÁNCHEZ</b><br/>-->
-                    <b>ADRIANA ECHAVARRIA ISAZA</b><br/>Facultad de Ciencias Exactas y Naturales
+                    <b>ADRIANA ECHAVARRIA ISAZA</b>, decana,<br/>Facultad de Ciencias Exactas y Naturales
                 </p>
 
                 <!--

@@ -77,7 +77,7 @@ Atentamente,
     @else
       <img src="{{ base_path('public/images/') .'decano.jpg'}}" width=300px><br/>
     @endif
-<b>ADRIANA ECHAVARRIA ISAZA</b><br/>
+<b>ADRIANA ECHAVARRIA ISAZA</b>, decana,<br/>
 Decana, Facultad de Ciencias Exactas y Naturales
 </p>
 
