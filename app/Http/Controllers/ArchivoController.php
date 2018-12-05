@@ -14,4 +14,13 @@ class ArchivoController extends Controller
         }
         abort(404);        
     }
+
+    function obtenerArchivoCumplido($comisionid, $documento){
+        $ruta = '/' . $comisionid . '/'. $documento;
+
+        if(\Storage::disk('local')->exists($ruta)){
+            return \Storage::disk('local')->download($ruta);
+        }
+        abort(404);        
+    }
 }

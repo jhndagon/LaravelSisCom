@@ -3,10 +3,7 @@
 <main class="app-content">
 
     <div class="app-title">
-        <ul class="app-breadcrumb breadcrumb side">
-            <li class="breadcrumb-item">{{ 'PONER CADA COLOR DE LAS COMISIONES' }}</li>
 
-        </ul>
     </div>
     <div class="row">
         <div class="col-md-12">
@@ -41,20 +38,39 @@
                             <label class="form-check-label" for="exampleRadios2">
                                 Mostrar las comisiones en la(s) fecha(s):
                             </label>
-                        </div>
-
-                        
+                        </div>            
                             
                         </div>
                         <br>
-                        <div class="form-group" id="fechas">
+                        <div class="form-group d-none" id="fechas">
                             <div class="form-group row">
                                 <label for="fecharango" class="col-sm-1">Fechas:</label>
-                                <div class="col-sm-3">
+                                <div class="col">
                                     <input type="text" id="fecharango" name="fecharango" class="form-control">
                                 </div>
                             </div>
                         </div>
+
+                        
+                        <div class="form-group row">
+                            <div class="col-md-4">
+
+                                <label class="control-label" for="checkboxes">Seleccione los institutos que desea incluir en la consulta: </label>
+                            </div>
+                                <div class="col-md-3">
+                                    @foreach ($institutos as $instituto)
+                                        
+                                    <div class="checkbox">
+                                      <label for="checkboxes-0">
+                                        <input type="checkbox" name="institutos[]" value="{{$instituto->institutoid}}">
+                                        {{$instituto->instituto}}
+                                      </label>
+                                      </div>
+                                    @endforeach
+                                </div>
+                              </div>
+                              
+                        
                         <div class="form-group row {{ $errors->any()?'has-error':''  }}" >
                             <label for="busqueda" class="col-sm-1 col-form-label">Buscar: </label>
                             <div class="col-sm-11">
@@ -75,7 +91,7 @@
                     <br>
                         <ul class="navbar-nav mr-auto">
                             <li class="nav-item active">
-                                <a class="btn btn-primary" href="{{ url('') }}}">Generar informe </a>
+                                {{-- <a class="btn btn-primary" href="{{ url('') }}">Generar informe </a> --}}
                             </li>
                         </ul>
                         <br>
@@ -152,7 +168,7 @@
                 alwaysShowCalendars: true,
                 showCustomRangeLabel: false,
                 "locale": {
-                    "format": "MMM DD, YYYY",
+                    "format": "YYYY-MM-D",
                     "separator": " a ",
                     "applyLabel": "Aceptar",
                     "cancelLabel": "Cancelar",
@@ -183,9 +199,11 @@
                     ],
                 },
                 ranges: {
+                    'Ayer': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
                     'Hoy': [moment(), moment()],
-                    'Mañana': [moment().add(1, 'days'), moment().add(1, 'days')],
-                    'Proxima semana': [moment().add('weeks', 1).startOf('week'), moment().add('weeks', 1).endOf('week')],
+                    'Este mes': [moment().add('month', 0).startOf('month'), moment().add('month', 0).endOf('month')],
+                    'Mes pasado': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')],
+                    'Este año': [moment().add('year', 0).startOf('year'), moment().add('year', 0).endOf('year')]
                 }
             },
 
@@ -194,18 +212,34 @@
 </script>
 
 <script>
+    let flag = false;
 $(() => {
     //$("#fechas").hide()
     $('#enviar').click( () => {
         if($('#fecha').is(':checked')){
-            alert('Desa enviar la info')
+            // alert('Desa enviar la info')
         }
     });
     $("#fecha").click(()=> {
-        //$("#fechas").show()
-        console.log('Algo');
+        if(flag){
+            $("#fechas").removeClass('d-none');
+            
+        }
+        
+    });
+    $('input:radio[name="opciones"]').click(()=> {
+        let checked = $('input:radio[name="opciones"]:checked').val();
+        if(checked == 'fecha'){
+            $("#fechas").removeClass('d-none');
+        }else{
+            $("#fechas").addClass('d-none');
+        }
     });
 });
 </script>
 
+@endpush
+
+@push('styles')   
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 @endpush

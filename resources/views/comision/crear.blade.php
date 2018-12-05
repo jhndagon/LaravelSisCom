@@ -55,35 +55,48 @@
                             <div class="form-group row">
                                 <label for="tipocom" class="col-sm-2 col-form-label">Tipo de comisión: </label>
                                 <div class="col-sm-6">
-                                        <select class="custom-select" name="tipocom">
-                                            <option selected value="servicios">Comisión de servicio</option>
-                                            <option value="estudio">Comisión de estudios</option>
-                                            <option value="noremunerada">Permiso</option>
-                                            <option value="calamidad">Calamidad</option>
+                                        <select class="custom-select" name="tipocom" id="tipocom">
+                                            <option value="servicios" {{old('tipocom')=='servicios'?'selected':''}}>Comisión de servicio</option>
+                                            <option value="estudio" {{old('tipocom')=='estudio'?'selected':''}}>Comisión de estudios</option>
+                                            <option value="noremunerada" {{old('tipocom')=='noremunerada'?'selected':''}}>Permiso</option>
+                                            <option value="calamidad" {{old('tipocom')=='calamidad'?'selected':''}}>Calamidad</option>
                                         </select>
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group disponibles d-none">
                                 <div class="form-group row">
-                                    <label for="lugar" class="col-sm-2 col-form-label">Lugar de la comisión: </label>
-                                    <div class="col-sm-6">
-                                            <input type="text" class="form-control" placeholder="Lugar de la comisión" name="lugar" required>
+                                    <label for="lugar" class="col-sm-2 col-form-label " >Días disponibles: </label>
+                                    <div class="col-sm-2">
+                                        <input type="text" class="form-control" name="diaspermiso" value="{{ Auth::user()->extra1 }}"readonly>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="form-group row">
-                                    <label for="fecharango" class="col-sm-2 col-form-label">Fecha de la comisión: </label>
+                                    <label for="lugar" class="col-sm-2 col-form-label" >Lugar de la comisión: </label>
                                     <div class="col-sm-6">
-                                        <input type="text" id="fecharango" name="fecharango" class="form-control">
+                                            <input type="text" class="form-control" placeholder="Lugar de la comisión" name="lugar" value="{{ old('lugar')}}" required>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-group row">
+                                    <label for="fecharango" class="col-sm-2 col-form-label" >Fecha de la comisión: </label>
+                                    <div class="col-sm-6">
+                                        <input type="text" id="fecharango" name="fecharango" class="form-control  {{$errors->any()?'is-invalid':''}}">
+                                    </div>
+                                </div>
+                                @if($errors->any())
+                                <div class="alert alert-dismissible alert-danger">
+                                    <p>{{ $errors->first('diaspermiso')}}</p>
+                                </div>
+                                @endif
                             </div>
                             <div class="form-group">
                                 <div class="form-group row">
                                     <label for="actividad" class="col-sm-2 col-form-label">Motivo de la comisión: </label>
                                     <div class="col-sm-6">
-                                        <input type="text" class="form-control" placeholder="Motivo de la comisión" name="actividad" required>
+                                        <input type="text" class="form-control" placeholder="Motivo de la comisión" name="actividad" value="{{ old('actividad')}}" required>
                                     </div>
                                 </div>                                
                             </div>
@@ -91,7 +104,7 @@
                                 <div class="form-group row">
                                     <label for="idioma" class="col-sm-2 col-form-label">Idioma de la comisión: </label>
                                     <div class="col-sm-6">
-                                        <input type="text" class="form-control" placeholder="Idioma de la comisión" name="idioma" required>
+                                        <input type="text" class="form-control" placeholder="Idioma de la comisión" name="idioma" value="{{ old('idioma')}}" required>
                                     </div>
                                 </div>                                
                             </div>
@@ -99,7 +112,7 @@
                                 <div class="form-group row">
                                     <label for="justificacion" class="col-sm-2 col-form-label">Justificación: </label>
                                     <div class="col-sm-6">
-                                            <textarea type="textarea" class="form-control" rows="4" name="justificacion"></textarea>  
+                                            <textarea type="textarea" class="form-control" rows="4" name="justificacion">{{ old('justificacion') }}</textarea>  
                                     </div>
                                 </div>
                             </div>
@@ -209,7 +222,21 @@
 
         );
     });
+
+
+$(document).on('change', '#tipocom', () =>{
+    let tipocom = $('#tipocom option:selected').val();
+    if(tipocom !== 'noremunerada' && tipocom !== 'calamidad' ){
+        $('.disponibles').addClass('d-none');
+        console.log('añadi clase');
+    }else{
+        $('.disponibles').removeClass('d-none');
+    }
+})
+
 </script>
+
+
 
 
 @endpush

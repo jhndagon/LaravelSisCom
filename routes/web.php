@@ -42,7 +42,7 @@ Route::group(['middleware' => 'auth:profesor'], function () {
     Route::get('/profesores', 'Auth\ProfesorController@listar')->name('profesores');
     Route::get('/profesor', 'Auth\ProfesorController@buscar');
     Route::get('/profesor/{id}', 'Auth\ProfesorController@editarInformacionFormulario');
-    Route::post('/profesor/{id}', 'Auth\ProfesorController@editarInformacion');
+    Route::post('/profesor', 'Auth\ProfesorController@editarInformacion');
     Route::get('/eliminaprofesor/{id}', 'Auth\ProfesorController@eliminarProfesor');
     
     Route::get('/subircumplido/{id}', 'CumplidoController@mostrarFormularioCumplido')->name('subircumplido');
@@ -53,4 +53,4 @@ Route::get('/cumplido/{comisionid}/{confirma}', 'CumplidoController@confirmarCum
 
 
 Route::get('/archivo/{comisionid}/{documento}', 'ArchivoController@obtenerArchivo');
-Route::get('/documentoscumplido/{comisionid}/{archivo}', 'ArchivoController@obtenerArchivo');
+Route::get('/documentoscumplido/{comisionid}/{archivo}', 'ArchivoController@obtenerArchivoCumplido');

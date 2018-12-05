@@ -90,9 +90,14 @@
                                 <div class="form-group row">
                                     <label for="fecharango" class="col-sm-2 col-form-label">Fecha de la comisión: </label>
                                     <div class="col-sm-6">
-                                        <input type="text" id="fecharango" name="fecharango" class="form-control">
+                                        <input type="text" id="fecharango" name="fecharango" class="form-control {{$errors->any()?'is-invalid':''}}">
                                     </div>
                                 </div>
+                                @if($errors->any())
+                                <div class="alert alert-dismissible alert-danger">
+                                    <p>{{ $errors->first('diaspermiso')}}</p>
+                                </div>
+                                @endif
                             </div>
                             <div class="form-group">
                                 <div class="form-group row">

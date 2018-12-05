@@ -21,8 +21,7 @@ class CumplidoController extends Controller
         }
         $comision = Comision::where('comisionid', $request->comisionid)->first();
         //captura de archivos
-        $subioarchivo = false;
-        
+        $subioarchivo = false;        
         
         if($request->cumplido1){
             $archivo = $request->file('cumplido1');
@@ -32,7 +31,7 @@ class CumplidoController extends Controller
                 return back()->withErrors(['archivo' => 'No se ha subido ningún archivo.'])->withInput();
             }
             do{
-                $ruta = \Storage::disk('local')->put($request->comisionid . '/' .$nombre,  \File::get($archivo));
+                $ruta = \Storage::disk('local')->put($request->comisionid . '/Cumplido1_' .$nombre,  \File::get($archivo));
             }while(!$ruta);
             $comision->cumplido1 = $nombre;   
             $subioarchivo = true;         
@@ -45,7 +44,7 @@ class CumplidoController extends Controller
                 return back()->withErrors(['archivo' => 'No se ha subido ningún archivo.'])->withInput();
             }            
             do{
-                $ruta = \Storage::disk('local')->put($request->comisionid . '/' . $nombre, \File::get($archivo));
+                $ruta = \Storage::disk('local')->put($request->comisionid . '/Cumplido2_' . $nombre, \File::get($archivo));
             }while(!$ruta);
             $comision->cumplido2 = $nombre;
             $subioarchivo = true;
@@ -58,21 +57,18 @@ class CumplidoController extends Controller
         $comision->estado = 'cumplida';
         $comision->qcumplido = 1;        
         if($request->correos){
-            foreach ($request->correos as $key => $value) {
-                
+            foreach ($request->correos as $key => $value) {                
                 $comision->destinoscumplido .= $value . ';';
             }
         }
         if($request->otrosdestinatarios){            
             $otros = explode(',', $request->otrosdestinatarios);            
             foreach ($otros as $value) {
-                // dd($value);
                 $request->destinoscumplido .= $value . ';';
             }
         }
         $comision->infocumplido = $request->infocumplido;
         $comision->save();
-
 
         //envio de correo
         if(env('APP_DEBUG')){

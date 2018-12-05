@@ -2,6 +2,7 @@
 
 namespace Comisiones\Http\Controllers\Auth;
 
+use Carbon\Carbon;
 use Comisiones\Profesor;
 use Comisiones\Instituto;
 use Illuminate\Http\Request;
@@ -55,13 +56,25 @@ class ProfesorController extends Controller
             else if ($instituto){
                 $jefe = 2; //identifica la decana o secretretaria de dacanato
             }
-            // else{
-            //     // $instituto = Instituto::where('emailinst', $usuario->email)->first();
-            //     if($instituto && strcmp($instituto->emailinst, 'luz.castro@udea.edu.co') == 0) {
-            //         $jefe = 2; //identifica secretaría decanato, tiene los mismos permisos que la decana
-            //     }
-            // }
             $request->session()->put('jefe', $jefe);
+            
+            if (isset($usuario->extra3) || $usuario->extra3 != ''){
+                $semestrePermiso = explode('-', $usuario->extra3);
+
+                //Conocer el semestre actual
+                $sem=floor((date('m')-1) / 6)+1;
+
+                if($sem != $semestrePermiso[1]){
+                    $usuario->extra3 = date('Y') . '-' . $sem;
+                    $usuario->extra1 = 3;
+                }
+            }
+            else{
+                $usuario->extra2 = date('Y') . '-' .$sem;
+                $usuario->extra1 = 3;
+            }
+            $usuario->save();
+
             return redirect('inicio');
         }
         return back()->withErrors(['cedula' => "El número de la cédula o contraseña incorrecto."])
@@ -99,8 +112,16 @@ class ProfesorController extends Controller
                 ->with('institutos', $institutos);
     }
 
-    public function editarInformacion(Request $request){            
-        $profesor = Profesor::where('cedula', $request->cedula)->first();                
+    public function editarInformacion(Request $request){           
+        $accion = $request->actualiza;
+        if($accion == 'actualizar'){
+            $profesor = Profesor::where('cedula', $request->cedulaanterior)->first();
+        }
+        else{
+            $profesor = new Profesor();
+            $profesor->pass = Hash::make($request->cedula);
+            $profesor->permisos = 3;            
+        }
         $profesor->tipoid = $request->tipoid;
         $profesor->cedula = $request->cedula;
         $profesor->nombre = strtoupper($request->nombre);
@@ -111,8 +132,8 @@ class ProfesorController extends Controller
         $profesor->email = $request->email;
         $profesor->tipo = $request->tipo;
         $profesor->institutoid = $request->instituto;
-        $profesor->tipoid = $request->tipoid;
-        $profesor->tipoid = $request->tipoid;
+        $profesor->tipo = $request->tipo;
+        $profesor->dedicacion = $request->dedicacion;
         $profesor->save();
         return redirect('/profesores');
     }

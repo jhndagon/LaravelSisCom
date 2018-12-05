@@ -2,23 +2,7 @@
 @section('contenido')
 <main class="app-content">
     <div class="app-title">
-        <ul class="app-breadcrumb breadcrumb side">
-            <li class="breadcrumb-item">{{ 'PONER CADA COLOR DE LAS COMISIONES' }}</li>
-            <table>
-                <tr>
-                    <td>Convenciones:</td>
-                </tr>
-                <tr>
-                    <td style=background:#FFFF99>Comisión Solicitada</td>
-                    <td style=background:#FFCC99>Permiso Solicitado</td>
-                    <td style=background:#99CCFF>Visto Bueno</td>
-                    <td style=background:#33CCCC>Permiso Aprobado</td>
-                    <td style=background:#00CC99>Comisión Aprobada</td>
-                    <td style=background:lightgray>Comisión Cumplida</td>
-                    <td style=background:pink>Falta Cumplido</td>
-                </tr>
-            </table>
-        </ul>
+
     </div>
     <div class="row">
         <div class="col-md-12">
