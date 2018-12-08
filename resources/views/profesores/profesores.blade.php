@@ -15,6 +15,7 @@
                 <label for="opcion">Seleccione una opción de búsqueda:  </label>
                 <select class="custom-select" name="opcion">
                     {{-- <option selected value='nombre'>Nombre</option> no funciona porque los nombres en la base de datos estan en mayúscula--}}
+                    <option value="nombre" {{ isset($opcion) && $opcion == 'nombre'? 'selected': ''}}>Nombre</option>
                     <option value="institutoid" {{ isset($opcion) &&  $opcion == 'institutoid' ? 'selected': ''}}>Instituto</option>
                     <option value="cedula" {{ isset($opcion) && $opcion == 'cedula'? 'selected': ''}}>Cedula</option>
                     <option value="email" {{ isset($opcion) && $opcion == 'email'? 'selected': ''}}>Correo</option>
@@ -37,6 +38,7 @@
                         <tr>
                             <th>Cedula</th>
                             <th>Nombre</th>
+                            <th>Correo</th>
                             <th>Instituto</th>
                             <th>Opciones</th>
                         </tr>
@@ -46,6 +48,7 @@
                         <tr>
                             <td>{{ $profesor->cedula}}</td>
                             <td>{{ $profesor->nombre}}</td>
+                            <td>{{ $profesor->email}}</td>
                             <td>{{ $profesor->institutoid}}</td>
                             <td>
                                 <div class="row">

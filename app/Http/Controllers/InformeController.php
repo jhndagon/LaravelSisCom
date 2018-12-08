@@ -12,6 +12,7 @@ class InformeController extends Controller
     //
     public function mostrarFormularioInformes(){
         $institutos = Instituto::all();
+        $tipocom = Comision::distinct()->select('tipocom')->get();
         return view('informes.informe', compact(['institutos', 'tipocom']));
     }
 
@@ -51,9 +52,18 @@ class InformeController extends Controller
                 }
             }
         });
+        $comisiones->where(function($q) use ($request){
+            if($request->tipocom==null){
+                $q->orwhere('cedula', 'like','%');
+            }else{
+                foreach($request->tipocom as $tipo){
+                    $q->orWhere('tipocom', $tipo);
+                }
+            }
+        });
         $comisiones = $comisiones->get();
         $institutos = Instituto::all();
-
+        $tipocom = Comision::distinct()->select('tipocom')->get();
         return view('informes.informe', compact(['comisiones', 'esquema', 'sebusco','institutos','tipocom']));
     }
 }

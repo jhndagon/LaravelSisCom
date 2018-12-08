@@ -51,24 +51,40 @@
                             </div>
                         </div>
 
+                       <div class="form-group row">
+                            <div class="col-md-4">                        
+                                <label class="control-label" for="checkboxes">Seleccione el tipo de comision: </label>
+                            </div>
+                            <div class="col-md-3">
+                                @foreach ($tipocom as $tipo)
                         
+                                <div class="checkbox">
+                                    <label for="checkboxes-0">
+                                    <input type="checkbox" name="tipocom[]" value="{{$tipo->tipocom}}">
+                                    {{$tipo->tipocom}}
+                                    </label>
+                                </div>
+                                @endforeach
+                            </div>
+                        </div>
+
                         <div class="form-group row">
                             <div class="col-md-4">
-
+                        
                                 <label class="control-label" for="checkboxes">Seleccione los institutos que desea incluir en la consulta: </label>
                             </div>
-                                <div class="col-md-3">
-                                    @foreach ($institutos as $instituto)
-                                        
-                                    <div class="checkbox">
-                                      <label for="checkboxes-0">
+                            <div class="col-md-3">
+                                @foreach ($institutos as $instituto)
+                        
+                                <div class="checkbox">
+                                    <label for="checkboxes-0">
                                         <input type="checkbox" name="institutos[]" value="{{$instituto->institutoid}}">
                                         {{$instituto->instituto}}
-                                      </label>
-                                      </div>
-                                    @endforeach
+                                        </label>
                                 </div>
-                              </div>
+                                @endforeach
+                            </div>
+                        </div>
                               
                         
                         <div class="form-group row {{ $errors->any()?'has-error':''  }}" >

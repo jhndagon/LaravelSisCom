@@ -74,6 +74,7 @@
                         @endif
                     </div>
 
+                    @if(Session::get('jefe')==2)
                     <!-- Select Basic -->
                     <div class="form-group">
                         <label class="col-md-4 control-label" for="tipo">Tipo de contrato:</label>
@@ -123,6 +124,7 @@
                                 </select>
                         </div>
                     </div>
+                    @endif
                     <br>
                     <br>
                     <br>

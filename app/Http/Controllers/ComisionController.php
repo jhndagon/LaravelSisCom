@@ -235,6 +235,9 @@ class ComisionController extends Controller
             dd($comision);
             //enviar correo al director del instituto y a la secretaria del instituto
             // Mail::to('bkunde384@hideweb.xyz')->send(new SolicitudMail($comision));
+            dd('envio de correo a jefe de instituto y secretaria');
+            $correos = array();
+            Mail::to($this->correosprueba)->send(new SolicitudMail($comision));
         }
         return redirect('/inicio');
     }    
@@ -366,6 +369,7 @@ class ComisionController extends Controller
                         } else {                            
                             //enviar correo a decana y a la secretaria de decana
                             dd($correoProfesorDeComision);
+                            $correos = array();
                             Mail::to($correoProfesorDeComision)->send(new AprobacionMail($comision));
                         }
                     }

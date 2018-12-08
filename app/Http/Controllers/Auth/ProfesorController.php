@@ -130,10 +130,13 @@ class ProfesorController extends Controller
             return back()->withErrors(['email' => 'Recuerde que el correo debe ser institucional']);
         }
         $profesor->email = $request->email;
-        $profesor->tipo = $request->tipo;
-        $profesor->institutoid = $request->instituto;
-        $profesor->tipo = $request->tipo;
-        $profesor->dedicacion = $request->dedicacion;
+
+        if(\Session::get('jefe')==2){
+            $profesor->tipo = $request->tipo;
+            $profesor->institutoid = $request->instituto;
+            $profesor->tipo = $request->tipo;
+            $profesor->dedicacion = $request->dedicacion;
+        }
         $profesor->save();
         return redirect('/profesores');
     }

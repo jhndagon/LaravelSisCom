@@ -207,14 +207,14 @@
 
                             <div class="form-group">
                                 <div class="form-group row">
-                                    @if ($comision->vistobueno == 'No' || $comision->aprobacion == 'No' )
+                                    @if (($comision->vistobueno != 'Si' && $comision->aprobacion != 'Si') || Session::get('jefe') > 0)
                                     <div class="col-md-2">
-                                        <button type="submit" class="btn btn-primary btn-block">Guardar</button>
+                                        <button type="submit" class="btn btn-primary btn-block">Guardar comision</button>
                                     </div>
                                     <div class="col-md-2">
                                         <a href="" class="btn btn-primary btn-block">Borrar</a>
                                     </div>
-                                    @endif
+                                    @endif                                   
                                     <div class="col-md-2">
                                         <a href="{{ url('inicio') }}" class="btn btn-primary btn-block">Cancelar</a>
                                     </div>
