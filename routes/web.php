@@ -35,6 +35,7 @@ Route::group(['middleware' => 'auth:profesor'], function () {
     
     Route::get('/informes', 'InformeController@mostrarFormularioInformes');
     Route::Post('/informes', 'InformeController@hacerBusqueda'); 
+    Route::get('/descargarinforme/{info}', 'InformeController@generarInformeExcel');
     
     Route::get('/modificarcontrasena', 'ModificaInformacionController@mostrarFormularioModicacionContrasena')->name('modificarcontrasena');
     Route::post('/modificarcontrasena', 'ModificaInformacionController@modificarContraseña');

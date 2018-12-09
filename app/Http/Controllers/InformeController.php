@@ -5,6 +5,8 @@ namespace Comisiones\Http\Controllers;
 use Comisiones\Comision;
 use Comisiones\Instituto;
 use Illuminate\Http\Request;
+use Comisiones\Exports\ComisionesExport;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Schema;
 
 class InformeController extends Controller
@@ -19,14 +21,19 @@ class InformeController extends Controller
     public function hacerBusqueda(Request $request){
         $opcion = $request->opciones;
         $busqueda = $request->busqueda;
-        $sebusco = ['opcion'=>$opcion, 'busqueda'=>$busqueda];
+        $sebusco = ['opcion'=>$opcion, 
+                    'busqueda'=>$busqueda, 
+                    'fecha'=>$request->fecharango, 
+                    'tipocom'=>$request->tipocom, 
+                    'institutos'=>$request->institutos];
+
         $comisiones = null;
         $esquema = Schema::getColumnListing('Comisiones');
         if($opcion == 'todas'){
             $comisiones = Comision::where('cedula','like','%');
         }
         else if($opcion == 'permisos'){
-            $comisiones = Comision::where('tipocom', 'noremunerada')->orWhere('tipocom','permiso');
+            $comisiones = Comision::orWhere('tipocom', 'noremunerada')->orWhere('tipocom','calamidad');
         }
         else if($opcion == 'cedula'){
             if($busqueda){
@@ -65,5 +72,11 @@ class InformeController extends Controller
         $institutos = Instituto::all();
         $tipocom = Comision::distinct()->select('tipocom')->get();
         return view('informes.informe', compact(['comisiones', 'esquema', 'sebusco','institutos','tipocom']));
+    }
+
+    public function generarInformeExcel($info){
+
+        
+        return Excel::download(new ComisionesExport($info), 'comisiones.xlsx');
     }
 }

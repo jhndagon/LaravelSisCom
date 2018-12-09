@@ -18,16 +18,6 @@
                                     </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="opciones" value="permisos" {{ isset($sebusco)&&$sebusco['opcion']=='permisos'?'checked':'' }}>
-                            <label class="form-check-label" for="exampleRadios3">
-                                Mostrar todos los permisos.<br/>
-                                {{-- <pre>
-                                    * from Comisiones where (tipocom='noremunerada' and tipocom='calamidad')
-                                </pre>
-                            </td> --}}
-                        </label>
-                        </div>
-                        <div class="form-check">
                             <input class="form-check-input" type="radio" name="opciones" value="cedula" {{ isset($sebusco)&&$sebusco['opcion']=='cedula'?'checked':'' }}>
                             <label class="form-check-label" for="exampleRadios2">
                                 Mostrar las comisiones presentadas por la cedula.
@@ -106,8 +96,10 @@
                     @if (isset($esquema))
                     <br>
                         <ul class="navbar-nav mr-auto">
-                            <li class="nav-item active">
-                                {{-- <a class="btn btn-primary" href="{{ url('') }}">Generar informe </a> --}}
+                            <li class="nav-item active">                                
+
+                                    <a class="btn btn-primary" href="{{ url('/descargarinforme', ['info'=>json_encode($sebusco)]) }}">Generar informe </a>
+                                
                             </li>
                         </ul>
                         <br>
@@ -219,6 +211,7 @@
                     'Hoy': [moment(), moment()],
                     'Este mes': [moment().add('month', 0).startOf('month'), moment().add('month', 0).endOf('month')],
                     'Mes pasado': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')],
+                    'Año pasado': [moment().subtract('year', 1).startOf('year'), moment().subtract('year', 1).endOf('year')],
                     'Este año': [moment().add('year', 0).startOf('year'), moment().add('year', 0).endOf('year')]
                 }
             },
