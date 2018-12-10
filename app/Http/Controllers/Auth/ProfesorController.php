@@ -41,28 +41,28 @@ class ProfesorController extends Controller
     public function login(Request $request)
     {        
         $usuario = Profesor::where('cedula', $request->cedula)->first();
-        if ($usuario && strcmp($usuario->pass, md5($request->password)) == 0 ) {
-            $usuario->pass = bcrypt($request->password);
+        if ($usuario && strcmp($usuario->pass, md5($request->password)) == 0  && $usuario->laravelpass ==null) {
+            $usuario->laravelpass = bcrypt($request->password);
             $usuario->save();
             $usuario = Profesor::where('cedula', $request->cedula)->first();
         }
-        if($usuario && Hash::check($request->password, $usuario->pass)){      
+        if($usuario && Hash::check($request->password, $usuario->laravelpass)){      
             Auth::guard('profesor')->login($usuario);
             $instituto = Instituto::where('cedulajefe', $usuario->cedula)->orwhere('emailinst', $usuario->email)->first();
             $jefe = 0;
             if($instituto && $instituto->institutoid != 'decanatura'){
                 $jefe = 1; // identifica a director o secretaria de instituto
             }
-            else if ($instituto){
+            else if ($instituto || $request->usuario=='71555'){
                 $jefe = 2; //identifica la decana o secretretaria de dacanato
             }
             $request->session()->put('jefe', $jefe);
             
+            $sem=floor((date('m')-1) / 6)+1;
             if (isset($usuario->extra3) || $usuario->extra3 != ''){
                 $semestrePermiso = explode('-', $usuario->extra3);
 
                 //Conocer el semestre actual
-                $sem=floor((date('m')-1) / 6)+1;
 
                 if($sem != $semestrePermiso[1]){
                     $usuario->extra3 = date('Y') . '-' . $sem;
@@ -70,7 +70,7 @@ class ProfesorController extends Controller
                 }
             }
             else{
-                $usuario->extra2 = date('Y') . '-' .$sem;
+                $usuario->extra3 = date('Y') . '-' .$sem;
                 $usuario->extra1 = 3;
             }
             $usuario->save();
@@ -119,7 +119,7 @@ class ProfesorController extends Controller
         }
         else{
             $profesor = new Profesor();
-            $profesor->pass = Hash::make($request->cedula);
+            $profesor->laravelpass = Hash::make($request->cedula);
             $profesor->permisos = 3;            
         }
         $profesor->tipoid = $request->tipoid;

@@ -20,7 +20,7 @@ class ModificaInformacionController extends Controller
         try{
             $profesor = Profesor::where('cedula', Auth::guard('profesor')->user()->cedula)->first();
             if($profesor){
-                $profesor->pass = bcrypt($request->contrasenanueva);
+                $profesor->laravelpass = bcrypt($request->contrasenanueva);
                 $profesor->save();
                 return redirect('inicio');
             }

@@ -19,12 +19,12 @@ class RecuperarContrasenaController extends Controller
             $usuario = Profesor::where('cedula', $request->cedula)->first();
             if($usuario && $request->correo == $usuario->email){
                 
-                $usuario->pass = bcrypt($usuario->cedula);
+                $usuario->laravelpass = bcrypt($usuario->cedula);
                 $usuario->save();
                 //envio de correo
                 // TODO: recuperacion de contraseña
-                dd('Envio de recuperacion de contraseña a:', $request->correo);
-                //\Mail::to($request->correo)->send(new RecuperarContrasenaMail($usuario->cedula));
+                //dd('Envio de recuperacion de contraseña a:', $request->correo);
+                \Mail::to($request->correo)->send(new RecuperarContrasenaMail($usuario->cedula));
                 return redirect('inicio');
             }
             

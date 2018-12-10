@@ -71,7 +71,7 @@ $estadocolor='';
                                 
                                 
                             ?>
-
+{{-- bgcolor={{$estadocolor}} --}}
                             <tr bgcolor={{$estadocolor}}>
                                 <td>
                                     <a href="{{ url('comision', $comision->comisionid) }}">

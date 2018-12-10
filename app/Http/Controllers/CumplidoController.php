@@ -76,16 +76,21 @@ class CumplidoController extends Controller
         //envio de correo
         if(env('APP_DEBUG')){
             //a correo de prueba
-            $correos = explode(';', $comision->destinoscumplido);
             // dd($correos);
-            foreach ($correos as $key => $value) {
+            // foreach ($correos as $key => $value) {
                 
-                Mail::to(env('EMAIL_PRUEBA'))->send(new CumplidoMail($comision, \Auth::user()->nombre, $value));
-            }
+                //     Mail::to(env('EMAIL_PRUEBA'))->send(new CumplidoMail($comision, \Auth::user()->nombre, $value));
+                // }
         }else{            
-            dd('Descomentar linea 88 de CumplidoController', $correosCumplido);
+            $correos = explode(';', $comision->destinoscumplido);
+            //dd('Descomentar linea 88 de CumplidoController', $correosCumplido);
             // TODO: Envio de correos cumplido
             // Mail::to($correosCumplido)->send(new CumplidoMail($comision, \Auth::user()->nombre, $value));
+            foreach ($correos as $key => $value) {
+                
+                Mail::to($value)->send(new CumplidoMail($comision, \Auth::user()->nombre, $value));
+            }
+        
         }
 
         return redirect('/inicio');
