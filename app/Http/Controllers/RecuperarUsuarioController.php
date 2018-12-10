@@ -18,7 +18,7 @@ class RecuperarUsuarioController extends Controller
             $usuario = Profesor::where('email', $request->correo)->first();
             if($usuario && $request->correo == $usuario->email){               
                 //envio de correo
-                dd('Cambiar cedula');
+                dd('Cambiar cedula', $request->correo);
                 //\Mail::to($request->correo)->send(new RecuperarUsuarioMail($usuario->cedula));   
                 return redirect('inicio');
             }

@@ -22,6 +22,8 @@ class RecuperarContrasenaController extends Controller
                 $usuario->pass = bcrypt($usuario->cedula);
                 $usuario->save();
                 //envio de correo
+                // TODO: recuperacion de contraseña
+                dd('Envio de recuperacion de contraseña a:', $request->correo);
                 //\Mail::to($request->correo)->send(new RecuperarContrasenaMail($usuario->cedula));
                 return redirect('inicio');
             }

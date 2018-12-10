@@ -139,9 +139,7 @@
                                         @endforeach
                                     </tr>                                              
                                 @endforeach
-                            @endif
-
-                                
+                            @endif                               
                                 
                             </tbody>
                             @endif

@@ -11,7 +11,7 @@
             <h1 ><a href="{{url('inicio')}}"class='text-dark'>{{ config('app.name') }}</a></h1>
       </div>
       <div class="login-box pb-3">
-        <form method="POST" action="{{ route('recuperacontrasena') }}" class="login-form">
+        <form method="POST" action="{{ route('recuperausuario') }}" class="login-form">
                 @csrf
           <h3 class="login-head"><i class="fa fa-lg fa-fw fa-user"></i>Recupera usuario</h3>
 

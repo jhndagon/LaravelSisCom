@@ -48,6 +48,8 @@ Route::group(['middleware' => 'auth:profesor'], function () {
     
     Route::get('/subircumplido/{id}', 'CumplidoController@mostrarFormularioCumplido')->name('subircumplido');
     Route::post('/subircumplido', 'CumplidoController@crearCumplido');
+    Route::get('/actualizacumplido/{id}', 'CumplidoController@mostrarFormularioActualizaCumplido');
+    Route::get('/actualizacumplido/{id}', 'CumplidoController@mostrarFormularioActualizaCumplido');
 });
 
 Route::get('/cumplido/{comisionid}/{confirma}', 'CumplidoController@confirmarCumplido');

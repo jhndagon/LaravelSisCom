@@ -107,6 +107,9 @@ $estadocolor='';
                                     @if ($d2>$d1 && ($comision->estado=='aprobada') && $comision->tipocom !='noremunerada' && Auth::user()->cedula == $comision->cedula)
                                     <a href="{{ url('subircumplido', $comision->comisionid) }}">Subir cumplido</a>
                                     @endif
+                                    @if ($comision->qcumplido == 1 && ($comision->estado=='cumplida') &&  Auth::user()->cedula == $comision->cedula)
+                                    <a href="{{ url('actualizacumplido', $comision->comisionid) }}">Actualizar cumplido</a>
+                                    @endif
                                 </td>
                             </tr>
                             @endforeach

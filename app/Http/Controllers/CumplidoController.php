@@ -12,7 +12,7 @@ class CumplidoController extends Controller
 {
     public function mostrarFormularioCumplido($id){
         $comision =  Comision::where('comisionid', $id)->first();
-        return view('cumplido.cumplidoformulario', compact('comision'));
+        return view('cumplido.cumplidoformulario', compact(['comision', '']));
     }
 
     public function crearCumplido(Request $request){        
@@ -55,21 +55,24 @@ class CumplidoController extends Controller
         }
         
         $comision->estado = 'cumplida';
-        $comision->qcumplido = 1;        
+        $comision->qcumplido = 1;  
+        $correosCumplido = array();      
         if($request->correos){
             foreach ($request->correos as $key => $value) {                
                 $comision->destinoscumplido .= $value . ';';
+                array_push($correosCumplido, $value);
             }
         }
         if($request->otrosdestinatarios){            
             $otros = explode(',', $request->otrosdestinatarios);            
             foreach ($otros as $value) {
                 $request->destinoscumplido .= $value . ';';
+                array_push($correosCumplido, $value);
             }
         }
         $comision->infocumplido = $request->infocumplido;
+        $comision->qcumplido = 1;
         $comision->save();
-
         //envio de correo
         if(env('APP_DEBUG')){
             //a correo de prueba
@@ -79,20 +82,25 @@ class CumplidoController extends Controller
                 
                 Mail::to(env('EMAIL_PRUEBA'))->send(new CumplidoMail($comision, \Auth::user()->nombre, $value));
             }
-        }else{
-            
-
+        }else{            
+            dd('Descomentar linea 88 de CumplidoController', $correosCumplido);
+            // TODO: Envio de correos cumplido
+            // Mail::to($correosCumplido)->send(new CumplidoMail($comision, \Auth::user()->nombre, $value));
         }
 
+        return redirect('/inicio');
 
     }
 
+    /**
+     * Muestra la informacion cuando una pesona confirma el recibido de una comisión cumplida.
+     */
     public function confirmarCumplido($comisionid, $confirma){
         $comision = Comision::where('comisionid', $comisionid)->first();
         $correos = explode(';', $comision->destinoscumplido);
         foreach ($correos as $indice => $valor) {
             if(strcmp($valor, $confirma) == 0){
-                $comision->confirmacumplido .= $confirma . ' ' . Carbon::now() . ';';
+                $comision->confirmacumplido .= $confirma . '::' . Carbon::now() . ';';
                 $comision->save();
                 return view('cumplido.confirma')
                     ->with('confirma', $confirma)
@@ -100,6 +108,18 @@ class CumplidoController extends Controller
                     ->with('nombre', $comision->profesor->nombre);
             }
         }
+    }
+
+
+    public function mostrarFormularioActualizaCumplido($id){
+        $comision =  Comision::where('comisionid', $id)->first();
+        $cumplido = explode(';', $comision->confirmacumplido);
+        // $cumplido = explode('::',$cumplido);
+        foreach ($cumplido as $key => $value) {
+            # code...
+        }
+        dd($cumplido);
+        return view('cumplido.cumplidoformulario', compact(['comision', '']));
     }
 
 }
