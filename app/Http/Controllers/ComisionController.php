@@ -223,19 +223,19 @@ class ComisionController extends Controller
             }           
         }
 
-        //$comision->save();
-        dd('Insertada en la base de datos');
+        $comision->save();
+        // dd('Insertada en la base de datos');
         $instituto = Instituto::where('institutoid', Auth::user()->institutoid)->first();
         $director = Profesor::where('cedula', $instituto->cedulajefe)->first();
         $correos = array($instituto->emailinst, $director->email);
         if (env('APP_DEBUG')) {
             //enviar correo de prueba            
-             Mail::to($this->correosprueba)->send(new SolicitudMail($comision));
+            //  Mail::to($this->correosprueba)->send(new SolicitudMail($comision));
         } else {
             // TODO: enviar correo al director del instituto y a la secretaria del instituto
             //Mail::to($this->correosprueba)->send(new SolicitudMail($comision));
             //dd('envio de correo a jefe de instituto y secretaria', $correos);
-            //Mail::to($correos)->send(new SolicitudMail($comision));
+            Mail::to($correos)->send(new SolicitudMail($comision));
         }
         return redirect('/inicio');
     }    
