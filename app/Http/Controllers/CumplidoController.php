@@ -114,12 +114,15 @@ class CumplidoController extends Controller
     public function mostrarFormularioActualizaCumplido($id){
         $comision =  Comision::where('comisionid', $id)->first();
         $cumplido = explode(';', $comision->confirmacumplido);
-        // $cumplido = explode('::',$cumplido);
-        foreach ($cumplido as $key => $value) {
-            # code...
+        $elementos = count($cumplido);
+        $confirmacumplido = array();
+        for ($i=0; $i < $elementos-1; $i++) { 
+            $cumple = explode('::', $cumplido[$i]);
+            $confirmacumplido[$cumple[0]] = $cumple[1];
         }
-        dd($cumplido);
-        return view('cumplido.cumplidoformulario', compact(['comision', '']));
+        // $confirmacumplido = json_encode($confirmacumplido);
+        // dd($confirmacumplido);
+        return view('cumplido.actualiza', compact(['comision', 'confirmacumplido']));
     }
 
 }
