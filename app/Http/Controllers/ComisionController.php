@@ -199,7 +199,7 @@ class ComisionController extends Controller
                 return back()->withErrors(['diaspermiso'=>'No se pueden dar '. $diasPermiso . ' dia(s) de permiso. Por favor seleccione una nueva fecha.'])->withInput();
             }
 
-            $año = date_format(date_create($fecha[0]), 'Y');
+            $anio = date_format(date_create($fecha[0]), 'Y');
             $diasUsados = Comision::where('cedula', Auth::user()->cedula)
                                     ->where(function($q){
                                         $q->where('tipocom', 'noremunerada')
@@ -209,7 +209,7 @@ class ComisionController extends Controller
                                         $q->where('estado', 'apobada')
                                           ->orwhere('estado', 'cumplida');
                                     })
-                                    ->where('actualizacion', 'like', $año)                                    
+                                    ->where('actualizacion', 'like', $anio)                                    
                                     ->sum('extra1');            
             $diasRestantes = intval($comision->profesor->extra1, 10);
             $diasPermisoRestantes = $diasRestantes - $diasPermiso;
@@ -223,7 +223,8 @@ class ComisionController extends Controller
             }           
         }
 
-        $comision->save();
+        //$comision->save();
+        dd('Insertada en la base de datos');
         $instituto = Instituto::where('institutoid', Auth::user()->institutoid)->first();
         $director = Profesor::where('cedula', $instituto->cedulajefe)->first();
         $correos = array($instituto->emailinst, $director->email);
@@ -234,7 +235,7 @@ class ComisionController extends Controller
             // TODO: enviar correo al director del instituto y a la secretaria del instituto
             //Mail::to($this->correosprueba)->send(new SolicitudMail($comision));
             //dd('envio de correo a jefe de instituto y secretaria', $correos);
-            Mail::to($correos)->send(new SolicitudMail($comision));
+            //Mail::to($correos)->send(new SolicitudMail($comision));
         }
         return redirect('/inicio');
     }    
@@ -432,7 +433,7 @@ class ComisionController extends Controller
                         return back()->withErrors(['diaspermiso'=>'No se pueden dar '. $diasPermiso . ' dia(s) de permiso. Por favor seleccione una nueva fecha.'])->withInput();
                     }              
         
-                    $año = date_format(date_create($fecha[0]), 'Y');
+                    $anio = date_format(date_create($fecha[0]), 'Y');
                     $diasUsados = Comision::where('cedula', Auth::user()->cedula)
                                             ->where(function($q){
                                                 $q->where('tipocom', 'noremunerada')
@@ -442,7 +443,7 @@ class ComisionController extends Controller
                                                 $q->where('estado', 'apobada')
                                                   ->orwhere('estado', 'cumplida');
                                             })
-                                            ->where('actualizacion', 'like', $año)                                    
+                                            ->where('actualizacion', 'like', $anio)                                    
                                             ->sum('extra1');            
                     $diasRestantes = intval($comision->profesor->extra1, 10);
                     $diasPermisoRestantes = $diasRestantes - $diasPermiso;
