@@ -41,7 +41,7 @@ class ProfesorController extends Controller
     public function login(Request $request)
     {        
         $usuario = Profesor::where('cedula', $request->cedula)->first();
-        if ($usuario && strcmp($usuario->pass, md5($request->password)) == 0  && $usuario->laravelpass ==null) {
+        if ($usuario && strcmp($usuario->pass, md5($request->password)) == 0 ) {
             $usuario->laravelpass = bcrypt($request->password);
             $usuario->save();
             $usuario = Profesor::where('cedula', $request->cedula)->first();
@@ -53,7 +53,7 @@ class ProfesorController extends Controller
             if($instituto && $instituto->institutoid != 'decanatura'){
                 $jefe = 1; // identifica a director o secretaria de instituto
             }
-            else if ($instituto || $request->usuario=='71755174'){
+            else if ($instituto || $usuario->cedula=='71755174'){
                 $jefe = 2; //identifica la decana o secretretaria de dacanato
             }
             $request->session()->put('jefe', $jefe);
