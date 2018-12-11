@@ -6,12 +6,12 @@
     <div class="cover"></div>
 </section>
 <section class="login-content">
-      <div class="logo">
-          
-        <h1 ><a href="{{url('inicio')}}"class='text-dark'>{{ config('app.name') }}</a></h1>
-      </div>
+        <div class="logo">
+                <h1><a href="{{url('inicio')}}" class='text-dark text-center'> <p>Sistema de Comisiones,</p> <p>Facultad de Ciencias Exactas y Naturales,</p> <p>Universidad de Antioquia.</p></a></h1>
+                
+            </div>
       <div class="login-box pb-3">
-        <form method="POST" action="{{ route('recuperacontrasena') }}" class="login-form">
+        <form method="POST" action="{{ route('recuperacontrasena') }}" class="login-form" style="position: inherit;">
                 @csrf
           <h3 class="login-head"><i class="fa fa-lg fa-fw fa-user"></i>Recupera contraseña</h3>
           <div class="form-group">
@@ -70,5 +70,11 @@
                 </button>
             </div>
         </form>
+    </div>
+    <div class="row">
+            <div class="col-md-1"></div>
+        <div class="col-md-12">
+                <h2><a href="" class='text-dark text-center'> “Para usar la versión 1 vaya a este enlace (la versión 1 se descontinuará a partir de Febrero 1 de 2019”</a></h2>
+        </div>
     </div>
 @endsection

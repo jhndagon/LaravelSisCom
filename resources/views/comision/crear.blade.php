@@ -116,10 +116,16 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-6  text-center">
+                                <h4>
+                                    Tamaño maximo de archivos: 2 MB
+                                </h4>
+                                    
+                            </div>
                             <div class="form-group">
                                 <div class="form-group row">
                                     <label for="anexo1" class="col-sm-2 col-form-label text-right">Anexo 1: </label>
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-3">
                                         <input type="file" class="form-control-file" name="anexo1" > 
                                     </div>
                                 </div>

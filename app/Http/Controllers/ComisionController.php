@@ -120,6 +120,7 @@ class ComisionController extends Controller
         $comision->idioma = $request->idioma;
 
         //capturar archivos y guardar
+
         if ($request->anexo1) {
             $archivo = $request->file('anexo1');
             $nombre = $archivo->getClientOriginalName();

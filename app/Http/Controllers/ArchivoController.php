@@ -8,9 +8,11 @@ class ArchivoController extends Controller
 {
     function obtenerArchivo($comisionid, $documento){
         $ruta = '/' . $comisionid . '/'. $documento;
-
+        
         if(\Storage::disk('local')->exists($ruta)){
-            return \Storage::disk('local')->download($ruta);
+            // dd(storage_path('app/comisiones').$ruta);
+            return response()->download(storage_path('app/comisiones').$ruta);
+            //return \Storage::disk('local')->download($ruta);
         }
         abort(404);        
     }
@@ -19,7 +21,7 @@ class ArchivoController extends Controller
         $ruta = '/' . $comisionid . '/'. $documento;
 
         if(\Storage::disk('local')->exists($ruta)){
-            return \Storage::disk('local')->download($ruta);
+            return response()->download(storage_path('app/comisiones').$ruta);
         }
         abort(404);        
     }

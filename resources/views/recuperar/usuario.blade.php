@@ -6,10 +6,11 @@
     <div class="cover"></div>
 </section>
 <section class="login-content">
-      <div class="logo">
-          
-            <h1 ><a href="{{url('inicio')}}"class='text-dark'>{{ config('app.name') }}</a></h1>
-      </div>
+        <div class="logo">
+                <h1><a href="{{url('inicio')}}" class='text-dark text-center'> <p>Sistema de Comisiones,</p> <p>Facultad de Ciencias Exactas y Naturales,</p> <p>Universidad de Antioquia.</p></a></h1>
+                
+            </div>
+      <div class="login-box pb-3">
       <div class="login-box pb-3">
         <form method="POST" action="{{ route('recuperausuario') }}" class="login-form">
                 @csrf
@@ -55,4 +56,5 @@
             </div>
         </form>
     </div>
+    
 @endsection

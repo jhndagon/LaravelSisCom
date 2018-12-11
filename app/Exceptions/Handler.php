@@ -46,6 +46,10 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if ($exception instanceof PostTooLargeException) {
+
+            return response('Archivo demasiado pesado', 422);
+        }
         return parent::render($request, $exception);
     }
 }
