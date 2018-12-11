@@ -7,6 +7,7 @@ use Comisiones\Comision;
 use Illuminate\Http\Request;
 use Comisiones\Mail\CumplidoMail;
 use Illuminate\Support\Facades\Mail;
+use Comisiones\Utilidades\ReemplazarCaracteres;
 
 class CumplidoController extends Controller
 {
@@ -25,7 +26,7 @@ class CumplidoController extends Controller
         
         if($request->cumplido1){
             $archivo = $request->file('cumplido1');
-            $nombre = $archivo->getClientOriginalName();
+            $nombre = ReemplazarCaracteres::sanear_string($archivo->getClientOriginalName());
             $tamaño = $archivo->getClientSize();
             if($tamaño <=0){
                 return back()->withErrors(['archivo' => 'No se ha subido ningún archivo.'])->withInput();
@@ -38,7 +39,7 @@ class CumplidoController extends Controller
         }
         if($request->cumplido2){
             $archivo = $request->file('cumplido2');
-            $nombre = $archivo->getClientOriginalName();
+            $nombre = ReemplazarCaracteres::sanear_string($archivo->getClientOriginalName());
             $tamaño = $archivo->getClientSize();
             if($tamaño <=0){
                 return back()->withErrors(['archivo' => 'No se ha subido ningún archivo.'])->withInput();
@@ -85,7 +86,7 @@ class CumplidoController extends Controller
             $correos = explode(';', $comision->destinoscumplido);
             //dd('Descomentar linea 88 de CumplidoController', $correosCumplido);
             // TODO: Envio de correos cumplido
-            // Mail::to($correosCumplido)->send(new CumplidoMail($comision, \Auth::user()->nombre, $value));
+             Mail::to($correosCumplido)->send(new CumplidoMail($comision, \Auth::user()->nombre, $value));
             foreach ($correos as $key => $value) {
                 
                 Mail::to($value)->send(new CumplidoMail($comision, \Auth::user()->nombre, $value));
