@@ -41,7 +41,7 @@ class ProfesorController extends Controller
     public function login(Request $request)
     {        
         $usuario = Profesor::where('cedula', $request->cedula)->first();
-        if ($usuario && strcmp($usuario->pass, md5($request->password)) == 0 ) {
+        if ($usuario && strcmp($usuario->pass, md5($request->password)) == 0 && !isset($usuario->laravelpass)) {
             $usuario->laravelpass = bcrypt($request->password);
             $usuario->save();
             $usuario = Profesor::where('cedula', $request->cedula)->first();

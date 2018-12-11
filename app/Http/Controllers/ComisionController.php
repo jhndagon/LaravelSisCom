@@ -18,6 +18,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Comisiones\Mail\AprobacionPermisoMail;
+use Comisiones\Utilidades\ReemplazarCaracteres;
+
+
 
 class ComisionController extends Controller
 {
@@ -123,7 +126,9 @@ class ComisionController extends Controller
 
         if ($request->anexo1) {
             $archivo = $request->file('anexo1');
-            $nombre = $archivo->getClientOriginalName();
+            $nombre = ReemplazarCaracteres::sanear_string($archivo->getClientOriginalName());
+            // dd($nombre);
+
             do {
                 $ruta = \Storage::disk('local')->put($request->comisionid . '/' . $nombre, \File::get($archivo));
             } while (!$ruta);

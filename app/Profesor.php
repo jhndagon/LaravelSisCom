@@ -47,7 +47,7 @@ class Profesor extends Authenticatable
     ];
 
     public function getAuthPassword() {
-        return $this->pass;
+        return $this->laravelpass;
     }
 
     public function instituto(){
