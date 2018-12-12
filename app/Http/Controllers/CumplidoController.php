@@ -31,23 +31,35 @@ class CumplidoController extends Controller
             if($tamaño <=0){
                 return back()->withErrors(['archivo' => 'No se ha subido ningún archivo.'])->withInput();
             }
+
+            $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';        
+            $randstring = '';
+            for ($i = 0; $i < 5; $i++) {
+                $randstring .= $characters[rand(0, strlen($characters) - 1)];
+            }
+
+
             do{
-                $ruta = \Storage::disk('local')->put($request->comisionid . '/Cumplido1_' .$nombre,  \File::get($archivo));
+                $ruta = \Storage::disk('local')->put($request->comisionid . '/Cumplido1_' .$randstring,  \File::get($archivo));
             }while(!$ruta);
-            $comision->cumplido1 = $nombre;   
+            $comision->cumplido1 = $randstring;   
             $subioarchivo = true;         
         }
         if($request->cumplido2){
             $archivo = $request->file('cumplido2');
-            $nombre = ReemplazarCaracteres::sanear_string($archivo->getClientOriginalName());
             $tamaño = $archivo->getClientSize();
             if($tamaño <=0){
                 return back()->withErrors(['archivo' => 'No se ha subido ningún archivo.'])->withInput();
             }            
+            $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';        
+            $randstring = '';
+            for ($i = 0; $i < 5; $i++) {
+                $randstring .= $characters[rand(0, strlen($characters) - 1)];
+            }
             do{
-                $ruta = \Storage::disk('local')->put($request->comisionid . '/Cumplido2_' . $nombre, \File::get($archivo));
+                $ruta = \Storage::disk('local')->put($request->comisionid . '/Cumplido2_' . $randstring, \File::get($archivo));
             }while(!$ruta);
-            $comision->cumplido2 = $nombre;
+            $comision->cumplido2 = $randstring;
             $subioarchivo = true;
         }
 
