@@ -125,6 +125,8 @@ class ComisionController extends Controller
 
         if ($request->anexo1) {
             $archivo = $request->file('anexo1');
+            $extension = $archivo->getClientOriginalExtension();
+            
             $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';        
             $randstring = '';
             for ($i = 0; $i < 5; $i++) {
@@ -132,12 +134,13 @@ class ComisionController extends Controller
             }
 
             do {
-                $ruta = \Storage::disk('local')->put($request->comisionid . '/' . $randstring, \File::get($archivo));
+                $ruta = \Storage::disk('local')->put($request->comisionid . '/' . $randstring .'.'.$extension, \File::get($archivo));
             } while (!$ruta);
-            $comision->anexo1 = $randstring;
+            $comision->anexo1 = $randstring . '.' . $extension;
         }
         if ($request->anexo2) {
             $archivo = $request->file('anexo2');
+            $extension = $archivo->getClientOriginalExtension();
             $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';        
             $randstring = '';
             for ($i = 0; $i < 5; $i++) {
@@ -145,19 +148,20 @@ class ComisionController extends Controller
             }
 
             do {
-                $ruta = \Storage::disk('local')->put($request->comisionid . '/' . $randstring, \File::get($archivo));
+                $ruta = \Storage::disk('local')->put($request->comisionid . '/' . $randstring .'.'.$extension, \File::get($archivo));
             } while (!$ruta);
             $comision->anexo2 = $randstring;
         }
         if ($request->anexo3) {
             $archivo = $request->file('anexo3');
+            $extension = $archivo->getClientOriginalExtension();
             $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';        
             $randstring = '';
             for ($i = 0; $i < 5; $i++) {
                 $randstring .= $characters[rand(0, strlen($characters) - 1)];
             }
             do {
-                $ruta = \Storage::disk('local')->put($request->comisionid . '/' . $randstring, \File::get($archivo));
+                $ruta = \Storage::disk('local')->put($request->comisionid . '/' . $randstring .'.'.$extension, \File::get($archivo));
             } while (!$ruta);
             $comision->anexo3 = $randstring;
         }

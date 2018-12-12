@@ -25,6 +25,7 @@ class CumplidoController extends Controller
         
         if($request->cumplido1){
             $archivo = $request->file('cumplido1');
+            $extension = $archivo->getClientOriginalExtension();
             $tamaño = $archivo->getClientSize();
             if($tamaño <=0){
                 return back()->withErrors(['archivo' => 'No se ha subido ningún archivo.'])->withInput();
@@ -38,13 +39,14 @@ class CumplidoController extends Controller
 
 
             do{
-                $ruta = \Storage::disk('local')->put($request->comisionid . '/Cumplido1_' .$randstring,  \File::get($archivo));
+                $ruta = \Storage::disk('local')->put($request->comisionid . '/Cumplido1_' .$randstring .'.'.$extension,  \File::get($archivo));
             }while(!$ruta);
             $comision->cumplido1 = $randstring;   
             $subioarchivo = true;         
         }
         if($request->cumplido2){
             $archivo = $request->file('cumplido2');
+            $extension = $archivo->getClientOriginalExtension();
             $tamaño = $archivo->getClientSize();
             if($tamaño <=0){
                 return back()->withErrors(['archivo' => 'No se ha subido ningún archivo.'])->withInput();
@@ -55,7 +57,7 @@ class CumplidoController extends Controller
                 $randstring .= $characters[rand(0, strlen($characters) - 1)];
             }
             do{
-                $ruta = \Storage::disk('local')->put($request->comisionid . '/Cumplido2_' . $randstring, \File::get($archivo));
+                $ruta = \Storage::disk('local')->put($request->comisionid . '/Cumplido2_' . $randstring .'.'.$extension, \File::get($archivo));
             }while(!$ruta);
             $comision->cumplido2 = $randstring;
             $subioarchivo = true;
