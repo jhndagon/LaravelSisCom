@@ -343,7 +343,8 @@ class ComisionController extends Controller
                         // Mail::to(array($correoDecana, $correoSecretariaDecanato))->send(new VistoBuenoMail($comision));
                     }
                 }
-            } else if ($jefe == 2) {
+            }
+            if ($jefe == 2) {
                 if ($comision->aprobacion == 'No' && $request->aprobacion == 'Si') {
                     $comision->aprobacion = $request->aprobacion;
                     $comision->estado = 'aprobada';
