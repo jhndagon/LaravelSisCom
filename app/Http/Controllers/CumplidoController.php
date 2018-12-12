@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Mail;
 
 class CumplidoController extends Controller
 {
+    public $correosprueba = array('jhndagon11@gmail.com','jhndagon12@gmail.com');
     public function mostrarFormularioCumplido($id){
         $comision =  Comision::where('comisionid', $id)->first();
         return view('cumplido.cumplidoformulario', compact(['comision', '']));
@@ -90,13 +91,12 @@ class CumplidoController extends Controller
         if(env('APP_DEBUG')){
             //a correo de prueba
             // dd($correos);
-            // foreach ($correos as $key => $value) {
-                
-                //     Mail::to(env('EMAIL_PRUEBA'))->send(new CumplidoMail($comision, \Auth::user()->nombre, $value));
-                // }
         }else{            
             $correos = explode(';', $comision->destinoscumplido);
-            //dd('Descomentar linea 88 de CumplidoController', $correosCumplido);
+            foreach ($this->correosprueba as $value) {                
+                Mail::to($value)->send(new CumplidoMail($comision, \Auth::user()->nombre, $value));
+            }
+            // dd('Descomentar linea 88 de CumplidoController', $correosCumplido);
             // TODO: Envio de correos cumplido
             //  Mail::to($correosCumplido)->send(new CumplidoMail($comision, \Auth::user()->nombre, $value));
             // foreach ($correos as $key => $value) {
