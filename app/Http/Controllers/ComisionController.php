@@ -325,12 +325,16 @@ class ComisionController extends Controller
                     if (env('APP_DEBUG')) {
                         //enviar correo de prueba
                     } else {
-                        Mail::to($this->correosprueba)->send(new VistoBuenoMail($comision));
                         // TODO: agregar envio de correo a decanato
                         //enviar correo a decanato y a la secretaria de decanato
                         $instituto = Instituto::where('institutoid', 'decanatura')->first();
                         $correoDecanato = Profesor::where('cedula', $instituto->cedulajefe)->first()->email;
                         $correoSecretariaDecanato = $instituto->emailinst;
+                        $correoProfesor = Profesor::where('cedula', $comision->cedula)->first()->correo;
+
+                        array_push($this->correosprueba, $correoProfesor);
+                        Mail::to($this->correosprueba)->send(new VistoBuenoMail($comision));
+                        array_pop($this->correosprueba);
                         //dd('Envío de correo al decanato luego de vistobueno',array($correoDecanato, $correoSecretariaDecanato));
                         // Mail::to(array($correoDecana, $correoSecretariaDecanato))->send(new VistoBuenoMail($comision));
                     }
@@ -369,8 +373,9 @@ class ComisionController extends Controller
                         if (env('APP_DEBUG')) {
                             //enviar correo de prueba
                         } else {
+                            array_push($this->correosprueba, $correoProfesor);
                             Mail::to($this->correosprueba)->send(new AprobacionPermisoMail($comision));
-                            
+                            array_pop($this->correosprueba);
                             //enviar correo a empleado
                             //dd('Correo de permiso enviado a: ',$correoProfesorDeComision);
                             // Mail::to($correoProfesorDeComision)->send(new AprobacionPermisoMail($comision));
@@ -385,8 +390,10 @@ class ComisionController extends Controller
                         //envio de correo a decana y secretaria de decana
                         if (env('APP_DEBUG', false)) {
                             //enviar correo de prueba
-                        } else {                            
+                        } else {                       
+                            array_push($this->correosprueba, $correoProfesor);     
                             Mail::to($this->correosprueba)->send(new AprobacionMail($comision));
+                            array_pop($this->correosprueba);
                             //enviar correo a decana y a la secretaria de decana
                             // dd('Correo de comision enviado a: ',$correoProfesorDeComision);
 
