@@ -93,6 +93,7 @@ class CumplidoController extends Controller
             // dd($correos);
         }else{            
             $correos = explode(';', $comision->destinoscumplido);
+                        
             foreach ($this->correosprueba as $value) {                
                 Mail::to($value)->send(new CumplidoMail($comision, \Auth::user()->nombre, $value));
             }

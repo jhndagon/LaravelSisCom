@@ -310,7 +310,7 @@ class ComisionController extends Controller
             if (env('APP_DEBUG')) {
                 //enviar correo de prueba
             } else {
-                $correoProfesor = Profesor::where('cedula', $comision->cedula)->first()->correo;
+                $correoProfesor = Profesor::where('cedula', $comision->cedula)->first()->email;
 
                 array_push($this->correosprueba, $correoProfesor);
                 Mail::to($this->correosprueba)->send(new DevolucionMail($comision, $request->respuesta));
@@ -334,8 +334,8 @@ class ComisionController extends Controller
                         $instituto = Instituto::where('institutoid', 'decanatura')->first();
                         $correoDecanato = Profesor::where('cedula', $instituto->cedulajefe)->first()->email;
                         $correoSecretariaDecanato = $instituto->emailinst;
-                        $correoProfesor = Profesor::where('cedula', $comision->cedula)->first()->correo;
-
+                        $correoProfesor = Profesor::where('cedula', $comision->cedula)->first()->email;
+                        
                         array_push($this->correosprueba, $correoProfesor);
                         Mail::to($this->correosprueba)->send(new VistoBuenoMail($comision));
                         array_pop($this->correosprueba);
@@ -366,7 +366,7 @@ class ComisionController extends Controller
                         \Storage::makeDirectory($comision->comisionid);
                     }
 
-                    $correoProfesor = Profesor::where('cedula', $comision->cedula)->first()->correo;
+                    $correoProfesor = Profesor::where('cedula', $comision->cedula)->first()->email;
                     if (strcmp($comision->tipocom, 'calamidad') == 0 || strcmp($comision->tipocom, 'noremunerada') == 0) {
                         $pdfResolucion = PDF::loadView('resoluciones.resolucionPermiso', ['comision' => $comision, 'blank' => 1])
                             ->save(storage_path('app/comisiones') . '/' . $comision->comisionid . '/resolucion-blank-' . $comision->comisionid . '.pdf');
