@@ -310,7 +310,11 @@ class ComisionController extends Controller
             if (env('APP_DEBUG')) {
                 //enviar correo de prueba
             } else {
+                $correoProfesor = Profesor::where('cedula', $comision->cedula)->first()->correo;
+
+                array_push($this->correosprueba, $correoProfesor);
                 Mail::to($this->correosprueba)->send(new DevolucionMail($comision, $request->respuesta));
+                array_pop($this->correosprueba);
                 //enviar correo a profesor devolucion
                 $correoProfesor = Profesor::where('cedula', $comision->cedula)->first()->email;
                 //dd('Envío de correo respuesta devolviendo comisión al profesor', $correoProfesor);
@@ -361,7 +365,8 @@ class ComisionController extends Controller
                     if (!\Storage::disk('local')->exists($comision->comisionid)) {
                         \Storage::makeDirectory($comision->comisionid);
                     }
-                    $correoProfesorDeComision = Profesor::where('cedula', $comision->cedula)->first()->email;
+
+                    $correoProfesor = Profesor::where('cedula', $comision->cedula)->first()->correo;
                     if (strcmp($comision->tipocom, 'calamidad') == 0 || strcmp($comision->tipocom, 'noremunerada') == 0) {
                         $pdfResolucion = PDF::loadView('resoluciones.resolucionPermiso', ['comision' => $comision, 'blank' => 1])
                             ->save(storage_path('app/comisiones') . '/' . $comision->comisionid . '/resolucion-blank-' . $comision->comisionid . '.pdf');
