@@ -317,7 +317,7 @@ class ComisionController extends Controller
                 // Mail::to($correoProfesor)->send(new DevolucionMail($comision, $request->respuesta));
             }
         } else {
-            if ($jefe == 1) {
+            if ($jefe == 1 || $jefe == 2) {
                 if ($comision->vistobueno == 'No' && $request->vistobueno == 'Si') {
                     $comision->vistobueno = $request->vistobueno;
                     $comision->estado = 'vistobueno';
