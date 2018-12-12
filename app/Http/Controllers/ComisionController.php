@@ -241,7 +241,7 @@ class ComisionController extends Controller
             // TODO: enviar correo al director del instituto y a la secretaria del instituto
             //Mail::to($this->correosprueba)->send(new SolicitudMail($comision));
             //dd('envio de correo a jefe de instituto y secretaria', $correos);
-            // Mail::to($correos)->send(new SolicitudMail($comision));
+            Mail::to($correos)->send(new SolicitudMail($comision));
         }
         return redirect('/inicio');
     }    
@@ -299,7 +299,7 @@ class ComisionController extends Controller
                 //enviar correo a profesor devolucion
                 $correoProfesor = Profesor::where('cedula', $comision->cedula)->first()->email;
                 //dd('Envío de correo respuesta devolviendo comisión al profesor', $correoProfesor);
-                // Mail::to($correoProfesor)->send(new DevolucionMail($comision, $request->respuesta));
+                Mail::to($correoProfesor)->send(new DevolucionMail($comision, $request->respuesta));
             }
         } else {
             if ($jefe == 1) {
@@ -317,7 +317,7 @@ class ComisionController extends Controller
                         $correoDecanato = Profesor::where('cedula', $instituto->cedulajefe)->first()->email;
                         $correoSecretariaDecanato = $instituto->emailinst;
                         //dd('Envío de correo al decanato luego de vistobueno',array($correoDecanato, $correoSecretariaDecanato));
-                        // Mail::to(array($correoDecana, $correoSecretariaDecanato))->send(new VistoBuenoMail($comision));
+                        Mail::to(array($correoDecana, $correoSecretariaDecanato))->send(new VistoBuenoMail($comision));
                     }
                 }
             } else if ($jefe == 2) {
@@ -358,7 +358,7 @@ class ComisionController extends Controller
                             
                             //enviar correo a empleado
                             //dd('Correo de permiso enviado a: ',$correoProfesorDeComision);
-                            // Mail::to($correoProfesorDeComision)->send(new AprobacionPermisoMail($comision));
+                            Mail::to($correoProfesorDeComision)->send(new AprobacionPermisoMail($comision));
                         }
                     } else {
                         $pdfResolucion = PDF::loadView('resoluciones.resolucion', ['comision' => $comision, 'blank' => 1, 'profesor'=>$comision->profesor])
@@ -374,9 +374,11 @@ class ComisionController extends Controller
                         } else {                            
                             //enviar correo a decana y a la secretaria de decana
                             dd('Correo de comision enviado a: ',$correoProfesorDeComision);
+
+                            // TODO: si se envia correo tambien a la secretaria
                             $correos = array();
                         
-                            // Mail::to($correoProfesorDeComision)->send(new AprobacionMail($comision));
+                            Mail::to($correoProfesorDeComision)->send(new AprobacionMail($comision));
                             
                         }
                     }
