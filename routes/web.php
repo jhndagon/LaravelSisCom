@@ -56,4 +56,4 @@ Route::get('/cumplido/{comisionid}/{confirma}', 'CumplidoController@confirmarCum
 
 
 Route::get('/archivo/{comisionid}/{documento}', 'ArchivoController@obtenerArchivo');
-Route::get('/documentoscumplido/{comisionid}/{archivo}', 'ArchivoController@obtenerArchivoCumplido');
+Route::get('/documentoscumplido/{comisionid}/{documento}', 'ArchivoController@obtenerArchivoCumplido');

@@ -11,7 +11,7 @@
 
 <body>
     <p>Se&ntilde;or(a) Director(a),</p>
-    <p>Una nueva solicitud de comisión ha sido radicada en el <a href="{{ url('') }}">Sistema de comisiones</a>. Está es la información basica
+    <p>Una nueva solicitud de comisión ha sido radicada en el <a href="{{ url('/inicio') }}">Sistema de comisiones</a>. Está es la información basica
         de la solicitud: </p>
     <ul>
         <li>Fecha de radicacion: {{$comision->radicacion}}</li>
