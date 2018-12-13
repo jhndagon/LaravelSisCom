@@ -200,19 +200,7 @@ class ComisionController extends Controller
             if($diasPermiso > 3){
                 return back()->withErrors(['diaspermiso'=>'No se pueden dar '. $diasPermiso . ' dia(s) de permiso. Por favor seleccione una nueva fecha.'])->withInput();
             }
-
-            $anio = date_format(date_create($fecha[0]), 'Y');
-            // $diasUsados = Comision::where('cedula', Auth::user()->cedula)
-            //                         ->where(function($q){
-            //                             $q->where('tipocom', 'noremunerada')
-            //                               ->orwhere('tipocom', 'calamidad');
-            //                         })
-            //                         ->where(function($q){
-            //                             $q->where('estado', 'apobada')
-            //                               ->orwhere('estado', 'cumplida');
-            //                         })
-            //                         ->where('actualizacion', 'like', $anio)                                    
-            //                         ->sum('extra1');            
+            $anio = date_format(date_create($fecha[0]), 'Y');          
             $diasRestantes = intval($comision->profesor->extra1, 10);
             $diasPermisoRestantes = $diasRestantes - $diasPermiso;
             if($diasPermisoRestantes >= 0){
@@ -226,7 +214,6 @@ class ComisionController extends Controller
         }
 
         $comision->save();
-        // dd('Insertada en la base de datos');
         $instituto = Instituto::where('institutoid', Auth::user()->institutoid)->first();
         $director = Profesor::where('cedula', $instituto->cedulajefe)->first();
         $secretaria = Profesor::where('email', $instituto->emailinst)->first();
@@ -235,9 +222,9 @@ class ComisionController extends Controller
         //%%%%%%%%%%%%%%%%%%%%%%%%%
         // TODO: enviar correo al director del instituto y a la secretaria del instituto
         //%%%%%%%%%%%%%%%%%%%%%%%%%
-        Mail::to($this->correosprueba)->send(new SolicitudMail($comision));
+        // Mail::to($this->correosprueba)->send(new SolicitudMail($comision));
 
-        // Mail::to($correos)->send(new SolicitudMail($comision));//
+        Mail::to($correos)->send(new SolicitudMail($comision));//
 
         return redirect('/inicio')->with(['notificacion1'=>'Notificación enviada a Director '.$director->email,
                                           'notificacion2'=>'Una copia ha sido enviada también a Secretaria Instituto '. $secretaria->email]);
@@ -300,12 +287,11 @@ class ComisionController extends Controller
             // TODO: enviar correo al director del instituto y a la secretaria del instituto
             //%%%%%%%%%%%%%%%%%%%%%%%%%
 
-            Mail::to('jhndagon12@gmail.com')->send(new DevolucionDirectorMail($comision,$request->respuesta));
-            Mail::to('jhndagon11@gmail.com')->send(new DevolucionMail($comision, $request->respuesta));
+            // Mail::to('jhndagon12@gmail.com')->send(new DevolucionDirectorMail($comision,$request->respuesta));
+            // Mail::to('jhndagon11@gmail.com')->send(new DevolucionMail($comision, $request->respuesta));
             
-
             Mail::to($profesor->email)->send(new DevolucionMail($comision, $request->respuesta));
-            // Mail::to($directorInstituto->email)->send(new DevolucionDirectorMail($comision, $request->respuesta));
+            Mail::to($directorInstituto->email)->send(new DevolucionDirectorMail($comision, $request->respuesta));
             $destino = "Solicitante";
             $emailjefe = $profesor->email;
 
@@ -330,10 +316,10 @@ class ComisionController extends Controller
                     $correos = array($instituto->emailinst, $decano->email);
 
 
-                    Mail::to($this->correosprueba[0])->send(new VistoBuenoMail($comision));
-                    Mail::to($this->correosprueba[1])->send(new NotificacionActualizacionProfesorMail($comision));
+                    // Mail::to($this->correosprueba[0])->send(new VistoBuenoMail($comision));
+                    // Mail::to($this->correosprueba[1])->send(new NotificacionActualizacionProfesorMail($comision));
 
-                    // Mail::to($correos)->send(new VistoBuenoMail($comision));  
+                    Mail::to($correos)->send(new VistoBuenoMail($comision));  
                     Mail::to($profesor->email)->send(new NotificacionActualizacionProfesorMail($comision));
                     
                     $destino = "Decano";
@@ -390,14 +376,11 @@ class ComisionController extends Controller
                         // TODO: enviar correo al solicitante y copia al director
                         //%%%%%%%%%%%%%%%%%%%%%%%%%
 
-                        //array_push($this->correosprueba, $correoProfesor);
-                        Mail::to('jhndagon11@gmail.com')->send(new AprobacionPermisoMail($comision));
-                        Mail::to('jhndagon12@gmail.com')->send(new AprobacionPermisoDirectorMail($comision));
-                        //array_pop($this->correosprueba);
+                        // Mail::to('jhndagon11@gmail.com')->send(new AprobacionPermisoMail($comision));
+                        // Mail::to('jhndagon12@gmail.com')->send(new AprobacionPermisoDirectorMail($comision));
 
-                        //enviar correo a empleado
                         Mail::to($profesor->email)->send(new AprobacionPermisoMail($comision, false));
-                        // Mail::to($director->email)->send(new AprobacionPermisoDirectorMail($comision,true)); //esta envia la copía de aprobación al director
+                        Mail::to($director->email)->send(new AprobacionPermisoDirectorMail($comision,true)); //esta envia la copía de aprobación al director
                         
                     } else {
                         $pdfResolucion = PDF::loadView('resoluciones.resolucion', ['comision' => $comision, 'blank' => 1, 'profesor'=>$comision->profesor])
@@ -409,15 +392,12 @@ class ComisionController extends Controller
                         //%%%%%%%%%%%%%%%%%%%%%%%%%
                         // TODO: enviar correo al solicitante y copia al director
                         //%%%%%%%%%%%%%%%%%%%%%%%%%
-                   
-                        //array_push($this->correosprueba, $correoProfesor);     
-                        Mail::to('jhndagon11@gmail.com')->send(new AprobacionMail($comision));
-                        Mail::to('jhndagon12@gmail.com')->send(new AprobacionDirectorMail($comision));
-                        //array_pop($this->correosprueba);
-                        
+                      
+                        // Mail::to('jhndagon11@gmail.com')->send(new AprobacionMail($comision));
+                        // Mail::to('jhndagon12@gmail.com')->send(new AprobacionDirectorMail($comision));                        
                                             
                         Mail::to($profesor->email)->send(new AprobacionMail($comision));
-                        // Mail::to($director->email)->send(new AprobacioDirectorMail($comision));//esta envia la copía de aprobación al director
+                        Mail::to($director->email)->send(new AprobacioDirectorMail($comision));//esta envia la copía de aprobación al director
                         
                     }
 

@@ -86,16 +86,16 @@ class CumplidoController extends Controller
         //%%%%%%%%%%%%%%%%%%%%%%%%%            
         $correos = explode(';', $comision->destinoscumplido);
                         
-        foreach ($this->correosprueba as $value) {  
-            $notificacion2 .= '<br/>Mensaje enviado a '.$value.'.';              
-            Mail::to($value)->send(new CumplidoMail($comision, \Auth::user()->nombre, $value));
-        }
+        // foreach ($this->correosprueba as $value) {  
+        //     $notificacion2 .= '<br/>Mensaje enviado a '.$value.'.';              
+        //     Mail::to($value)->send(new CumplidoMail($comision, \Auth::user()->nombre, $value));
+        // }
         // TODO: Envio de correos cumplido
         //  Mail::to($correosCumplido)->send(new CumplidoMail($comision, \Auth::user()->nombre, $value));
-        // foreach ($correos as $key => $value) {
-            
-        //     Mail::to($value)->send(new CumplidoMail($comision, \Auth::user()->nombre, $value));
-        // }        
+        foreach ($correos as $key => $value) {
+            $notificacion2 .= '<br/>Mensaje enviado a '.$value.'.';
+            Mail::to($value)->send(new CumplidoMail($comision, \Auth::user()->nombre, $value));
+        }        
         
         return redirect('/inicio')->with(['notificacion1'=>$notificacion1, 'notificacion2'=>$notificacion2]);
 
