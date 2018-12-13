@@ -7,6 +7,7 @@ use Comisiones\Comision;
 use Illuminate\Http\Request;
 use Comisiones\Mail\CumplidoMail;
 use Illuminate\Support\Facades\Mail;
+use Comisiones\Utilidades\GeneraCaracteres;
 
 class CumplidoController extends Controller
 {
@@ -22,7 +23,9 @@ class CumplidoController extends Controller
         }
         $comision = Comision::where('comisionid', $request->comisionid)->first();
         //captura de archivos
-        $subioarchivo = false;        
+        $subioarchivo = false; 
+        $notificacion1 = '';
+        $notificacion2 = '';       
         
         if($request->cumplido1){
             $archivo = $request->file('cumplido1');
@@ -35,7 +38,8 @@ class CumplidoController extends Controller
             do{
                 $ruta = \Storage::disk('local')->put($request->comisionid . '/Cumplido1_' .$randstring .'.'.$extension,  \File::get($archivo));
             }while(!$ruta);
-            $comision->cumplido1 = $randstring;   
+            $comision->cumplido1 = $randstring .'.'.$extension;
+            $notificacion1 = 'Archivo de Cumplido '. $comision->cumplido1.' subido';   
             $subioarchivo = true;         
         }
         if($request->cumplido2){
@@ -49,10 +53,11 @@ class CumplidoController extends Controller
             do{
                 $ruta = \Storage::disk('local')->put($request->comisionid . '/Cumplido2_' . $randstring .'.'.$extension, \File::get($archivo));
             }while(!$ruta);
-            $comision->cumplido2 = $randstring;
+            $comision->cumplido2 = $randstring .'.'.$extension;
+            $notificacion1 .= '. <br/>Archivo de cumplido '. $comision->cumplido2.' subido.';
             $subioarchivo = true;
         }
-
+        $notificacion1 .= '<br/><strong class="text-danger">Felicidades. Su comisioón se ha cumplodp con exito.</strong>';
         if(!$subioarchivo){           
             return back()->withErrors(['archivo' => 'No se ha subido ningún archivo.'])->withInput();
         }
@@ -76,24 +81,23 @@ class CumplidoController extends Controller
         $comision->infocumplido = $request->infocumplido;
         $comision->qcumplido = 1;
         $comision->save();
-        //envio de correo
-        if(env('APP_DEBUG')){
-            //a correo de prueba
-            // dd($correos);
-        }else{            
-            $correos = explode(';', $comision->destinoscumplido);
+        //%%%%%%%%%%%%%%%%%%%%%%%%%
+        // TODO: enviar correo de cumplido
+        //%%%%%%%%%%%%%%%%%%%%%%%%%            
+        $correos = explode(';', $comision->destinoscumplido);
                         
-            foreach ($this->correosprueba as $value) {                
-                Mail::to($value)->send(new CumplidoMail($comision, \Auth::user()->nombre, $value));
-            }
-            // TODO: Envio de correos cumplido
-            //  Mail::to($correosCumplido)->send(new CumplidoMail($comision, \Auth::user()->nombre, $value));
-            // foreach ($correos as $key => $value) {
-                
-            //     Mail::to($value)->send(new CumplidoMail($comision, \Auth::user()->nombre, $value));
-            // }        
+        foreach ($this->correosprueba as $value) {  
+            $notificacion2 .= '<br/>Mensaje enviado a '.$value.'.';              
+            Mail::to($value)->send(new CumplidoMail($comision, \Auth::user()->nombre, $value));
         }
-        return redirect('/inicio');
+        // TODO: Envio de correos cumplido
+        //  Mail::to($correosCumplido)->send(new CumplidoMail($comision, \Auth::user()->nombre, $value));
+        // foreach ($correos as $key => $value) {
+            
+        //     Mail::to($value)->send(new CumplidoMail($comision, \Auth::user()->nombre, $value));
+        // }        
+        
+        return redirect('/inicio')->with(['notificacion1'=>$notificacion1, 'notificacion2'=>$notificacion2]);
 
     }
 

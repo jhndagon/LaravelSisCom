@@ -131,8 +131,8 @@ $estadocolor='';
                 <h3>Correo enviado</h3>
             </div>
             <div class="modal-body">
-                <p>{{session('notificacion1')}}</p>
-                <p>{{session('notificacion2')}}</p>
+                <div>{!!session('notificacion1')!!}</div>
+                <div>{!!session('notificacion2')!!}</div>
             </div>
             <div class="modal-footer">
                 <a href="#" data-dismiss="modal" class="btn btn-primary">Cerrar</a>
