@@ -236,7 +236,7 @@ class ComisionController extends Controller
         // TODO: enviar correo al director del instituto y a la secretaria del instituto
         //%%%%%%%%%%%%%%%%%%%%%%%%%
         Mail::to($this->correosprueba)->send(new SolicitudMail($comision));
-        //dd('envio de correo a jefe de instituto y secretaria', $correos);
+        
         // Mail::to($correos)->send(new SolicitudMail($comision));
 
         return redirect('/inicio')->with(['notificacion1'=>'Notificación enviada a Director '.$director->email,
@@ -304,7 +304,7 @@ class ComisionController extends Controller
             Mail::to('jhndagon11@gmail.com')->send(new DevolucionMail($comision, $request->respuesta));
             
 
-            // Mail::to($profesor->email)->send(new DevolucionMail($comision, $request->respuesta));
+            Mail::to($profesor->email)->send(new DevolucionMail($comision, $request->respuesta));
             // Mail::to($directorInstituto->email)->send(new DevolucionDirectorMail($comision, $request->respuesta));
             $destino = "Solicitante";
             $emailjefe = $profesor->email;
@@ -334,7 +334,7 @@ class ComisionController extends Controller
                     Mail::to($this->correosprueba[1])->send(new NotificacionActualizacionProfesorMail($comision));
 
                     // Mail::to($correos)->send(new VistoBuenoMail($comision));  
-                    // Mail::to($profesor->email)->send(new NotificacionActualizacionProfesorMail($comision));
+                    Mail::to($profesor->email)->send(new NotificacionActualizacionProfesorMail($comision));
                     
                     $destino = "Decano";
                     $emailjefe = $decano->email;
@@ -396,7 +396,7 @@ class ComisionController extends Controller
                         //array_pop($this->correosprueba);
 
                         //enviar correo a empleado
-                        // Mail::to($profesor->email)->send(new AprobacionPermisoMail($comision, false));
+                        Mail::to($profesor->email)->send(new AprobacionPermisoMail($comision, false));
                         // Mail::to($director->email)->send(new AprobacionPermisoDirectorMail($comision,true)); //esta envia la copía de aprobación al director
                         
                     } else {
@@ -416,7 +416,7 @@ class ComisionController extends Controller
                         //array_pop($this->correosprueba);
                         
                                             
-                        // Mail::to($profesor->email)->send(new AprobacionMail($comision));
+                        Mail::to($profesor->email)->send(new AprobacionMail($comision));
                         // Mail::to($director->email)->send(new AprobacioDirectorMail($comision));//esta envia la copía de aprobación al director
                         
                     }
