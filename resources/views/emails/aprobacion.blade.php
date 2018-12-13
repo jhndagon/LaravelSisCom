@@ -19,7 +19,7 @@
         El número de resolución de decanato es el <b>{{$comision->resolucion}} de {{$comision->fecharesolucion}}</b>.
     </p>
     <p>
-        Para obtener una copia de la resolución de click en <a href="{{ url('/archivo', ['comisionid' => $comision->comisionid, 'documento' => 'resolucion-'.$comision->comsionid.'.pdf' ]) }}">este enlace</a> o en <a href="{{ url('/archivo', ['comisionid' => $comision->comisionid, 'documento' => 'resolucion-blank-'.$comision->comsionid.'.pdf' ]) }}"> este enlace </a>para obtener la resolucion imprimible.
+        Para obtener una copia de la resolución ingrese en el <a href='{{ url('/inicio') }}'>Sistema de Solicitudes</a>.
         En caso de que el enlace este roto (no se haya expedido la resolución) pregunte en la vicedecanatura por la misma
         o espere a que el link aparezca en el Sistema de Solicitudes.
     </p>

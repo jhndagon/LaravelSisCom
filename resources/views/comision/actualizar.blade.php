@@ -127,7 +127,10 @@
                                 <div class="form-group row">
                                     <label for="anexo1" class="col-md-2 col-form-label">Anexo 1: </label>
                                     <div class="col-md-6">
-                                        <input type="file" class="form-control-file" name="anexo1">
+                                        <input type="file" class="form-control-file" name="anexo1">                                            
+                                        @if ($comision->anexo1 != '')
+                                            Archivo: <a href="{{ url('/archivo/'.$comision->comisionid.'/'.$comision->anexo1) }}" >Anexo 1</a>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -135,7 +138,10 @@
                                 <div class="form-group row">
                                     <label for="anexo2" class="col-md-2 col-form-label">Anexo 2: </label>
                                     <div class="col-md-6">
-                                        <input type="file" class="form-control-file" name="anexo1">
+                                        <input type="file" class="form-control-file" name="anexo2">
+                                        @if ($comision->anexo2 != '')
+                                            Archivo: <a href="{{ url('/archivo/'.$comision->comisionid.'/'.$comision->anexo2) }}" >Anexo 2</a>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -143,7 +149,10 @@
                                 <div class="form-group row">
                                     <label for="anexo3" class="col-md-2 col-form-label">Anexo 3: </label>
                                     <div class="col-md-6">
-                                        <input type="file" class="form-control-file" name="anexo1">
+                                        <input type="file" class="form-control-file" name="anexo3">
+                                        @if ($comision->anexo3!= '')
+                                            Archivo: <a href="{{ url('/archivo/'.$comision->comisionid.'/'.$comision->anexo3) }}" >Anexo 3</a>
+                                        @endif
                                     </div>
                                 </div>
                             </div>

@@ -106,7 +106,7 @@ class ProfesorController extends Controller
     public function editarInformacionFormulario($id){
         $profesor = Profesor::where('cedula',$id)->first();
         $tipos = Profesor::distinct()->select('tipo')->get(); //tipos de contrato
-        $institutos = Instituto::distinct()->select('institutoid')->get();
+        $institutos = Instituto::all();
         return view('profesores.editarinformacion', compact('profesor'))
                 ->with('tipos',$tipos)
                 ->with('institutos', $institutos);
