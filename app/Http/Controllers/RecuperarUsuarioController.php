@@ -19,12 +19,12 @@ class RecuperarUsuarioController extends Controller
             if($usuario && $request->correo == $usuario->email){               
                 //envio de correo
                 //dd('Cambiar cedula', $request->correo);
-                \Mail::to($request->correo)->send(new RecuperarUsuarioMail($usuario->cedula));   
-                return redirect('inicio');
+                \Mail::to($usuario->email)->send(new RecuperarUsuarioMail($usuario->cedula));   
+                return redirect('/login')->with(['correoenviado'=>'Hemos enviado un correo electrónico con su usuario.']);
             }
             
         }       
-        return redirect()->back()->withInput()->withErrors(['correo' => 'Verifique la información ingresada.']);
+        return redirect()->back()->withInput()->withErrors(['correo' => 'La información provista no coincide con la que existe en el sistema. Intente de nuevo.']);
         
     }
 }

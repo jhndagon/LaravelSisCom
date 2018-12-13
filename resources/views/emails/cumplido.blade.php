@@ -20,11 +20,11 @@
         </p>
         
         @if($comision->cumplido1)
-                <a href="{{ url('documentoscumplido', ['comisionid'=> $comision->comisionid, 'archivo'=> 'Cumplido1_'.$comision->cumplido1])  }}">Archivo 1</a>
+                <a href="{{ url('/documentoscumplido/'. $comision->comisionid.'/'. 'Cumplido1_'.$comision->cumplido1)  }}">Archivo 1</a>
 
         @endif
         @if ($comision->cumplido2)
-                <a href="{{ url('documentoscumplido', ['comisionid'=> $comision->comisionid, 'archivo'=> 'Cumplido2_'.$comision->cumplido2])  }}">Archivo 2</a>
+                <a href="{{ url('/documentoscumplido/'. $comision->comisionid.'/'. 'Cumplido2_'.$comision->cumplido2)  }}">Archivo 2</a>
          @endif
         
         
@@ -37,7 +37,7 @@
         <p style="color:red">
         Le solicitamos amablemente confirmar la recepción de esta
         documentación haciendo click en este enlace:  
-                <a href="{{ url('cumplido' ['comisionid' => $comision->comisionid, 'confirma'=> $envioa]) }}">confirmar recepción de correo</a>
+                <a href="{{ url('cumplido', ['comisionid' => $comision->comisionid, 'confirma'=> $envioa]) }}">confirmar recepción de correo</a>
                 .
         </p>
         

@@ -102,7 +102,7 @@ $estadocolor='';
 
                                 </td>
                                 <td>
-                                    @if ($comision->estado == 'solicitada' && Auth::user()->cedula == $comision->cedula)
+                                    @if ($comision->estado == 'solicitada' && (Auth::user()->cedula == $comision->cedula ))
                                     <a href="{{ url('eliminarComision', $comision->comisionid) }}">Borrar</a> @endif
                                     @if ($d2>$d1 && ($comision->estado=='aprobada') && $comision->tipocom !='noremunerada' && Auth::user()->cedula == $comision->cedula)
                                     <a href="{{ url('subircumplido', $comision->comisionid) }}">Subir cumplido</a>
@@ -122,4 +122,40 @@ $estadocolor='';
         </div>
     </div>
 </main>
+{{-- Mostrar informacion de envío de correo --}}
+@if (session('notificacion1'))
+<div class="modal fade" id="mostrarmodal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Correo enviado</h3>
+            </div>
+            <div class="modal-body">
+                <div>{!!session('notificacion1')!!}</div>
+                @if (session('notificacion2'))                    
+                    <div>{!!session('notificacion2')!!}</div>
+                @endif
+            </div>
+            <div class="modal-footer">
+                <a href="#" data-dismiss="modal" class="btn btn-primary">Cerrar</a>
+            </div>
+        </div>
+    </div>
+</div>
+@endif
 @endsection
+
+
+
+@push('scripts')
+
+@if (session('notificacion1'))
+<script>
+    $(document).ready(function()
+    {
+        $("#mostrarmodal").modal("show");
+    });
+</script>
+@endif
+
+@endpush

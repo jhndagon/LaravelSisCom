@@ -7,22 +7,20 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class DevolucionMail extends Mailable
+class NotificacionActualizacionProfesorMail extends Mailable
 {
     use Queueable, SerializesModels;
-
     private $comision;
-    private $espuesta;
+
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($comision, $respuesta)
+    public function __construct($comision)
     {
         $this->comision = $comision;
-        $this->respuesta = $respuesta;
     }
 
     /**
@@ -32,10 +30,9 @@ class DevolucionMail extends Mailable
      */
     public function build()
     {
-        $this->view('emails.devolucion')
+        return $this->view('emails.notificaprofesor')
                     ->from('noreply@gmail.com')
-                    ->subject('[Comisiones] Su solicitud de comisión/permiso ha sido devuelta.')
-                    ->with('comision',$this->comision)
-                    ->with('respuesta', $this->respuesta);
+                    ->subject("[Comisiones] Actualización de Solicitud de Comisión/Permiso ". $this->comision->comisionid)
+                    ->with('comision', $this->comision);
     }
 }

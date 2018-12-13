@@ -49,7 +49,7 @@
                             <td>{{ $profesor->cedula}}</td>
                             <td>{{ $profesor->nombre}}</td>
                             <td>{{ $profesor->email}}</td>
-                            <td>{{ $profesor->institutoid}}</td>
+                            <td>{{ ucfirst($profesor->institutoid)}}</td>
                             <td>
                                 <div class="row">
                                     <div class="col"><a href="{{ url('/profesor', $profesor->cedula) }}">Editar</a></div>

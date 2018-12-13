@@ -7,18 +7,20 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class RecuperarUsuarioMail extends Mailable
+class AprobacionDirectorMail extends Mailable
 {
     use Queueable, SerializesModels;
-    private $cedula;
+
+    private $comision;
+
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($cedula)
+    public function __construct($comision)
     {
-        $this->cedula = $cedula;
+        $this->comision = $comision;
     }
 
     /**
@@ -28,8 +30,9 @@ class RecuperarUsuarioMail extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.recuperarusuario')
-        ->subject('[Sistema de comisiones FCEN] Recuperación de usuario')
-        ->with('cedula', $this->cedula);
+        return $this->view('emails.aprobacion')
+                    ->from('noreply@gmail.com')
+                    ->subject('[Copia][Comisiones] Su solicitud de comisión/permiso ha sido aprobada')
+                    ->with('comision',$this->comision);
     }
 }

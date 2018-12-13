@@ -7,12 +7,12 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class DevolucionMail extends Mailable
+class DevolucionDirectorMail extends Mailable
 {
     use Queueable, SerializesModels;
-
     private $comision;
     private $espuesta;
+
 
     /**
      * Create a new message instance.
@@ -34,7 +34,7 @@ class DevolucionMail extends Mailable
     {
         $this->view('emails.devolucion')
                     ->from('noreply@gmail.com')
-                    ->subject('[Comisiones] Su solicitud de comisión/permiso ha sido devuelta.')
+                    ->subject('[Copia][Comision] Su solicitud de comisión/permiso ha sido devuelta.')
                     ->with('comision',$this->comision)
                     ->with('respuesta', $this->respuesta);
     }

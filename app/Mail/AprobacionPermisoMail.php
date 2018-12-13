@@ -30,9 +30,12 @@ class AprobacionPermisoMail extends Mailable
      */
     public function build()
     {
+
         return $this->view('emails.aprobacionPermiso')
                     ->from('noreply@gmail.com')
                     ->subject('[Comisiones] Su solicitud de comisión/permiso ha sido aprobada')
+                    ->attach(\storage_path('app/comisiones') . '/' . $this->comision->comisionid . '/resolucion-' . $this->comision->comisionid . '.pdf',['mime'=>'pdf'])
                     ->with('comision',$this->comision);
+
     }
 }

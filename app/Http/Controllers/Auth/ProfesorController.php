@@ -75,7 +75,10 @@ class ProfesorController extends Controller
             }
             $usuario->save();
 
-            return redirect('inicio');
+            return redirect('/inicio')->with(['notificacion1'=>'Señor usuario le sugerimos que cambie su 
+                                                <a href='.url('/profesor/'.$usuario->cedula).'>información personal</a> 
+                                                y ponga un correo institucional y una 
+                                                <a href='.url('/modificarcontrasena').'>contraseña</a> segura.']);
         }
         return back()->withErrors(['cedula' => "El número de la cédula o contraseña incorrecto."])
             ->withInput(request(['cedula']));
@@ -106,7 +109,7 @@ class ProfesorController extends Controller
     public function editarInformacionFormulario($id){
         $profesor = Profesor::where('cedula',$id)->first();
         $tipos = Profesor::distinct()->select('tipo')->get(); //tipos de contrato
-        $institutos = Instituto::distinct()->select('institutoid')->get();
+        $institutos = Instituto::all();
         return view('profesores.editarinformacion', compact('profesor'))
                 ->with('tipos',$tipos)
                 ->with('institutos', $institutos);

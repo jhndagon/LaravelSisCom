@@ -127,7 +127,10 @@
                                 <div class="form-group row">
                                     <label for="anexo1" class="col-md-2 col-form-label">Anexo 1: </label>
                                     <div class="col-md-6">
-                                        <input type="file" class="form-control-file" name="anexo1">
+                                        <input type="file" class="form-control-file" name="anexo1">                                            
+                                        @if ($comision->anexo1 != '')
+                                            Archivo: <a href="{{ url('/archivo/'.$comision->comisionid.'/'.$comision->anexo1) }}" >Anexo 1</a>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -135,7 +138,10 @@
                                 <div class="form-group row">
                                     <label for="anexo2" class="col-md-2 col-form-label">Anexo 2: </label>
                                     <div class="col-md-6">
-                                        <input type="file" class="form-control-file" name="anexo1">
+                                        <input type="file" class="form-control-file" name="anexo2">
+                                        @if ($comision->anexo2 != '')
+                                            Archivo: <a href="{{ url('/archivo/'.$comision->comisionid.'/'.$comision->anexo2) }}" >Anexo 2</a>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -143,10 +149,27 @@
                                 <div class="form-group row">
                                     <label for="anexo3" class="col-md-2 col-form-label">Anexo 3: </label>
                                     <div class="col-md-6">
-                                        <input type="file" class="form-control-file" name="anexo1">
+                                        <input type="file" class="form-control-file" name="anexo3">
+                                        @if ($comision->anexo3!= '')
+                                            <h2>Archivo: <a href="{{ url('/archivo/'.$comision->comisionid.'/'.$comision->anexo3) }}" >Anexo 3</a></h2>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
+                            <div class="row">
+                                @if ($comision->fecharesolucion!= '')
+                                    <div class="col-sm-3">
+                                        <h3><a href="{{ url('/archivo/'.$comision->comisionid.'/resolucion-blank-'.$comision->comisionid.'.pdf') }}">Resolución imprimible</a>
+                                        </h3>
+                                    </div>
+                                    <div class="col-sm-3">                                
+                                        <h3><a href="{{ url('/archivo/'.$comision->comisionid.'/resolucion-blank-'.$comision->comisionid.'.pdf') }}">Resolución</a>
+                                        </h3>
+                                    </div>
+                            <br/>
+                                    @endif
+                            </div>
+                            
                             @if (Session::get('jefe') > 0 && $comision->estado != 'aprobada')
 
                             <div class="form-group">

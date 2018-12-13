@@ -94,9 +94,9 @@
                             <select id="instituto" name="instituto" class="form-control">
                                 @foreach ($institutos as $instituto)
                                 @if (isset($profesor))                                    
-                                    <option value='{{$instituto->institutoid}}' {{ strcmp($profesor->institutoid, $instituto->institutoid)==0 ? 'selected':'' }}>{{$instituto->institutoid}}</option>
+                                    <option value='{{$instituto->institutoid}}' {{ strcmp($profesor->institutoid, $instituto->institutoid)==0 ? 'selected':'' }}>{{$instituto->instituto}}</option>
                                 @else
-                                    <option value='{{$instituto->institutoid}}'>{{$instituto->institutoid}}</option>
+                                    <option value='{{$instituto->institutoid}}'>{{$instituto->instituto}}</option>
                                 
                                 @endif
                                     
