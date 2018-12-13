@@ -236,8 +236,8 @@ class ComisionController extends Controller
         // TODO: enviar correo al director del instituto y a la secretaria del instituto
         //%%%%%%%%%%%%%%%%%%%%%%%%%
         Mail::to($this->correosprueba)->send(new SolicitudMail($comision));
-        
-        // Mail::to($correos)->send(new SolicitudMail($comision));
+
+        // Mail::to($correos)->send(new SolicitudMail($comision));//
 
         return redirect('/inicio')->with(['notificacion1'=>'Notificación enviada a Director '.$director->email,
                                           'notificacion2'=>'Una copia ha sido enviada también a Secretaria Instituto '. $secretaria->email]);
