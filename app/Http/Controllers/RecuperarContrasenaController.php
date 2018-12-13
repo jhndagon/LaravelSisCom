@@ -20,6 +20,7 @@ class RecuperarContrasenaController extends Controller
             if($usuario && $request->correo == $usuario->email){
                 
                 $usuario->laravelpass = bcrypt($usuario->cedula);
+                $usuario->pass = md5($usuario->cedula);
                 $usuario->save();
                 //envio de correo
                 // TODO: recuperacion de contraseña

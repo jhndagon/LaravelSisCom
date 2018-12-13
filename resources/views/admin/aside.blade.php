@@ -41,10 +41,15 @@
                 </a>
             </li>
         @endif
-
+        <li>
+            <a class="app-menu__item active" href="http://astronomia-udea.co/principal/Comisiones/">
+                <i class="fas fa-desktop"></i>
+                <span class="app-menu__label">Version 1 del sistema</span>
+            </a>
+        </li>
         <li>
             <a class="app-menu__item active" href="{{ url('logout')}}">
-                <i class="app-menu__icon fa fa-sign-out"></i>
+                <i class="fas fa-sign-out-alt"></i>
                 <span class="app-menu__label">Salir</span>
             </a>
         </li>

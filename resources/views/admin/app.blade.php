@@ -132,7 +132,9 @@ $estadocolor='';
             </div>
             <div class="modal-body">
                 <div>{!!session('notificacion1')!!}</div>
-                <div>{!!session('notificacion2')!!}</div>
+                @if (session('notificacion2'))                    
+                    <div>{!!session('notificacion2')!!}</div>
+                @endif
             </div>
             <div class="modal-footer">
                 <a href="#" data-dismiss="modal" class="btn btn-primary">Cerrar</a>

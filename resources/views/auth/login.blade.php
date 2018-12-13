@@ -54,7 +54,7 @@
         <div class="row">
                 <div class="col-md-1"></div>
             <div class="col-md-12">
-                    <h2><a href="" class='text-dark text-center'> “Para usar la versión 1 vaya a este enlace (la versión 1 se descontinuará a partir de Febrero 1 de 2019)”</a></h2>
+                    <h2><a href="http://astronomia-udea.co/principal/Comisiones/" class='text-dark text-center'> “Para usar la versión 1 vaya a este enlace (la versión 1 se descontinuará a partir de Febrero 1 de 2019)”</a></h2>
             </div>
         </div>
 

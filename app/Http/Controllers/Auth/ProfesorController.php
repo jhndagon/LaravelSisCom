@@ -75,7 +75,10 @@ class ProfesorController extends Controller
             }
             $usuario->save();
 
-            return redirect('inicio');
+            return redirect('/inicio')->with(['notificacion1'=>'Señor usuario le sugerimos que cambie su 
+                                                <a href='.url('/profesor/'.$usuario->cedula).'>información personal</a> 
+                                                y ponga un correo institucional y una 
+                                                <a href='.url('/modificarcontrasena').'>contraseña</a> segura.']);
         }
         return back()->withErrors(['cedula' => "El número de la cédula o contraseña incorrecto."])
             ->withInput(request(['cedula']));
