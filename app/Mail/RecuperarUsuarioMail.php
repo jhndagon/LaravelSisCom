@@ -10,15 +10,15 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 class RecuperarUsuarioMail extends Mailable
 {
     use Queueable, SerializesModels;
-    private $usuario;
+    private $cedula;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($usuario)
+    public function __construct($cedula)
     {
-        $this->usuario = $usuario;
+        $this->cedula = $cedula;
     }
 
     /**
@@ -30,6 +30,6 @@ class RecuperarUsuarioMail extends Mailable
     {
         return $this->view('emails.recuperarusuario')
         ->subject('[Sistema de comisiones FCEN] Recuperación de usuario')
-        ->with('usuario', $this->usuario);
+        ->with('cedula', $this->cedula);
     }
 }

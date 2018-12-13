@@ -7,10 +7,10 @@ use Comisiones\Comision;
 use Illuminate\Http\Request;
 use Comisiones\Mail\CumplidoMail;
 use Illuminate\Support\Facades\Mail;
-use Comisiones\Utilidades\ReemplazarCaracteres;
 
 class CumplidoController extends Controller
 {
+    public $correosprueba = array('jhndagon11@gmail.com','jhndagon12@gmail.com');
     public function mostrarFormularioCumplido($id){
         $comision =  Comision::where('comisionid', $id)->first();
         return view('cumplido.cumplidoformulario', compact(['comision', '']));
@@ -26,28 +26,41 @@ class CumplidoController extends Controller
         
         if($request->cumplido1){
             $archivo = $request->file('cumplido1');
-            $nombre = ReemplazarCaracteres::sanear_string($archivo->getClientOriginalName());
+            $extension = $archivo->getClientOriginalExtension();
             $tamaño = $archivo->getClientSize();
             if($tamaño <=0){
                 return back()->withErrors(['archivo' => 'No se ha subido ningún archivo.'])->withInput();
             }
+
+            $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';        
+            $randstring = '';
+            for ($i = 0; $i < 5; $i++) {
+                $randstring .= $characters[rand(0, strlen($characters) - 1)];
+            }
+
+
             do{
-                $ruta = \Storage::disk('local')->put($request->comisionid . '/Cumplido1_' .$nombre,  \File::get($archivo));
+                $ruta = \Storage::disk('local')->put($request->comisionid . '/Cumplido1_' .$randstring .'.'.$extension,  \File::get($archivo));
             }while(!$ruta);
-            $comision->cumplido1 = $nombre;   
+            $comision->cumplido1 = $randstring;   
             $subioarchivo = true;         
         }
         if($request->cumplido2){
             $archivo = $request->file('cumplido2');
-            $nombre = ReemplazarCaracteres::sanear_string($archivo->getClientOriginalName());
+            $extension = $archivo->getClientOriginalExtension();
             $tamaño = $archivo->getClientSize();
             if($tamaño <=0){
                 return back()->withErrors(['archivo' => 'No se ha subido ningún archivo.'])->withInput();
             }            
+            $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';        
+            $randstring = '';
+            for ($i = 0; $i < 5; $i++) {
+                $randstring .= $characters[rand(0, strlen($characters) - 1)];
+            }
             do{
-                $ruta = \Storage::disk('local')->put($request->comisionid . '/Cumplido2_' . $nombre, \File::get($archivo));
+                $ruta = \Storage::disk('local')->put($request->comisionid . '/Cumplido2_' . $randstring .'.'.$extension, \File::get($archivo));
             }while(!$ruta);
-            $comision->cumplido2 = $nombre;
+            $comision->cumplido2 = $randstring;
             $subioarchivo = true;
         }
 
@@ -78,19 +91,19 @@ class CumplidoController extends Controller
         if(env('APP_DEBUG')){
             //a correo de prueba
             // dd($correos);
-            // foreach ($correos as $key => $value) {
-                
-                //     Mail::to(env('EMAIL_PRUEBA'))->send(new CumplidoMail($comision, \Auth::user()->nombre, $value));
-                // }
         }else{            
             $correos = explode(';', $comision->destinoscumplido);
-            //dd('Descomentar linea 88 de CumplidoController', $correosCumplido);
-            // TODO: Envio de correos cumplido
-             Mail::to($correosCumplido)->send(new CumplidoMail($comision, \Auth::user()->nombre, $value));
-            foreach ($correos as $key => $value) {
-                
+                        
+            foreach ($this->correosprueba as $value) {                
                 Mail::to($value)->send(new CumplidoMail($comision, \Auth::user()->nombre, $value));
             }
+            // dd('Descomentar linea 88 de CumplidoController', $correosCumplido);
+            // TODO: Envio de correos cumplido
+            //  Mail::to($correosCumplido)->send(new CumplidoMail($comision, \Auth::user()->nombre, $value));
+            // foreach ($correos as $key => $value) {
+                
+            //     Mail::to($value)->send(new CumplidoMail($comision, \Auth::user()->nombre, $value));
+            // }
         
         }
 

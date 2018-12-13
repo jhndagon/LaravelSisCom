@@ -54,9 +54,44 @@
         <div class="row">
                 <div class="col-md-1"></div>
             <div class="col-md-12">
-                    <h2><a href="" class='text-dark text-center'> “Para usar la versión 1 vaya a este enlace (la versión 1 se descontinuará a partir de Febrero 1 de 2019”</a></h2>
+                    <h2><a href="" class='text-dark text-center'> “Para usar la versión 1 vaya a este enlace (la versión 1 se descontinuará a partir de Febrero 1 de 2019)”</a></h2>
             </div>
         </div>
 
-    
+
+
+
+    {{-- Mostrar informacion de envío de correo --}}
+    @if (session('correoenviado'))
+    <div class="modal fade" id="mostrarmodal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+            <div class="modal-dialog">
+               <div class="modal-content">
+                  <div class="modal-header">
+                     <h3>Correo enviado</h3>
+              </div>
+                  <div class="modal-body">
+                     <p>{{session('correoenviado')}}</p>  
+              </div>
+                  <div class="modal-footer">
+                 <a href="#" data-dismiss="modal" class="btn btn-primary">Cerrar</a>
+              </div>
+               </div>
+            </div>
+         </div>
+    @endif
 @endsection
+
+
+
+@push('scripts')
+
+@if (session('correoenviado'))
+    <script>
+        $(document).ready(function()
+        {
+            $("#mostrarmodal").modal("show");
+        });
+    </script>
+@endif
+
+@endpush

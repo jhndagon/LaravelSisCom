@@ -12,7 +12,7 @@
 <body>
     <p>Se&ntilde;or(a) Empleado(a),</p>
     <p>
-        Su solicitud de comisión/permiso radicada en el <a href='{{url('')}}'>Sistema de Solicitudes</a> en fecha
+        Su solicitud de comisión/permiso radicada en el <a href='{{url('/inicio')}}'>Sistema de Solicitudes</a> en fecha
         {{$comision->radicacion}} e identificada con número {{$comision->comisionid}} ha sido aprobada.
     </p>
 

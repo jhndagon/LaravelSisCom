@@ -24,11 +24,11 @@ class RecuperarContrasenaController extends Controller
                 //envio de correo
                 // TODO: recuperacion de contraseña
                 //dd('Envio de recuperacion de contraseña a:', $request->correo);
-                \Mail::to($request->correo)->send(new RecuperarContrasenaMail($usuario->cedula));
-                return redirect('inicio');
+                \Mail::to($usuario->email)->send(new RecuperarContrasenaMail($usuario->cedula));
+                return redirect('/login')->with(['correoenviado'=>'Hemos enviado un correo electrónico con su nueva contraseña.']);
             }
             
         }       
-        return redirect()->back()->withInput()->withErrors(['correo' => 'Verifique la información ingresada.']);
+        return redirect()->back()->withInput()->withErrors(['correo' => 'Su correo no fue reconocido. Intente de nuevo.']);
     }
 }
