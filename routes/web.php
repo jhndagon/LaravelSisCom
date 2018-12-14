@@ -32,6 +32,8 @@ Route::group(['middleware' => 'auth:profesor'], function () {
     Route::get('/comision/{comision}','ComisionController@mostrarFormularioActualizaComision')->name('comision');
     Route::put('/comision/{comision}', 'ComisionController@actualizarComision');
     Route::get('/eliminarComision/{id}', 'ComisionController@eliminarComision');
+    Route::get('/reciclar/{id}','ComisionController@reciclarComision');
+    Route::get('/reciclaje','ComisionController@reciclajeComisiones');
     
     Route::get('/informes', 'InformeController@mostrarFormularioInformes');
     Route::Post('/informes', 'InformeController@hacerBusqueda'); 

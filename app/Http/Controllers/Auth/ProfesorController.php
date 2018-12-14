@@ -97,9 +97,10 @@ class ProfesorController extends Controller
 
     public function buscar(Request $request){
         $opcion = $request->opcion;
+        $buscar = $request->buscar;
         if(\Session::get('jefe') > 1 && $request->buscar != null && $request->opcion != null){
-            $profesores = Profesor::where($request->opcion, 'like' ,'%'. $request->buscar.'%')->get();
-            return view('profesores.profesores', compact('profesores', 'opcion'));
+            $profesores = Profesor::where($request->opcion, 'like' ,'%'. $buscar .'%')->get();
+            return view('profesores.profesores', compact('profesores', 'opcion', 'buscar'));
         }
         else{
             return redirect('inicio');

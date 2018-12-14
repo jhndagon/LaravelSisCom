@@ -33,6 +33,13 @@
     <div class="row">
         <div class="col">
             <div class="tile">
+                @if (count($profesores)<=0)
+                <div class="alert alert-primary" role="alert">
+                    {!! 'No se encontraron coincidencias con la opción <strong>'.ucfirst($opcion).'</strong> buscando <strong>'.$buscar.'</strong>' !!}
+                </div>
+                @else
+                    
+                
                 <table class="table table-hover">
                     <thead>
                         <tr>
@@ -61,6 +68,7 @@
                         @endforeach
                     </tbody>
                 </table>
+                @endif
             </div>
         </div>
     </div>

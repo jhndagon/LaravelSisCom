@@ -10,6 +10,12 @@
             </a>
         </li>
         <li>
+            <a class="app-menu__item active" href="http://astronomia-udea.co/principal/Comisiones/">
+                <i class="fas fa-desktop"></i>
+                <span class="app-menu__label">Version 1 del sistema</span>
+            </a>
+        </li>
+        <li>
             <a class="app-menu__item active" href=" {{ url('comision') }} ">
                 <i class="app-menu__icon fa fa-edit"></i>
                 <span class="app-menu__label">Nueva Solicitud</span>
@@ -40,13 +46,14 @@
                     <span class="app-menu__label">Informes</span>
                 </a>
             </li>
+            <li>
+                <a class="app-menu__item active" href="{{ url('/reciclaje') }}">
+                    <i class="fas fa-trash-alt"></i>
+                    <span class="app-menu__label">Reciclaje</span>
+                </a>
+            </li>
         @endif
-        <li>
-            <a class="app-menu__item active" href="http://astronomia-udea.co/principal/Comisiones/">
-                <i class="fas fa-desktop"></i>
-                <span class="app-menu__label">Version 1 del sistema</span>
-            </a>
-        </li>
+
         <li>
             <a class="app-menu__item active" href="{{ url('logout')}}">
                 <i class="fas fa-sign-out-alt"></i>

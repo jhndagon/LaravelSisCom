@@ -38,20 +38,20 @@ class ComisionController extends Controller
         if ($jefe == 1) {
             //Si el usuario es director recupera las comisiones del instituto
             $comisiones = Comision::where('institutoid', $usuario->institutoid)
-                ->orderby('radicacion', 'desc')
-                ->paginate(15);
+                ->orderby('radicacion', 'desc');
         } else if ($jefe == 2) {
             //Si el usuario es decano recupera todas las comisiones
-            $comisiones = Comision::orderby('radicacion', 'desc')
-                ->paginate(15);
+            $comisiones = Comision::orderby('radicacion', 'desc');
         } else {
             $faltacumplido = Comision::whereRaw('(tipocom<>"noremunerada" and tipocom<>"calamidad") and cedula=' . $usuario->cedula . ' and fechafin<now() and qcumplido+0=0')
                 ->get(array('comisionid'));
             $comisiones = Comision::where('cedula', $usuario->cedula)
-                ->orderby('radicacion', 'desc')
-                ->paginate(15);
+                ->orderby('radicacion', 'desc');
         }
-        return view('admin.app', compact(['comisiones', 'faltacumplido']));
+        $comisiones = $comisiones->where('qtrash','0');
+        $cantidad = $comisiones->count();
+        $comisiones = $comisiones->paginate(15);
+        return view('admin.app', compact(['comisiones', 'faltacumplido','cantidad']));
     }
 
     public function ordenarComisiones(Request $request, $ordenapor)
@@ -499,6 +499,20 @@ class ComisionController extends Controller
         }
 
     
+    }
+
+    public function reciclajeComisiones(){
+        $comisiones = Comision::where('qtrash', '1');
+        $cantidad = $comisiones->count();
+        $comisiones = $comisiones->get();
+        return view('admin.app', compact(['comisiones','cantidad']));
+    }
+
+    public function reciclarComision($id){
+        $comision = Comision::where('comisionid', $id)->first();
+        $comision->qtrash = 1;
+        $comision->save();
+        return redirect('/inicio')->with(['notificacion1'=>'Comision '.$id.' reciclada.']);
     }
 
     public function eliminarComision($id)

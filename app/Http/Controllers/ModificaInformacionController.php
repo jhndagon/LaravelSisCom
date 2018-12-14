@@ -23,7 +23,7 @@ class ModificaInformacionController extends Controller
                 $profesor->laravelpass = bcrypt($request->contrasenanueva);
                 $profesor->pass = md5($request->password);
                 $profesor->save();
-                return redirect('inicio');
+                return redirect('/inicio')->with(['notificacion1'=>'Contraseña cambiada.']);
             }
         }catch(Exception $e){
             abort(500);

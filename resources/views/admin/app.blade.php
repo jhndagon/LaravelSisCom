@@ -40,6 +40,7 @@ $estadocolor='';
         <div class="col-md-12">
             <div class="tile">
                 <div class="tile-body">
+                        <p>Número de solicitudes: {{$cantidad}}</p>
                     <table class="table table-hover table-bordered" id="sampleTable">
                         <thead>
                             <tr>
@@ -110,13 +111,20 @@ $estadocolor='';
                                     @if ($comision->qcumplido == 1 && ($comision->estado=='cumplida') &&  Auth::user()->cedula == $comision->cedula)
                                     <a href="{{ url('actualizacumplido', $comision->comisionid) }}">Actualizar cumplido</a>
                                     @endif
+                                    @if (session('jefe')==2 && ($comision->estado=='solicitada' || $comision->estado=='devuelta'))
+                                    <a href="{{ url('/reciclar/'.$comision->comisionid) }}">Reciclar</a>
+                                    @endif
                                 </td>
                             </tr>
                             @endforeach
 
                         </tbody>
                     </table>
+                    @if (isset($faltacumplido))
+                        
                     {{ $comisiones->onEachSide(2)->links() }}
+                        
+                    @endif
                 </div>
             </div>
         </div>
@@ -128,7 +136,7 @@ $estadocolor='';
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>Correo enviado</h3>
+                <h3>Información</h3>
             </div>
             <div class="modal-body">
                 <div>{!!session('notificacion1')!!}</div>
