@@ -36,9 +36,9 @@ class CumplidoController extends Controller
             }
             $randstring = GeneraCaracteres::generarRandomCaracteres(5);
             do{
-                $ruta = \Storage::disk('local')->put($request->comisionid . '/Cumplido1_' .$randstring .'.'.$extension,  \File::get($archivo));
+                $ruta = \Storage::disk('local')->put($request->comisionid . '/Cumplido1_' . $comision->cedula .'_'. $comision->comisionid .'_'.$randstring .'.'.$extension,  \File::get($archivo));
             }while(!$ruta);
-            $comision->cumplido1 = 'Cumplido1_'.$randstring .'.'.$extension;
+            $comision->cumplido1 = $randstring .'.'.$extension;
             $notificacion1 = 'Archivo de Cumplido '. $comision->cumplido1.' subido';   
             $subioarchivo = true;         
         }
@@ -53,7 +53,7 @@ class CumplidoController extends Controller
             do{
                 $ruta = \Storage::disk('local')->put($request->comisionid . '/Cumplido2_' . $randstring .'.'.$extension, \File::get($archivo));
             }while(!$ruta);
-            $comision->cumplido2 = 'Cumplido2_'.$randstring .'.'.$extension;
+            $comision->cumplido2 = $randstring .'.'.$extension;
             $notificacion1 .= '. <br/>Archivo de cumplido '. $comision->cumplido2.' subido.';
             $subioarchivo = true;
         }

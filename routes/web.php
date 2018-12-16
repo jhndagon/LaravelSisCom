@@ -52,10 +52,10 @@ Route::group(['middleware' => 'auth:profesor'], function () {
     Route::post('/subircumplido', 'CumplidoController@crearCumplido');
     Route::get('/actualizacumplido/{id}', 'CumplidoController@mostrarFormularioActualizaCumplido');
     Route::get('/actualizacumplido/{id}', 'CumplidoController@mostrarFormularioActualizaCumplido');
+    
+    Route::get('/documentoscumplido/{comisionid}/{documento}', 'ArchivoController@obtenerArchivoCumplido');
 });
 
 Route::get('/cumplido/{comisionid}/{confirma}', 'CumplidoController@confirmarCumplido');
 
-
 Route::get('/archivo/{comisionid}/{documento}', 'ArchivoController@obtenerArchivo');
-Route::get('/documentoscumplido/{comisionid}/{documento}', 'ArchivoController@obtenerArchivoCumplido');
