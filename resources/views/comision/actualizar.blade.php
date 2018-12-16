@@ -156,7 +156,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
+                            {{-- <div class="row">
                                 @if ($comision->fecharesolucion!= '')
                                     <div class="col-sm-3">
                                         <h3><a href="{{ url('/archivo/'.$comision->comisionid.'/resolucion-blank-'.$comision->comisionid.'.pdf') }}">Resolución imprimible</a>
@@ -168,7 +168,7 @@
                                     </div>
                             <br/>
                                     @endif
-                            </div>
+                            </div> --}}
                             
                             @if (Session::get('jefe') > 0 && $comision->estado != 'aprobada')
 
