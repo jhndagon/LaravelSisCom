@@ -95,6 +95,12 @@ $estadocolor='';
                                     @if ($comision->anexo3)
                                     <a target="_black" href="{{url('/archivo/'.$comision->comisionid . '/' . $comision->anexo3)}}">Anexo 3</a><br>                                    
                                     @endif
+                                    @if ($comision->cumplido1)
+                                    <a target="_black" href="{{url('/archivo/'.$comision->comisionid . '/' . $comision->cumplido1)}}">Cumplido 1</a><br>                                    
+                                    @endif
+                                    @if ($comision->cumplido2)
+                                    <a target="_black" href="{{url('/archivo/'.$comision->comisionid . '/' . $comision->cumplido2)}}">Cumplido 2</a><br>                                    
+                                    @endif
                                     @if ($comision->estado == 'aprobada' || $comision->estado == 'cumplida')
                                     <a target="_black" href="{{url('/archivo/'.$comision->comisionid . '/resolucion-blank-'.$comision->comisionid .'.pdf' )}}">Imprimible</a><br>                                    
                                     <a target="_black" href="{{url('/archivo/'.$comision->comisionid . '/resolucion-'.$comision->comisionid .'.pdf' )}}">Resolucion</a><br>                                    
