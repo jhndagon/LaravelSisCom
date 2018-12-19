@@ -59,6 +59,7 @@ class ProfesorController extends Controller
             $request->session()->put('jefe', $jefe);
             
             $sem=floor((date('m')-1) / 6)+1;
+            $sem.='';
             if (isset($usuario->extra3) || $usuario->extra3 != ''){
                 $semestrePermiso = explode('-', $usuario->extra3);
 

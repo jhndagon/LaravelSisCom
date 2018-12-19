@@ -90,15 +90,13 @@ class CumplidoController extends Controller
         //     $notificacion2 .= '<br/>Mensaje enviado a '.$value.'.';              
         //     Mail::to($value)->send(new CumplidoMail($comision, \Auth::user()->nombre, $value));
         // }
-        // TODO: Envio de correos cumplido
-        //  Mail::to($correosCumplido)->send(new CumplidoMail($comision, \Auth::user()->nombre, $value));
-        foreach ($correos as $key => $value) {
-            $notificacion2 .= '<br/>Mensaje enviado a '.$value.'.';
-            Mail::to($value)->send(new CumplidoMail($comision, \Auth::user()->nombre, $value));
-        }        
+
+        for ($i=0; $i < count($correos)-1; $i++) { 
+            $notificacion2 .= '<br/>Mensaje enviado a '.$correos[$i].'.';
+            Mail::to($correos[$i])->send(new CumplidoMail($comision, \Auth::user()->nombre, $correos[$i]));            
+        }
         
         return redirect('/inicio')->with(['notificacion1'=>$notificacion1, 'notificacion2'=>$notificacion2]);
-
     }
 
     /**
