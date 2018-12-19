@@ -125,6 +125,10 @@ class ProfesorController extends Controller
         else{
             $profesor = new Profesor();
             $profesor->laravelpass = Hash::make($request->cedula);
+            $sem=floor((date('m')-1) / 6)+1;
+            $sem.='';
+            $profesor->extra3 = date('Y').'-'.$sem;
+            $profesor->extra1 = 3;
             $profesor->permisos = 3;            
         }
         $profesor->tipoid = $request->tipoid;
@@ -139,7 +143,6 @@ class ProfesorController extends Controller
         if(\Session::get('jefe')==2){
             $profesor->tipo = $request->tipo;
             $profesor->institutoid = $request->instituto;
-            $profesor->tipo = $request->tipo;
             $profesor->dedicacion = $request->dedicacion;
         }
         $profesor->save();
