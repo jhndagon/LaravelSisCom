@@ -65,7 +65,7 @@ class ProfesorController extends Controller
 
                 //Conocer el semestre actual
 
-                if($sem != $semestrePermiso[1]){
+                if(isset($semestrePermiso[1]) && strcmp($sem, $semestrePermiso[1])!=0){
                     $usuario->extra3 = date('Y') . '-' . $sem;
                     $usuario->extra1 = 3;
                 }

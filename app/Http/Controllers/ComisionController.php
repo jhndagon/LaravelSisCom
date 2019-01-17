@@ -504,7 +504,7 @@ class ComisionController extends Controller
     public function reciclajeComisiones(){
         $comisiones = Comision::where('qtrash', '1');
         $cantidad = $comisiones->count();
-        $comisiones = $comisiones->get();
+        $comisiones = $comisiones->paginate(20);
         return view('admin.app', compact(['comisiones','cantidad']));
     }
 
