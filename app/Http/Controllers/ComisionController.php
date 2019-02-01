@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 use Comisiones\Mail\AprobacionPermisoMail;
 use Comisiones\Mail\AprobacionDirectorMail;
 use Comisiones\Mail\DevolucionDirectorMail;
@@ -448,11 +449,9 @@ class ComisionController extends Controller
                 $comision->lugar = $request->lugar;
                 $comision->actividad = $request->actividad;
                 $comision->idioma = $request->idioma;
-                if ($request->justificacion) {
-                    if(!\Storage::disk('local')->exists($request->comisionid . '/actividad.txt')){
-                        Log::info('Comision'. $comision->comisionid . "no tiene archivo actividad creado.");
-                    }
-                    \Storage::disk('local')->put($request->comisionid . '/actividad.txt', $request->justificacion);
+                if ($request->justificacion) {                    
+                    Storage::disk('local')->put($comision->comisionid . '/actividad.txt', $request->justificacion);   
+                                   
                 }
                 if(($comision->tipocom == 'noremunerada' || $comision->tipocom == 'calamidad')){
                     $fecha1 = new DateTime($comision->fechaini);
