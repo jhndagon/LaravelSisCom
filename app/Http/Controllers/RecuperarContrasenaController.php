@@ -17,7 +17,7 @@ class RecuperarContrasenaController extends Controller
         $correo = explode('@', $request->correo);
         if(strcmp($correo[1], 'udea.edu.co') == 0){
             $usuario = Profesor::where('cedula', $request->cedula)->first();
-            if($usuario && $request->correo == $usuario->email){
+            if($usuario && strcmp($request->correo,$usuario->email) == 0){
                 
                 $usuario->laravelpass = bcrypt($usuario->cedula);
                 $usuario->pass = md5($usuario->cedula);
