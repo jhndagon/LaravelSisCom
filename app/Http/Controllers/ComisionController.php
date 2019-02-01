@@ -437,7 +437,8 @@ class ComisionController extends Controller
                 );        
                 $fecha = explode(' a ', $fecha);        
                 $array = str_split($fecha[0], 3);
-                $array1 = str_split($fecha[1], 3);        
+                $array1 = str_split($fecha[1], 3);
+                $fechaInicialPermiso = $comision->fecha;        
                 $comision->fecha = str_replace($array[0], $calendario_meses[$array[0]], $fecha[0]);
                 $comision->fecha .= ' a ' . str_replace($array1[0], $calendario_meses[$array1[0]], $fecha[1]);
                 $comision->fecha = str_replace(',', ' de', $comision->fecha);        
@@ -453,7 +454,7 @@ class ComisionController extends Controller
                     Storage::disk('local')->put($comision->comisionid . '/actividad.txt', $request->justificacion);   
                                    
                 }
-                if(($comision->tipocom == 'noremunerada' || $comision->tipocom == 'calamidad')){
+                if(($comision->tipocom == 'noremunerada' || $comision->tipocom == 'calamidad') && $fechaInicialPermiso!=$comision->fecha){
                     $fecha1 = new DateTime($comision->fechaini);
                     $fecha2 = new DateTime($comision->fechafin);
 
