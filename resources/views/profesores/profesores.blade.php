@@ -61,7 +61,9 @@
                                 <div class="row">
                                     <div class="col"><a href="{{ url('/profesor', $profesor->cedula) }}">Editar</a></div>
                                     <div class="col"><a href="{{ url('/eliminaprofesor', $profesor->cedula) }}">Eliminar</a></div>
-
+                                    @if($profesor->laravelpass==null || $profesor->laravelpass=='')
+                                        <div class="col"><a href="{{ url('/contrasenaprofesor', $profesor->cedula) }}">Contraseña</a></div>
+                                    @endif
                                 </div>
                             </td>
                         </tr>

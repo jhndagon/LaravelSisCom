@@ -117,6 +117,13 @@ class ProfesorController extends Controller
                 ->with('institutos', $institutos);
     }
 
+    public function contrasenaProfesor($id){
+        $usuario = Profesor::where('cedula', $id)->first();
+        $usuario->laravelpass = bcrypt($id);
+        $usuario->save();
+        return redirect('profesores');
+    }
+
     public function editarInformacion(Request $request){           
         $accion = $request->actualiza;
         if($accion == 'actualizar'){

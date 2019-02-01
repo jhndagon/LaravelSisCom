@@ -47,6 +47,7 @@ Route::group(['middleware' => 'auth:profesor'], function () {
     Route::get('/profesor/{id}', 'Auth\ProfesorController@editarInformacionFormulario');
     Route::post('/profesor', 'Auth\ProfesorController@editarInformacion');
     Route::get('/eliminaprofesor/{id}', 'Auth\ProfesorController@eliminarProfesor');
+    Route::get('/contrasenaprofesor/{id}', 'Auth\ProfesorController@contrasenaProfesor');
     
     Route::get('/subircumplido/{id}', 'CumplidoController@mostrarFormularioCumplido')->name('subircumplido');
     Route::post('/subircumplido', 'CumplidoController@crearCumplido');
