@@ -14,6 +14,7 @@ use Comisiones\Mail\SolicitudMail;
 use Comisiones\Mail\AprobacionMail;
 use Comisiones\Mail\DevolucionMail;
 use Comisiones\Mail\VistoBuenoMail;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
@@ -448,6 +449,9 @@ class ComisionController extends Controller
                 $comision->actividad = $request->actividad;
                 $comision->idioma = $request->idioma;
                 if ($request->justificacion) {
+                    if(!\Storage::disk('local'->exists($request->comisionid . '/actividad.txt'))){
+                        Log::info('Comision'. $comision->comisionid . "no tiene archivo actividad creado.");
+                    }
                     \Storage::disk('local')->put($request->comisionid . '/actividad.txt', $request->justificacion);
                 }
                 if(($comision->tipocom == 'noremunerada' || $comision->tipocom == 'calamidad')){
