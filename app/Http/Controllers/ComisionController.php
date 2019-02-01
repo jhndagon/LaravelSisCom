@@ -299,6 +299,7 @@ class ComisionController extends Controller
             $emailcopia = $directorInstituto->email;
 
         } else {
+            $controlactualizacionprofesor = true;
             if ($jefe == 1 || $jefe == 2) {
                 if ($comision->vistobueno == 'No' && $request->vistobueno == 'Si') {
                     $comision->vistobueno = $request->vistobueno;
@@ -329,6 +330,7 @@ class ComisionController extends Controller
                     $emailcopia = $secretariaDecanato;
 
                 }
+                $controlactualizacionprofesor =false;
             }
             if ($jefe == 2) {
                 if ($comision->aprobacion == 'No' && $request->aprobacion == 'Si') {
@@ -402,8 +404,10 @@ class ComisionController extends Controller
                     }
 
                 }
+                $controlactualizacionprofesor = false;
 
-            } else {
+            } 
+            if($controlactualizacionprofesor) {
                 $profesor = Profesor::where('cedula', $comision->cedula)->first();
                 if($comision->estado == 'devuelta' ){
                     $comision->estado = 'solicitada';

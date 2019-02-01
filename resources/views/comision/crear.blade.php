@@ -112,7 +112,7 @@
                                 <div class="form-group row">
                                     <label for="justificacion" class="col-sm-2 col-form-label text-right">Justificación: </label>
                                     <div class="col-sm-6">
-                                            <textarea type="textarea" class="form-control" rows="4" name="justificacion">{{ old('justificacion') }}</textarea>  
+                                            <textarea type="textarea" maxlength="100" class="form-control" rows="4" name="justificacion">{{ old('justificacion') }}</textarea>  
                                     </div>
                                 </div>
                             </div>

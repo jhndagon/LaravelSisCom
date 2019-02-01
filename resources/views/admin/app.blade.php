@@ -40,7 +40,9 @@ $estadocolor='';
         <div class="col-md-12">
             <div class="tile">
                 <div class="tile-body">
+                    @if (isset($cantidad))
                         <p>Número de solicitudes: {{$cantidad}}</p>
+                    @endif
                     <table class="table table-hover table-bordered" id="sampleTable">
                         <thead>
                             <tr>
