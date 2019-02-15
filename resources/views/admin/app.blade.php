@@ -9,6 +9,7 @@ $COLORS=array(
     "aprobada"=>"#00CC99",
     "aprobada_noremunerada"=>"#33CCCC",
     "cumplida"=>"lightgray"
+    "cumplida_noremunerada"=>"lightgray"
 );
 $estadocolor='';
 ?>

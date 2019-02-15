@@ -449,9 +449,7 @@ class ComisionController extends Controller
                 $comision->actividad = $request->actividad;
                 $comision->idioma = $request->idioma;
                 if ($request->justificacion) {
-                    if(!\Storage::disk('local')->exists($request->comisionid . '/actividad.txt')){
-                        Log::info('Comision'. $comision->comisionid . "no tiene archivo actividad creado.");
-                    }
+
                     \Storage::disk('local')->put($request->comisionid . '/actividad.txt', $request->justificacion);
                 }
                 if(($comision->tipocom == 'noremunerada' || $comision->tipocom == 'calamidad')){
