@@ -32,6 +32,8 @@ Route::group(['middleware' => 'auth:profesor'], function () {
     Route::get('/comision/{comision}','ComisionController@mostrarFormularioActualizaComision')->name('comision');
     Route::put('/comision/{comision}', 'ComisionController@actualizarComision');
     Route::get('/eliminarComision/{id}', 'ComisionController@eliminarComision');
+    Route::get('/reciclar/{id}','ComisionController@reciclarComision');
+    Route::get('/reciclaje','ComisionController@reciclajeComisiones');
     
     Route::get('/informes', 'InformeController@mostrarFormularioInformes');
     Route::Post('/informes', 'InformeController@hacerBusqueda'); 
@@ -45,15 +47,16 @@ Route::group(['middleware' => 'auth:profesor'], function () {
     Route::get('/profesor/{id}', 'Auth\ProfesorController@editarInformacionFormulario');
     Route::post('/profesor', 'Auth\ProfesorController@editarInformacion');
     Route::get('/eliminaprofesor/{id}', 'Auth\ProfesorController@eliminarProfesor');
+    Route::get('/contrasenaprofesor/{id}', 'Auth\ProfesorController@contrasenaProfesor');
     
     Route::get('/subircumplido/{id}', 'CumplidoController@mostrarFormularioCumplido')->name('subircumplido');
     Route::post('/subircumplido', 'CumplidoController@crearCumplido');
     Route::get('/actualizacumplido/{id}', 'CumplidoController@mostrarFormularioActualizaCumplido');
     Route::get('/actualizacumplido/{id}', 'CumplidoController@mostrarFormularioActualizaCumplido');
+    
 });
 
 Route::get('/cumplido/{comisionid}/{confirma}', 'CumplidoController@confirmarCumplido');
-
 
 Route::get('/archivo/{comisionid}/{documento}', 'ArchivoController@obtenerArchivo');
 Route::get('/documentoscumplido/{comisionid}/{documento}', 'ArchivoController@obtenerArchivoCumplido');

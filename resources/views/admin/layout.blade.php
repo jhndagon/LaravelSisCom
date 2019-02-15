@@ -34,6 +34,20 @@
   @yield('contenido')
 
 
+<footer class="page-footer font-small blue">
+
+    <!-- Copyright -->
+    <div class="footer-copyright text-center py-3">
+        Desarrollado por <a href="mailto:jorge.zuluaga@udea.edu.co">Jorge I. Zuluaga</a> © 2015-2018,
+        <a href="mailto:apoyoprogramacionif@udea.edu.co">John David Gonzalez</a> © 2018,
+        <a href="mailto:jhon.jaramilloe@udea.edu.co">Jhon Alejandro Jaramillo</a> © 2018.
+    </div>
+    <!-- Copyright -->
+  
+  </footer>
+
+      
+
   <script src="{{asset('js/jquery-3.2.1.min.js')}}"></script>
   <script src="{{asset('js/popper.min.js')}}"></script>
   <script src="{{asset('js/bootstrap.min.js')}}"></script>

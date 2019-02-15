@@ -20,11 +20,13 @@
         </p>
         
         @if($comision->cumplido1)
-                <a href="{{ url('/documentoscumplido/'. $comision->comisionid.'/'. 'Cumplido1_'.$comision->cumplido1)  }}">Archivo 1</a>
+        <a target="_black" href="{{url('/documentoscumplido/'. $comision->comisionid . '/Cumplido1_'.$comision->cedula.'_'.$comision->comisionid.'_'.$comision->cumplido1)}}">Cumplido 1</a><br>                                    
+                                    
 
         @endif
         @if ($comision->cumplido2)
-                <a href="{{ url('/documentoscumplido/'. $comision->comisionid.'/'. 'Cumplido2_'.$comision->cumplido2)  }}">Archivo 2</a>
+        <a target="_black" href="{{url('/documentoscumplido/'. $comision->comisionid . '/Cumplido2_'.$comision->cedula.'_'.$comision->comisionid.'_'.$comision->cumplido1)}}">Cumplido 2</a><br>                                    
+                                    
          @endif
         
         

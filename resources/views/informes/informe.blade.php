@@ -120,7 +120,12 @@
                                         </th>                   
                                         @if($key>10)
                                             @break
-                                        @endif                         
+                                        @endif   
+                                        @if ($valor == 'cedula')
+                                        <td scope="col">                                            
+                                            Nombre                    
+                                        </td>
+                                        @endif                      
                                     @endforeach                          
                                     
                                 </tr>
@@ -136,6 +141,11 @@
                                             @if($key>10)
                                                 @break
                                             @endif 
+                                            @if ($valor == 'cedula')
+                                            <td>                                            
+                                                {{ $comision->profesor['nombre']}}             
+                                            </td>
+                                            @endif
                                         @endforeach
                                     </tr>                                              
                                 @endforeach

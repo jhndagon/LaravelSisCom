@@ -119,7 +119,7 @@
                                 <div class="form-group row">
                                     <label for="inputPassword" class="col-md-2 col-form-label">Justificación: </label>
                                     <div class="col-md-6">
-                                        <textarea type="textarea" class="form-control" rows="4" name="justificacion">{{ $comision->justificacion }}</textarea>
+                                        <textarea type="textarea" class="form-control" rows="4" name="justificacion" id="justificacion">{{ $comision->justificacion }}</textarea>
                                     </div>
                                 </div>
                             </div>
@@ -156,7 +156,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
+                            {{-- <div class="row">
                                 @if ($comision->fecharesolucion!= '')
                                     <div class="col-sm-3">
                                         <h3><a href="{{ url('/archivo/'.$comision->comisionid.'/resolucion-blank-'.$comision->comisionid.'.pdf') }}">Resolución imprimible</a>
@@ -168,7 +168,7 @@
                                     </div>
                             <br/>
                                     @endif
-                            </div>
+                            </div> --}}
                             
                             @if (Session::get('jefe') > 0 && $comision->estado != 'aprobada')
 

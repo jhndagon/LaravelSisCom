@@ -59,12 +59,13 @@ class ProfesorController extends Controller
             $request->session()->put('jefe', $jefe);
             
             $sem=floor((date('m')-1) / 6)+1;
+            $sem.='';
             if (isset($usuario->extra3) || $usuario->extra3 != ''){
                 $semestrePermiso = explode('-', $usuario->extra3);
 
                 //Conocer el semestre actual
 
-                if($sem != $semestrePermiso[1]){
+                if(isset($semestrePermiso[1]) && strcmp($sem, $semestrePermiso[1])!=0){
                     $usuario->extra3 = date('Y') . '-' . $sem;
                     $usuario->extra1 = 3;
                 }
@@ -97,9 +98,10 @@ class ProfesorController extends Controller
 
     public function buscar(Request $request){
         $opcion = $request->opcion;
+        $buscar = $request->buscar;
         if(\Session::get('jefe') > 1 && $request->buscar != null && $request->opcion != null){
-            $profesores = Profesor::where($request->opcion, 'like' ,'%'. $request->buscar.'%')->get();
-            return view('profesores.profesores', compact('profesores', 'opcion'));
+            $profesores = Profesor::where($request->opcion, 'like' ,'%'. $buscar .'%')->get();
+            return view('profesores.profesores', compact('profesores', 'opcion', 'buscar'));
         }
         else{
             return redirect('inicio');
@@ -115,6 +117,13 @@ class ProfesorController extends Controller
                 ->with('institutos', $institutos);
     }
 
+    public function contrasenaProfesor($id){
+        $usuario = Profesor::where('cedula', $id)->first();
+        $usuario->laravelpass = bcrypt($id);
+        $usuario->save();
+        return redirect('profesores');
+    }
+
     public function editarInformacion(Request $request){           
         $accion = $request->actualiza;
         if($accion == 'actualizar'){
@@ -123,6 +132,10 @@ class ProfesorController extends Controller
         else{
             $profesor = new Profesor();
             $profesor->laravelpass = Hash::make($request->cedula);
+            $sem=floor((date('m')-1) / 6)+1;
+            $sem.='';
+            $profesor->extra3 = date('Y').'-'.$sem;
+            $profesor->extra1 = 3;
             $profesor->permisos = 3;            
         }
         $profesor->tipoid = $request->tipoid;
@@ -137,7 +150,6 @@ class ProfesorController extends Controller
         if(\Session::get('jefe')==2){
             $profesor->tipo = $request->tipo;
             $profesor->institutoid = $request->instituto;
-            $profesor->tipo = $request->tipo;
             $profesor->dedicacion = $request->dedicacion;
         }
         $profesor->save();

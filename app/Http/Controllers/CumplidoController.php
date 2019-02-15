@@ -53,7 +53,7 @@ class CumplidoController extends Controller
 =======
             $randstring = GeneraCaracteres::generarRandomCaracteres(5);
             do{
-                $ruta = \Storage::disk('local')->put($request->comisionid . '/Cumplido1_' .$randstring .'.'.$extension,  \File::get($archivo));
+                $ruta = \Storage::disk('local')->put($request->comisionid . '/Cumplido1_' . $comision->cedula .'_'. $comision->comisionid .'_'.$randstring .'.'.$extension,  \File::get($archivo));
             }while(!$ruta);
             $comision->cumplido1 = $randstring .'.'.$extension;
             $notificacion1 = 'Archivo de Cumplido '. $comision->cumplido1.' subido';   
@@ -137,6 +137,7 @@ class CumplidoController extends Controller
         //%%%%%%%%%%%%%%%%%%%%%%%%%            
         $correos = explode(';', $comision->destinoscumplido);
                         
+<<<<<<< HEAD
         foreach ($this->correosprueba as $value) {  
             $notificacion2 .= '<br/>Mensaje enviado a '.$value.'.';              
             Mail::to($value)->send(new CumplidoMail($comision, \Auth::user()->nombre, $value));
@@ -146,11 +147,19 @@ class CumplidoController extends Controller
         //  Mail::to($correosCumplido)->send(new CumplidoMail($comision, \Auth::user()->nombre, $value));
         // foreach ($correos as $key => $value) {
             
+=======
+        // foreach ($this->correosprueba as $value) {  
+        //     $notificacion2 .= '<br/>Mensaje enviado a '.$value.'.';              
+>>>>>>> e760bb6cd7c1fd58b88725221b6ea7c99e5a13e9
         //     Mail::to($value)->send(new CumplidoMail($comision, \Auth::user()->nombre, $value));
-        // }        
+        // }
+
+        for ($i=0; $i < count($correos)-1; $i++) { 
+            $notificacion2 .= '<br/>Mensaje enviado a '.$correos[$i].'.';
+            Mail::to($correos[$i])->send(new CumplidoMail($comision, \Auth::user()->nombre, $correos[$i]));            
+        }
         
         return redirect('/inicio')->with(['notificacion1'=>$notificacion1, 'notificacion2'=>$notificacion2]);
-
     }
 
     /**

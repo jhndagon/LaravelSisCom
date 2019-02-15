@@ -3,11 +3,12 @@
 namespace Comisiones\Http\Controllers;
 
 use Comisiones\Comision;
+use Comisiones\Profesor;
 use Comisiones\Instituto;
 use Illuminate\Http\Request;
-use Comisiones\Exports\ComisionesExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Schema;
+use Comisiones\Exports\ComisionesExport;
 
 class InformeController extends Controller
 {
@@ -29,7 +30,7 @@ class InformeController extends Controller
 
         $comisiones = null;
         $esquema = Schema::getColumnListing('Comisiones');
-        if($opcion == 'todas'){
+                if($opcion == 'todas'){
             $comisiones = Comision::where('cedula','like','%');
         }
         else if($opcion == 'permisos'){
@@ -74,9 +75,7 @@ class InformeController extends Controller
         return view('informes.informe', compact(['comisiones', 'esquema', 'sebusco','institutos','tipocom']));
     }
 
-    public function generarInformeExcel($info){
-
-        
+    public function generarInformeExcel($info){        
         return Excel::download(new ComisionesExport($info), 'comisiones.xlsx');
     }
 }

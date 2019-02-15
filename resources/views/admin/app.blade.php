@@ -8,7 +8,8 @@ $COLORS=array(
     "devuelta_noremunerada"=>"#FF99FF",
     "aprobada"=>"#00CC99",
     "aprobada_noremunerada"=>"#33CCCC",
-    "cumplida"=>"lightgray"
+    "cumplida"=>"lightgray",
+    "cumplida_noremunerada"=>"lightgray"
 );
 $estadocolor='';
 ?>
@@ -40,6 +41,9 @@ $estadocolor='';
         <div class="col-md-12">
             <div class="tile">
                 <div class="tile-body">
+                    @if (isset($cantidad))
+                        <p>Número de solicitudes: {{$cantidad}}</p>
+                    @endif
                     <table class="table table-hover table-bordered" id="sampleTable">
                         <thead>
                             <tr>
@@ -94,6 +98,12 @@ $estadocolor='';
                                     @if ($comision->anexo3)
                                     <a target="_black" href="{{url('/archivo/'.$comision->comisionid . '/' . $comision->anexo3)}}">Anexo 3</a><br>                                    
                                     @endif
+                                    @if ($comision->cumplido1)
+                                    <a target="_black" href="{{url('/documentoscumplido/'. $comision->comisionid . '/Cumplido1_'.$comision->cedula.'_'.$comision->comisionid.'_'.$comision->cumplido1)}}">Cumplido 1</a><br>                                    
+                                    @endif
+                                    @if ($comision->cumplido2)
+                                    <a target="_black" href="{{url('/documentoscumplido/'. $comision->comisionid . '/Cumplido2_'.$comision->cedula.'_'.$comision->comisionid.'_'.$comision->cumplido2)}}">Cumplido 2</a><br>                                    
+                                    @endif
                                     @if ($comision->estado == 'aprobada' || $comision->estado == 'cumplida')
                                     <a target="_black" href="{{url('/archivo/'.$comision->comisionid . '/resolucion-blank-'.$comision->comisionid .'.pdf' )}}">Imprimible</a><br>                                    
                                     <a target="_black" href="{{url('/archivo/'.$comision->comisionid . '/resolucion-'.$comision->comisionid .'.pdf' )}}">Resolucion</a><br>                                    
@@ -110,13 +120,20 @@ $estadocolor='';
                                     @if ($comision->qcumplido == 1 && ($comision->estado=='cumplida') &&  Auth::user()->cedula == $comision->cedula)
                                     <a href="{{ url('actualizacumplido', $comision->comisionid) }}">Actualizar cumplido</a>
                                     @endif
+                                    @if (session('jefe')==2 && ($comision->estado=='solicitada' || $comision->estado=='devuelta'))
+                                    <a href="{{ url('/reciclar/'.$comision->comisionid) }}">Reciclar</a>
+                                    @endif
                                 </td>
                             </tr>
                             @endforeach
 
                         </tbody>
                     </table>
+                    @if (!isset($faltacumplido))
+                        
                     {{ $comisiones->onEachSide(2)->links() }}
+                        
+                    @endif
                 </div>
             </div>
         </div>
@@ -128,7 +145,7 @@ $estadocolor='';
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>Correo enviado</h3>
+                <h3>Información</h3>
             </div>
             <div class="modal-body">
                 <div>{!!session('notificacion1')!!}</div>
