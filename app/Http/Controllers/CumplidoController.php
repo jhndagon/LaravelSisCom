@@ -7,10 +7,7 @@ use Comisiones\Comision;
 use Illuminate\Http\Request;
 use Comisiones\Mail\CumplidoMail;
 use Illuminate\Support\Facades\Mail;
-<<<<<<< HEAD
-=======
 use Comisiones\Utilidades\GeneraCaracteres;
->>>>>>> 219959c3b09311027f795d71de17b8dfe2df25e3
 
 class CumplidoController extends Controller
 {
@@ -37,27 +34,12 @@ class CumplidoController extends Controller
             if($tamaño <=0){
                 return back()->withErrors(['archivo' => 'No se ha subido ningún archivo.'])->withInput();
             }
-<<<<<<< HEAD
-
-            $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';        
-            $randstring = '';
-            for ($i = 0; $i < 5; $i++) {
-                $randstring .= $characters[rand(0, strlen($characters) - 1)];
-            }
-
-
-            do{
-                $ruta = \Storage::disk('local')->put($request->comisionid . '/Cumplido1_' .$randstring .'.'.$extension,  \File::get($archivo));
-            }while(!$ruta);
-            $comision->cumplido1 = $randstring;   
-=======
             $randstring = GeneraCaracteres::generarRandomCaracteres(5);
             do{
                 $ruta = \Storage::disk('local')->put($request->comisionid . '/Cumplido1_' . $comision->cedula .'_'. $comision->comisionid .'_'.$randstring .'.'.$extension,  \File::get($archivo));
             }while(!$ruta);
             $comision->cumplido1 = $randstring .'.'.$extension;
             $notificacion1 = 'Archivo de Cumplido '. $comision->cumplido1.' subido';   
->>>>>>> 219959c3b09311027f795d71de17b8dfe2df25e3
             $subioarchivo = true;         
         }
         if($request->cumplido2){
@@ -66,18 +48,6 @@ class CumplidoController extends Controller
             $tamaño = $archivo->getClientSize();
             if($tamaño <=0){
                 return back()->withErrors(['archivo' => 'No se ha subido ningún archivo.'])->withInput();
-<<<<<<< HEAD
-            }            
-            $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';        
-            $randstring = '';
-            for ($i = 0; $i < 5; $i++) {
-                $randstring .= $characters[rand(0, strlen($characters) - 1)];
-            }
-            do{
-                $ruta = \Storage::disk('local')->put($request->comisionid . '/Cumplido2_' . $randstring .'.'.$extension, \File::get($archivo));
-            }while(!$ruta);
-            $comision->cumplido2 = $randstring;
-=======
             }
             $randstring = GeneraCaracteres::generarRandomCaracteres(5);
             do{
@@ -85,7 +55,6 @@ class CumplidoController extends Controller
             }while(!$ruta);
             $comision->cumplido2 = $randstring .'.'.$extension;
             $notificacion1 .= '. <br/>Archivo de cumplido '. $comision->cumplido2.' subido.';
->>>>>>> 219959c3b09311027f795d71de17b8dfe2df25e3
             $subioarchivo = true;
         }
         $notificacion1 .= '<br/><strong class="text-danger">Felicidades. Su comisioón se ha cumplodp con exito.</strong>';
@@ -112,45 +81,13 @@ class CumplidoController extends Controller
         $comision->infocumplido = $request->infocumplido;
         $comision->qcumplido = 1;
         $comision->save();
-<<<<<<< HEAD
-        //envio de correo
-        if(env('APP_DEBUG')){
-            //a correo de prueba
-            // dd($correos);
-        }else{            
-            $correos = explode(';', $comision->destinoscumplido);
-                        
-            foreach ($this->correosprueba as $value) {                
-                Mail::to($value)->send(new CumplidoMail($comision, \Auth::user()->nombre, $value));
-            }
-            // dd('Descomentar linea 88 de CumplidoController', $correosCumplido);
-            // TODO: Envio de correos cumplido
-            //  Mail::to($correosCumplido)->send(new CumplidoMail($comision, \Auth::user()->nombre, $value));
-            // foreach ($correos as $key => $value) {
-                
-            //     Mail::to($value)->send(new CumplidoMail($comision, \Auth::user()->nombre, $value));
-            // }
-        
-=======
         //%%%%%%%%%%%%%%%%%%%%%%%%%
         // TODO: enviar correo de cumplido
         //%%%%%%%%%%%%%%%%%%%%%%%%%            
         $correos = explode(';', $comision->destinoscumplido);
                         
-<<<<<<< HEAD
-        foreach ($this->correosprueba as $value) {  
-            $notificacion2 .= '<br/>Mensaje enviado a '.$value.'.';              
-            Mail::to($value)->send(new CumplidoMail($comision, \Auth::user()->nombre, $value));
->>>>>>> 219959c3b09311027f795d71de17b8dfe2df25e3
-        }
-        // TODO: Envio de correos cumplido
-        //  Mail::to($correosCumplido)->send(new CumplidoMail($comision, \Auth::user()->nombre, $value));
-        // foreach ($correos as $key => $value) {
-            
-=======
         // foreach ($this->correosprueba as $value) {  
         //     $notificacion2 .= '<br/>Mensaje enviado a '.$value.'.';              
->>>>>>> e760bb6cd7c1fd58b88725221b6ea7c99e5a13e9
         //     Mail::to($value)->send(new CumplidoMail($comision, \Auth::user()->nombre, $value));
         // }
 
