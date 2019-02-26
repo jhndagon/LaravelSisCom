@@ -402,7 +402,7 @@ class ComisionController extends Controller
                         // Mail::to('jhndagon12@gmail.com')->send(new AprobacionDirectorMail($comision));                        
                                             
                         Mail::to($profesor->email)->send(new AprobacionMail($comision));
-                        Mail::to($director->email)->send(new AprobacioDirectorMail($comision));//esta envia la copía de aprobación al director
+                        Mail::to($director->email)->send(new AprobacionDirectorMail($comision));//esta envia la copía de aprobación al director
                     }
 
                 }
