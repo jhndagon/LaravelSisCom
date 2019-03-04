@@ -1,6 +1,6 @@
 <?php
 $DESTINATARIOS_CUMPLIDOS = array(
-        array("Secretaria del Decanato", "Luz Mary Castro", "luz.castro@udea.edu.co"),
+        array("Secretaria del Decanato", "Luz Mary Castro", "yuliana.rivera@udea.edu.co"),
         array("Secretaria del CIEN", "Ana Catalina Fernández", "cien@udea.edu.co"),
         array("Programa de Extensión", "Natalia López", "njlopez76@gmail.com"),
         array("Fondo de Pasajes Internacionales", "Mauricio Toro", "fondosinvestigacion@udea.edu.co"),
