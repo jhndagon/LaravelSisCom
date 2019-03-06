@@ -23,6 +23,7 @@ use Comisiones\Mail\AprobacionPermisoMail;
 use Comisiones\Mail\AprobacionDirectorMail;
 use Comisiones\Mail\DevolucionDirectorMail;
 use Comisiones\Utilidades\GeneraCaracteres;
+use Comisiones\Mail\AprobacionPermisoDirectorMail;
 use Comisiones\Mail\NotificacionActualizacionProfesorMail;
 
 
@@ -384,8 +385,8 @@ class ComisionController extends Controller
                         // Mail::to('jhndagon11@gmail.com')->send(new AprobacionPermisoMail($comision));
                         // Mail::to('jhndagon12@gmail.com')->send(new AprobacionPermisoDirectorMail($comision));
 
-                        Mail::to($profesor->email)->send(new AprobacionPermisoMail($comision, false));
-                        Mail::to($director->email)->send(new AprobacionPermisoDirectorMail($comision,true)); //esta envia la copía de aprobación al director
+                        Mail::to($profesor->email)->send(new AprobacionPermisoMail($comision));
+                        Mail::to($director->email)->send(new AprobacionPermisoDirectorMail($comision)); //esta envia la copía de aprobación al director
                         
                     } else {
                         $pdfResolucion = PDF::loadView('resoluciones.resolucion', ['comision' => $comision, 'blank' => 1, 'profesor'=>$comision->profesor])
